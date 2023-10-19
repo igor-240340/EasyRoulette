@@ -3,9 +3,13 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Game')
 export class Game extends Component {
+    // Разное
     private static readonly CELL_COUNT: number = 9
 
-    private balance: number = 100;
+    // Игрок
+    private balance: number = 500;
+
+    // Ставки
     
     private zeroCellIndex: number = 0;
 
@@ -15,7 +19,7 @@ export class Game extends Component {
     start() {
         Game.log('Game.start()')
 
-        this.makeBet(3, 10)
+        // this.makeBet(3, 10)
 
         let randCellIndex = this.getRandomCellIndex();
         let cellFactor = randCellIndex; // Количественно множитель ставки сейчас совпадает с индексом ячейки со ставкой.
@@ -41,14 +45,13 @@ export class Game extends Component {
         // Game.log(`cell: ${this.getRandomCellIndex()}`)
     }
 
-    private makeBet(cellIndex: number, betSum: number) {
-        assert(cellIndex < Game.CELL_COUNT && cellIndex >= 0)
+    /*
+    * Методы, связанные со ставками.
+    */
+    private makeBet(betSum: number) {
         assert(betSum <= this.balance)
 
-        this.betCellIndex = cellIndex
-        this.betSum = betSum
-
-        Game.log(`You've made a bet of ${betSum} on ${cellIndex}`)
+        Game.log("")
     }
 
     private getRandomCellIndex(): number {
