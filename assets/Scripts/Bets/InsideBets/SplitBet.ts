@@ -1,4 +1,4 @@
-import Bet from './Bet';
+import Bet from '../Bet';
 
 export default class SplitBet extends Bet {
     constructor(a: number, b: number, sum: number) {

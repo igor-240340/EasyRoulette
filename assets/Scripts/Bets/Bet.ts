@@ -1,14 +1,14 @@
 export default abstract class Bet {
-    protected winNumbers: number[]    // Номера, при которых ставка сыграет.
+    protected betNumbers: number[]    // Номера, на которые сделана ставка.
     protected sum: number
 
-    constructor(winNumbers: number[], sum: number) {
-        this.winNumbers = winNumbers
+    constructor(betNumbers: number[], sum: number) {
+        this.betNumbers = betNumbers
         this.sum = sum
     }
 
     public GetPayout(winNumber: number): number {
-        if (this.winNumbers.includes(winNumber))
+        if (this.betNumbers.includes(winNumber))
             return this.CalcPayout()
         else
             return 0
