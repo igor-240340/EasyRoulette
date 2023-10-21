@@ -1,4 +1,4 @@
-import { _decorator, assert, Component, Node } from 'cc';
+import { _decorator, assert, Component, log, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Game')
@@ -10,7 +10,7 @@ export class Game extends Component {
     private balance: number = 500;
 
     // Ставки
-    
+
     private zeroCellIndex: number = 0;
 
     private betCellIndex: number = 0;   // Индекс ячейки, на которую игрок делает ставку.
@@ -60,5 +60,9 @@ export class Game extends Component {
 
     private static log(message: string) {
         console.log('[Game] ' + message)
+    }
+
+    onButtonClick(event: Event, customEventData: string) {
+        console.log('onButtonClick')
     }
 }
