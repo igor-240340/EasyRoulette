@@ -3,66 +3,128 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Game')
 export class Game extends Component {
-    // Разное
-    private static readonly CELL_COUNT: number = 9
-
-    // Игрок
-    private balance: number = 500;
-
-    // Ставки
-
-    private zeroCellIndex: number = 0;
-
-    private betCellIndex: number = 0;   // Индекс ячейки, на которую игрок делает ставку.
-    private betSum: number = 0;         // Сумма ставки.
-
     start() {
-        Game.log('Game.start()')
-
-        // this.makeBet(3, 10)
-
-        let randCellIndex = this.getRandomCellIndex();
-        let cellFactor = randCellIndex; // Количественно множитель ставки сейчас совпадает с индексом ячейки со ставкой.
-        Game.log(`randCellIndex: ${randCellIndex}`)
-
-        // Если выпадает нулевая ячейка, то любая ставка сгорает.
-        if (randCellIndex === this.zeroCellIndex) {
-            this.balance -= this.betSum;
-            Game.log(`Zero cell. You've just lost your bet of ${this.betSum}`)
-            Game.log(`New balance: ${this.balance}`)
-        }
-        // Если выпала ячейка со ставкой - умножаем ставку на множитель ячейки и прибавляем к балансу.
-        else if (randCellIndex === this.betCellIndex) {
-            this.balance += this.betSum * cellFactor
-            Game.log("You're a lucky man!")
-            Game.log(`New balance: ${this.balance}`)
-        } else {
-            Game.log("Bad luck")
-        }
     }
 
     update(deltaTime: number) {
-        // Game.log(`cell: ${this.getRandomCellIndex()}`)
     }
 
     /*
-    * Методы, связанные со ставками.
-    */
-    private makeBet(betSum: number) {
-        assert(betSum <= this.balance)
-
-        Game.log("")
+     * Обработчики кнопок внешних ставок.
+     */
+    onRedBetButtonClick(event: Event, customEventData: string) {
+        console.log('onRedBetButtonClick')
     }
 
-    private getRandomCellIndex(): number {
-        return Math.floor(Math.random() * Game.CELL_COUNT)
+    onBlackBetButtonClick(event: Event, customEventData: string) {
+        console.log('onBlackBetButtonClick')
     }
 
-    private static log(message: string) {
-        console.log('[Game] ' + message)
+    onDozen1stBetButtonClick(event: Event, customEventData: string) {
+        console.log('onDozen1stBetButtonClick')
     }
 
-    onButtonClick(event: Event, customEventData: string) {
-        console.log('onButtonClick')
+    onDozen2ndBetButtonClick(event: Event, customEventData: string) {
+        console.log('onDozen2ndBetButtonClick')
+    }
+
+    onDozen3rdBetButtonClick(event: Event, customEventData: string) {
+        console.log('onDozen3rdBetButtonClick')
+    }
+
+    onLowBetButtonClick(event: Event, customEventData: string) {
+        console.log('onLowBetButtonClick')
+    }
+
+    onEvenBetButtonClick(event: Event, customEventData: string) {
+        console.log('onEvenBetButtonClick')
+    }
+
+    onHighBetButtonClick(event: Event, customEventData: string) {
+        console.log('onHighBetButtonClick')
+    }
+
+    onOddBetButtonClick(event: Event, customEventData: string) {
+        console.log('onOddBetButtonClick')
+    }
+
+    onColumn1stBetButtonClick(event: Event, customEventData: string) {
+        console.log('onColumn1stBetButtonClick')
+    }
+
+    onColumn2ndBetButtonClick(event: Event, customEventData: string) {
+        console.log('onColumn2ndBetButtonClick')
+    }
+
+    onColumn3rdBetButtonClick(event: Event, customEventData: string) {
+        console.log('onColumn3rdBetButtonClick')
+    }
+
+    /*
+     * Обработчики кнопок внутренних ставок.
+     */
+    onStraightBetButtonClick(event: Event, customEventData: string) {
+        console.log('onStraightBetButtonClick')
+
+        // Извлечение номеров и ассерты.
+        const number = parseInt(customEventData)
+        this.assert(number <= 36 && number >= 0)
+        console.log('number: ' + number)
+
+        // Создание ставки.
+    }
+
+    onSplitBetButtonClick(event: Event, customEventData: string) {
+        console.log('onSplitBetButtonClick')
+
+        // Извлечение номеров и ассерты.
+        const numbers: number[] = customEventData.split(',').map(numberString => parseInt(numberString))
+        this.assert(numbers.length == 2)
+        numbers.forEach(number => this.assert(number <= 36 && number >= 0))
+        console.log('numbers: ' + numbers)
+
+        // Создание ставки.
+    }
+
+    onStreetBetButtonClick(event: Event, customEventData: string) {
+        console.log('onStreetBetButtonClick')
+
+        // Извлечение номеров и ассерты.
+        const numbers: number[] = customEventData.split(',').map(numberString => parseInt(numberString))
+        this.assert(numbers.length == 3)
+        numbers.forEach(number => this.assert(number <= 36 && number >= 0))
+        console.log('numbers: ' + numbers)
+
+        // Создание ставки.
+    }
+
+    onCornerBetButtonClick(event: Event, customEventData: string) {
+        console.log('onCornerBetButtonClick')
+
+        // Извлечение номеров и ассерты
+        const numbers: number[] = customEventData.split(',').map(numberString => parseInt(numberString))
+        this.assert(numbers.length == 4)
+        numbers.forEach(number => this.assert(number <= 36 && number >= 0))
+        console.log('numbers: ' + numbers)
+
+        // Создание ставки.
+    }
+
+    onLineBetButtonClick(event: Event, customEventData: string) {
+        console.log('onLineBetButtonClick')
+
+        // Извлечение номеров и ассерты
+        const numbers: number[] = customEventData.split(',').map(numberString => parseInt(numberString))
+        this.assert(numbers.length == 6)
+        numbers.forEach(number => this.assert(number <= 36 && number >= 0))
+        console.log('numbers: ' + numbers)
+
+        // Создание ставки.
+    }
+
+    private assert(condition: boolean) {
+        if (!condition) {
+            throw new Error('Assertion Failed');
+        }
     }
 }
