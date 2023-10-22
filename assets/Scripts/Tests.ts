@@ -21,12 +21,15 @@ import Column3rdBet from './Bets/OutsideBets/Column3rdBet';
 import Dozen1stBet from './Bets/OutsideBets/Dozen1stBet';
 import Dozen2ndBet from './Bets/OutsideBets/Dozen2ndBet';
 import Dozen3rdBet from './Bets/OutsideBets/Dozen3rdBet';
+import BetManager from './Bets/BetManager';
 
 @ccclass('Tests')
 export class Tests extends Component {
     start() {
-        this.testInsideBets();
-        this.testOutsideBets();
+        // this.testInsideBets();
+        // this.testOutsideBets();
+
+        this.testBetManager()
     }
 
     /*
@@ -469,6 +472,44 @@ export class Tests extends Component {
 
         let payout = dozen3rdBet.GetPayout(loseNumber)
         this.assert(payout === zeroPayout)
+    }
+
+    /*
+     * Тесты менеджера ставок.
+     */
+    private testBetManager() {
+        this.testBetManager_NoBets()
+        this.testBetManager_OneBet()
+    }
+
+    private testBetManager_NoBets() {
+        console.log('testBetManager_NoBets');
+
+        const betManager = new BetManager()
+
+        const totalPayout = betManager.getTotalPayout(1)
+        this.assert(totalPayout === 0)
+    }
+
+    private testBetManager_OneBet() {
+        console.log('testBetManager_OneBet');
+
+        const betSum = 10
+        const winNumber = 1
+        const loseNumber = 0
+        const winPayout = betSum * 2
+        const zeroPayout = 0
+
+        const betManager = new BetManager()
+        betManager.makeBet(new RedBet(betSum))
+
+        // Win
+        let totalPayout = betManager.getTotalPayout(winNumber)
+        this.assert(totalPayout === winPayout)
+
+        // Lose
+        totalPayout = betManager.getTotalPayout(loseNumber)
+        this.assert(totalPayout === zeroPayout)
     }
 
     update(deltaTime: number) {
