@@ -1,8 +1,8 @@
 import Bet from '../Bet';
 
 export default class StraightBet extends Bet {
-    constructor(betNumber: number, sum: number) {
-        super([betNumber], sum)
+    constructor(number: number, sum: number) {
+        super([number], sum)
     }
 
     protected CalcPayout(): number {

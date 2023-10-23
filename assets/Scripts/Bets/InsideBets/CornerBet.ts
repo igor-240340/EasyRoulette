@@ -1,8 +1,8 @@
 import Bet from '../Bet';
 
 export default class CornerBet extends Bet {
-    constructor(betNumbers: number[], sum: number) {
-        super(betNumbers, sum)
+    constructor(number1: number, number2: number, number3: number, number4: number, sum: number) {
+        super([number1, number2, number3, number4], sum)
     }
 
     protected CalcPayout(): number {

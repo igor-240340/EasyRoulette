@@ -1,8 +1,8 @@
 import Bet from '../Bet';
 
 export default class LineBet extends Bet {
-    constructor(betNumbers: number[], sum: number) {
-        super(betNumbers, sum)
+    constructor(number1: number, number2: number, number3: number, number4: number, number5: number, number6: number, sum: number) {
+        super([number1, number2, number3, number4, number5, number6], sum)
     }
 
     protected CalcPayout(): number {

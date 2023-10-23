@@ -1,6 +1,10 @@
 import { _decorator, Component, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
+import assert from './Helper'
+
+import Bet from './Bets/Bet';
+
 // Внутренние ставки.
 import StraightBet from './Bets/InsideBets/StraightBet';
 import SplitBet from './Bets/InsideBets/SplitBet';
@@ -26,10 +30,67 @@ import BetManager from './Bets/BetManager';
 @ccclass('Tests')
 export class Tests extends Component {
     start() {
-        // this.testInsideBets();
-        // this.testOutsideBets();
+        this.testInsideBets();
+        this.testOutsideBets();
 
-        this.testBetManager()
+        this.testInvalidBetSum();
+        this.testInvalidBetNumber();
+
+        // this.testBetManager()
+    }
+
+    ///
+    /// Тесты ставок
+    ///
+
+    private testInvalidBetSum() {
+        console.log('testInvalidBetSum');
+
+        const invalidBetSum1 = 0
+        const invalidBetSum2 = -1
+
+        let didNotAcceptInvalidSum = false
+        try {
+            new RedBet(invalidBetSum1)
+        }
+        catch (e) {
+            didNotAcceptInvalidSum = true
+        }
+        assert(didNotAcceptInvalidSum)
+
+        didNotAcceptInvalidSum = false
+        try {
+            new RedBet(invalidBetSum2)
+        }
+        catch (e) {
+            didNotAcceptInvalidSum = true
+        }
+        assert(didNotAcceptInvalidSum)
+    }
+
+    private testInvalidBetNumber() {
+        console.log('testInvalidBetNumber');
+
+        const invalidNumber1 = Bet.MIN_NUMBER - 1
+        const invalidNumber2 = Bet.MAX_NUMBER + 1
+
+        let didNotAcceptInvalidNumber = false
+        try {
+            new StraightBet(invalidNumber1, 10)
+        }
+        catch (e) {
+            didNotAcceptInvalidNumber = true
+        }
+        assert(didNotAcceptInvalidNumber)
+
+        didNotAcceptInvalidNumber = false
+        try {
+            new StraightBet(invalidNumber2, 10)
+        }
+        catch (e) {
+            didNotAcceptInvalidNumber = true
+        }
+        assert(didNotAcceptInvalidNumber)
     }
 
     /*
@@ -52,13 +113,13 @@ export class Tests extends Component {
         const winPayout = betSum * 36
         const zeroPayout = 0
 
-        let straightBet = new StraightBet(betNumber, betSum)
+        const straightBet = new StraightBet(betNumber, betSum)
 
         let payout = straightBet.GetPayout(betNumber)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = straightBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        assert(payout === zeroPayout)
     }
 
     private testSplitBet() {
@@ -71,16 +132,16 @@ export class Tests extends Component {
         const winPayout = (betSum * 36) / 2
         const zeroPayout = 0
 
-        let splitBet = new SplitBet(betNumber1, betNumber2, betSum)
+        const splitBet = new SplitBet(betNumber1, betNumber2, betSum)
 
         let payout = splitBet.GetPayout(betNumber1)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = splitBet.GetPayout(betNumber2)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = splitBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        assert(payout === zeroPayout)
     }
 
     private testStreetBet() {
@@ -94,23 +155,23 @@ export class Tests extends Component {
         const winPayout = (betSum * 36) / 3
         const zeroPayout = 0
 
-        let streetBet = new StreetBet([betNumber1, betNumber2, betNumber3], betSum)
+        const streetBet = new StreetBet(betNumber1, betNumber2, betNumber3, betSum)
 
         let payout = streetBet.GetPayout(betNumber1)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = streetBet.GetPayout(betNumber2)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = streetBet.GetPayout(betNumber3)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = streetBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        assert(payout === zeroPayout)
     }
 
     private testCornerBet() {
-        console.log('testCornerBet');
+        console.log('testCornerBet')
 
         const betSum = 10
         const betNumber1 = 1
@@ -121,22 +182,22 @@ export class Tests extends Component {
         const winPayout = (betSum * 36) / 4
         const zeroPayout = 0
 
-        let cornerBet = new CornerBet([betNumber1, betNumber2, betNumber3, betNumber4], betSum)
+        const cornerBet = new CornerBet(betNumber1, betNumber2, betNumber3, betNumber4, betSum)
 
         let payout = cornerBet.GetPayout(betNumber1)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = cornerBet.GetPayout(betNumber2)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = cornerBet.GetPayout(betNumber3)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = cornerBet.GetPayout(betNumber4)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = cornerBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        assert(payout === zeroPayout)
     }
 
     private testLineBet() {
@@ -153,28 +214,28 @@ export class Tests extends Component {
         const winPayout = (betSum * 36) / 6
         const zeroPayout = 0
 
-        let lineBet = new LineBet([betNumber1, betNumber2, betNumber3, betNumber4, betNumber5, betNumber6], betSum)
+        const lineBet = new LineBet(betNumber1, betNumber2, betNumber3, betNumber4, betNumber5, betNumber6, betSum)
 
         let payout = lineBet.GetPayout(betNumber1)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = lineBet.GetPayout(betNumber2)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = lineBet.GetPayout(betNumber3)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = lineBet.GetPayout(betNumber4)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = lineBet.GetPayout(betNumber5)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = lineBet.GetPayout(betNumber6)
-        this.assert(payout === winPayout)
+        assert(payout === winPayout)
 
         payout = lineBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        assert(payout === zeroPayout)
     }
 
     /*
@@ -208,15 +269,16 @@ export class Tests extends Component {
         const winPayout = betSum * 2
         const zeroPayout = 0
 
-        let redBet = new RedBet(betSum)
+        const redBet = new RedBet(betSum)
 
+        let payout
         for (let redNumber of redNumbers) {
-            let payout = redBet.GetPayout(redNumber)
-            this.assert(payout === winPayout)
+            payout = redBet.GetPayout(redNumber)
+            assert(payout === winPayout)
         }
 
-        let payout = redBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = redBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testBlackBet() {
@@ -228,15 +290,16 @@ export class Tests extends Component {
         const winPayout = betSum * 2
         const zeroPayout = 0
 
-        let blackBet = new BlackBet(betSum)
+        const blackBet = new BlackBet(betSum)
 
+        let payout
         for (let blackNumber of blackNumbers) {
-            let payout = blackBet.GetPayout(blackNumber)
-            this.assert(payout === winPayout)
+            payout = blackBet.GetPayout(blackNumber)
+            assert(payout === winPayout)
         }
 
-        let payout = blackBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = blackBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testEvenBet() {
@@ -254,15 +317,16 @@ export class Tests extends Component {
         const winPayout = betSum * 2
         const zeroPayout = 0
 
-        let evenBet = new EvenBet(betSum)
+        const evenBet = new EvenBet(betSum)
 
+        let payout
         for (let evenNumber of evenNumbers) {
-            let payout = evenBet.GetPayout(evenNumber)
-            this.assert(payout === winPayout)
+            payout = evenBet.GetPayout(evenNumber)
+            assert(payout === winPayout)
         }
 
-        let payout = evenBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = evenBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testOddBet() {
@@ -280,16 +344,16 @@ export class Tests extends Component {
         const winPayout = betSum * 2
         const zeroPayout = 0
 
-        let oddBet = new OddBet(betSum)
+        const oddBet = new OddBet(betSum)
 
+        let payout
         for (let oddNumber of oddNumbers) {
-            let payout = oddBet.GetPayout(oddNumber)
-
-            this.assert(payout === winPayout)
+            payout = oddBet.GetPayout(oddNumber)
+            assert(payout === winPayout)
         }
 
-        let payout = oddBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = oddBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testLowBet() {
@@ -305,16 +369,16 @@ export class Tests extends Component {
         const winPayout = betSum * 2
         const zeroPayout = 0
 
-        let lowBet = new LowBet(betSum)
+        const lowBet = new LowBet(betSum)
 
+        let payout
         for (let lowNumber of lowNumbers) {
-            let payout = lowBet.GetPayout(lowNumber)
-
-            this.assert(payout === winPayout)
+            payout = lowBet.GetPayout(lowNumber)
+            assert(payout === winPayout)
         }
 
-        let payout = lowBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = lowBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testHighBet() {
@@ -330,16 +394,16 @@ export class Tests extends Component {
         const winPayout = betSum * 2
         const zeroPayout = 0
 
-        let highBet = new HighBet(betSum)
+        const highBet = new HighBet(betSum)
 
+        let payout
         for (let highNumber of highNumbers) {
-            let payout = highBet.GetPayout(highNumber)
-
-            this.assert(payout === winPayout)
+            payout = highBet.GetPayout(highNumber)
+            assert(payout === winPayout)
         }
 
-        let payout = highBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = highBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testColumn1stBet() {
@@ -351,15 +415,16 @@ export class Tests extends Component {
         const winPayout = betSum * 3
         const zeroPayout = 0
 
-        let column1stBet = new Column1stBet(betSum)
+        const column1stBet = new Column1stBet(betSum)
 
+        let payout
         for (let number of column1stNumbers) {
-            let payout = column1stBet.GetPayout(number)
-            this.assert(payout === winPayout)
+            payout = column1stBet.GetPayout(number)
+            assert(payout === winPayout)
         }
 
-        let payout = column1stBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = column1stBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testColumn2ndBet() {
@@ -371,15 +436,16 @@ export class Tests extends Component {
         const winPayout = betSum * 3
         const zeroPayout = 0
 
-        let column2ndBet = new Column2ndBet(betSum)
+        const column2ndBet = new Column2ndBet(betSum)
 
+        let payout
         for (let number of column2ndNumbers) {
-            let payout = column2ndBet.GetPayout(number)
-            this.assert(payout === winPayout)
+            payout = column2ndBet.GetPayout(number)
+            assert(payout === winPayout)
         }
 
-        let payout = column2ndBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = column2ndBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testColumn3rdBet() {
@@ -391,15 +457,16 @@ export class Tests extends Component {
         const winPayout = betSum * 3
         const zeroPayout = 0
 
-        let column3rdBet = new Column3rdBet(betSum)
+        const column3rdBet = new Column3rdBet(betSum)
 
+        let payout
         for (let number of column3rdNumbers) {
-            let payout = column3rdBet.GetPayout(number)
-            this.assert(payout === winPayout)
+            payout = column3rdBet.GetPayout(number)
+            assert(payout === winPayout)
         }
 
-        let payout = column3rdBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = column3rdBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testDozen1stBet() {
@@ -415,15 +482,16 @@ export class Tests extends Component {
         const winPayout = betSum * 3
         const zeroPayout = 0
 
-        let dozen1stBet = new Dozen1stBet(betSum)
+        const dozen1stBet = new Dozen1stBet(betSum)
 
+        let payout
         for (let number of dozen1stNumbers) {
-            let payout = dozen1stBet.GetPayout(number)
-            this.assert(payout === winPayout)
+            payout = dozen1stBet.GetPayout(number)
+            assert(payout === winPayout)
         }
 
-        let payout = dozen1stBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = dozen1stBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testDozen2ndBet() {
@@ -439,15 +507,16 @@ export class Tests extends Component {
         const winPayout = betSum * 3
         const zeroPayout = 0
 
-        let dozen2ndBet = new Dozen2ndBet(betSum)
+        const dozen2ndBet = new Dozen2ndBet(betSum)
 
+        let payout
         for (let number of dozen2ndNumbers) {
-            let payout = dozen2ndBet.GetPayout(number)
-            this.assert(payout === winPayout)
+            payout = dozen2ndBet.GetPayout(number)
+            assert(payout === winPayout)
         }
 
-        let payout = dozen2ndBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = dozen2ndBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     private testDozen3rdBet() {
@@ -463,15 +532,16 @@ export class Tests extends Component {
         const winPayout = betSum * 3
         const zeroPayout = 0
 
-        let dozen3rdBet = new Dozen3rdBet(betSum)
+        const dozen3rdBet = new Dozen3rdBet(betSum)
 
+        let payout
         for (let number of dozen3rdNumbers) {
-            let payout = dozen3rdBet.GetPayout(number)
-            this.assert(payout === winPayout)
+            payout = dozen3rdBet.GetPayout(number)
+            assert(payout === winPayout)
         }
 
-        let payout = dozen3rdBet.GetPayout(loseNumber)
-        this.assert(payout === zeroPayout)
+        payout = dozen3rdBet.GetPayout(loseNumber)
+        assert(payout === zeroPayout)
     }
 
     /*
@@ -488,7 +558,7 @@ export class Tests extends Component {
         const betManager = new BetManager()
 
         const totalPayout = betManager.getTotalPayout(1)
-        this.assert(totalPayout === 0)
+        assert(totalPayout === 0)
     }
 
     private testBetManager_OneBet() {
@@ -505,19 +575,13 @@ export class Tests extends Component {
 
         // Win
         let totalPayout = betManager.getTotalPayout(winNumber)
-        this.assert(totalPayout === winPayout)
+        assert(totalPayout === winPayout)
 
         // Lose
         totalPayout = betManager.getTotalPayout(loseNumber)
-        this.assert(totalPayout === zeroPayout)
+        assert(totalPayout === zeroPayout)
     }
 
     update(deltaTime: number) {
-    }
-
-    private assert(condition: boolean) {
-        if (!condition) {
-            throw new Error('Assertion Failed');
-        }
     }
 }
