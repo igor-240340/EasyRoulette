@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, log, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 import assert from './Helper'
@@ -36,7 +36,7 @@ export class Tests extends Component {
         this.testInvalidBetSum();
         this.testInvalidBetNumber();
 
-        // this.testBetManager()
+        this.testBetManager()
     }
 
     ///
@@ -549,7 +549,8 @@ export class Tests extends Component {
      */
     private testBetManager() {
         this.testBetManager_NoBets()
-        this.testBetManager_OneBet()
+        this.testBetManager_MultipleBets()
+        this.testBetManager_ClearBets()
     }
 
     private testBetManager_NoBets() {
@@ -561,25 +562,33 @@ export class Tests extends Component {
         assert(totalPayout === 0)
     }
 
-    private testBetManager_OneBet() {
-        console.log('testBetManager_OneBet');
+    private testBetManager_MultipleBets() {
+        console.log('testBetManager_MultipleBets');
 
-        const betSum = 10
-        const winNumber = 1
-        const loseNumber = 0
-        const winPayout = betSum * 2
-        const zeroPayout = 0
+        const redBetSum = 4
+        const evenBetSum = 5
+        const winNumberRedEven = 12
+        const totalWinPayout = (redBetSum * 2) + (evenBetSum * 2)
 
         const betManager = new BetManager()
-        betManager.makeBet(new RedBet(betSum))
+        betManager.makeBet(new RedBet(redBetSum))
+        betManager.makeBet(new EvenBet(evenBetSum))
 
-        // Win
-        let totalPayout = betManager.getTotalPayout(winNumber)
-        assert(totalPayout === winPayout)
+        const payout = betManager.getTotalPayout(winNumberRedEven)
+        assert(payout === totalWinPayout)
+    }
 
-        // Lose
-        totalPayout = betManager.getTotalPayout(loseNumber)
-        assert(totalPayout === zeroPayout)
+    private testBetManager_ClearBets() {
+        console.log('testBetManager_ClearBets');
+
+        const winNumberRed = 1
+        const betManager = new BetManager()
+        betManager.makeBet(new RedBet(10))
+
+        betManager.clear()
+
+        const payout = betManager.getTotalPayout(winNumberRed)
+        assert(payout === 0)
     }
 
     update(deltaTime: number) {
