@@ -75,6 +75,7 @@ export default abstract class Bet {
         }
 
         this.sum += actualIncrease
+        this.betSumHistory.push(actualIncrease)
 
         return actualIncrease
     }

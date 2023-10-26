@@ -372,7 +372,7 @@ export class BetTest extends Component {
 
     //
     // Нулевая ставка.
-    // Не делать revert.
+    // Не делать отмену.
     //
     private test_Bet_revertLastIncrease_1() {
         console.log('test_Bet_revertLastIncrease_1')
@@ -386,18 +386,23 @@ export class BetTest extends Component {
     }
 
     //
-    // Не нулевая ставка.
-    // Сделать отмену в порядке обратном добавлению ставок.
+    // Не нулевая ставка и удвоение.
+    // Сделать отмену в порядке обратном изменению ставок.
     //
     private test_Bet_revertLastIncrease_2() {
         console.log('test_Bet_revertLastIncrease_2')
 
         const redBet = new RedBet(5, 100)
 
-        redBet.increase(5, 100)
-        redBet.increase(25, 100)
+        redBet.increase(5, BALANCE)
+        redBet.increase(25, BALANCE)
+        redBet.double(BALANCE)
 
         let revertedSum = redBet.revertLastIncrease()
+        assert(revertedSum === 30)
+        assert(redBet.sum === 30)
+
+        revertedSum = redBet.revertLastIncrease()
         assert(revertedSum === 25)
         assert(redBet.sum === 5)
 
