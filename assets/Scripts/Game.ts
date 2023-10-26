@@ -1,8 +1,17 @@
 import { _decorator, assert, Component, log, Node } from 'cc';
+import BetManager from './Bets/BetManager';
+import RedBet from './Bets/OutsideBets/RedBet';
 const { ccclass, property } = _decorator;
 
 @ccclass('Game')
 export class Game extends Component {
+    private betManager: BetManager = new BetManager()
+
+    // Player data
+    private balance: number = 1000
+    private currentChipValue: number = 5
+    // End
+
     start() {
     }
 

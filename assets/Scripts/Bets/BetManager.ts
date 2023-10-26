@@ -10,7 +10,7 @@ export default class BetManager {
     public getTotalPayout(winNumber: number): number {
         let totalPayout = 0
         for (let bet of this.bets) {
-            totalPayout += bet.GetPayout(winNumber)
+            totalPayout += bet.getPayout(winNumber)
         }
 
         return totalPayout
