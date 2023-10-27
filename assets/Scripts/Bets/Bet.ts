@@ -1,4 +1,3 @@
-import { log } from 'cc'
 import assert from '../Helper'
 
 export default abstract class Bet {
