@@ -46,9 +46,35 @@ export class BetTest extends Component {
      * Тесты базового класса.
      */
     private test_Bet() {
+        this.test_Bet_constructor()
         this.test_Bet_increase()
         this.test_Bet_double()
         this.test_Bet_revertLastIncrease()
+    }
+
+    private test_Bet_constructor() {
+        console.log('test_Bet_constructor');
+
+        const invalidNumber1 = Bet.MIN_NUMBER - 1
+        const invalidNumber2 = Bet.MAX_NUMBER + 1
+
+        let didNotAcceptInvalidNumber = false
+        try {
+            new StraightBet(MIN_BET, MAX_BET, [invalidNumber1])
+        }
+        catch (e) {
+            didNotAcceptInvalidNumber = true
+        }
+        assert(didNotAcceptInvalidNumber)
+
+        didNotAcceptInvalidNumber = false
+        try {
+            new StraightBet(MIN_BET, MAX_BET, [invalidNumber2])
+        }
+        catch (e) {
+            didNotAcceptInvalidNumber = true
+        }
+        assert(didNotAcceptInvalidNumber)
     }
 
     //
@@ -411,52 +437,40 @@ export class BetTest extends Component {
         assert(redBet.sum === 0)
     }
 
-    //
-    // Note: перенесено из старого файла.
-    //
-
     ///
     /// Тесты ставок
     ///
-
-    private testInvalidBetNumber() {
-        console.log('testInvalidBetNumber');
-
-        const invalidNumber1 = Bet.MIN_NUMBER - 1
-        const invalidNumber2 = Bet.MAX_NUMBER + 1
-
-        let didNotAcceptInvalidNumber = false
-        try {
-            new StraightBet(invalidNumber1, 10)
-        }
-        catch (e) {
-            didNotAcceptInvalidNumber = true
-        }
-        assert(didNotAcceptInvalidNumber)
-
-        didNotAcceptInvalidNumber = false
-        try {
-            new StraightBet(invalidNumber2, 10)
-        }
-        catch (e) {
-            didNotAcceptInvalidNumber = true
-        }
-        assert(didNotAcceptInvalidNumber)
-    }
 
     /*
      * Тесты внутренних ставок.
      */
     private testInsideBets() {
-        this.testStraightBet()
-        this.testSplitBet()
-        this.testStreetBet()
-        this.testCornerBet()
-        this.testLineBet()
+        this.test_StraightBet()
+        this.test_SplitBet()
+        this.test_StreetBet()
+        this.test_CornerBet()
+        this.test_LineBet()
     }
 
-    private testStraightBet() {
-        console.log('testStraightBet');
+    private test_StraightBet() {
+        this.test_StraightBet_constructor()
+        this.test_StraightBet_getPayout()
+    }
+
+    private test_StraightBet_constructor() {
+        console.log('test_StraightBet_constructor');
+
+        let didNotAcceptMoreThanOne = false
+        try {
+            new StraightBet(MIN_BET, MAX_BET, [1, 2])
+        } catch (e) {
+            didNotAcceptMoreThanOne = true
+        }
+        assert(didNotAcceptMoreThanOne)
+    }
+
+    private test_StraightBet_getPayout() {
+        console.log('test_StraightBet_getPayout');
 
         const betSum = 10
         const betNumber = 1
@@ -474,8 +488,33 @@ export class BetTest extends Component {
         assert(payout === zeroPayout)
     }
 
-    private testSplitBet() {
-        console.log('testSplitBet');
+    private test_SplitBet() {
+        this.test_SplitBet_constructor()
+        this.test_SplitBet_getPayout()
+    }
+
+    private test_SplitBet_constructor() {
+        console.log('test_SplitBet_constructor');
+
+        let didNotAcceptMoreThanTwo = false
+        try {
+            new SplitBet(MIN_BET, MAX_BET, [1, 2, 3])
+        } catch (e) {
+            didNotAcceptMoreThanTwo = true
+        }
+        assert(didNotAcceptMoreThanTwo)
+
+        let didNotAcceptLessThanTwo = false
+        try {
+            new SplitBet(MIN_BET, MAX_BET, [1])
+        } catch (e) {
+            didNotAcceptLessThanTwo = true
+        }
+        assert(didNotAcceptLessThanTwo)
+    }
+
+    private test_SplitBet_getPayout() {
+        console.log('test_SplitBet_getPayout');
 
         const betSum = 10
         const betNumber1 = 1
@@ -497,8 +536,33 @@ export class BetTest extends Component {
         assert(payout === zeroPayout)
     }
 
-    private testStreetBet() {
-        console.log('testStreetBet');
+    private test_StreetBet() {
+        this.test_StreetBet_constructor()
+        this.test_StreetBet_getPayout()
+    }
+
+    private test_StreetBet_constructor() {
+        console.log('test_StreetBet_constructor');
+
+        let didNotAcceptMoreThanThree = false
+        try {
+            new StreetBet(MIN_BET, MAX_BET, [1, 2, 3, 4])
+        } catch (e) {
+            didNotAcceptMoreThanThree = true
+        }
+        assert(didNotAcceptMoreThanThree)
+
+        let didNotAcceptLessThanThree = false
+        try {
+            new StreetBet(MIN_BET, MAX_BET, [1, 2])
+        } catch (e) {
+            didNotAcceptLessThanThree = true
+        }
+        assert(didNotAcceptLessThanThree)
+    }
+
+    private test_StreetBet_getPayout() {
+        console.log('test_StreetBet_getPayout');
 
         const betSum = 10
         const betNumber1 = 1
@@ -524,8 +588,33 @@ export class BetTest extends Component {
         assert(payout === zeroPayout)
     }
 
-    private testCornerBet() {
-        console.log('testCornerBet')
+    private test_CornerBet() {
+        this.test_CornerBet_constructor()
+        this.test_CornerBet_getPayout()
+    }
+
+    private test_CornerBet_constructor() {
+        console.log('test_CornerBet_constructor');
+
+        let didNotAcceptMoreThanFour = false
+        try {
+            new CornerBet(MIN_BET, MAX_BET, [1, 2, 3, 4, 5])
+        } catch (e) {
+            didNotAcceptMoreThanFour = true
+        }
+        assert(didNotAcceptMoreThanFour)
+
+        let didNotAcceptLessThanFour = false
+        try {
+            new CornerBet(MIN_BET, MAX_BET, [1, 2, 3])
+        } catch (e) {
+            didNotAcceptLessThanFour = true
+        }
+        assert(didNotAcceptLessThanFour)
+    }
+
+    private test_CornerBet_getPayout() {
+        console.log('test_CornerBet_getPayout')
 
         const betSum = 10
         const betNumber1 = 1
@@ -555,8 +644,33 @@ export class BetTest extends Component {
         assert(payout === zeroPayout)
     }
 
-    private testLineBet() {
-        console.log('testLineBet');
+    private test_LineBet() {
+        this.test_LineBet_constructor()
+        this.test_LineBet_getPayout()
+    }
+
+    private test_LineBet_constructor() {
+        console.log('test_LineBet_constructor');
+
+        let didNotAcceptMoreThanSix = false
+        try {
+            new LineBet(MIN_BET, MAX_BET, [1, 2, 3, 4, 5, 6, 7])
+        } catch (e) {
+            didNotAcceptMoreThanSix = true
+        }
+        assert(didNotAcceptMoreThanSix)
+
+        let didNotAcceptLessThanSix = false
+        try {
+            new LineBet(MIN_BET, MAX_BET, [1, 2, 3, 4, 5])
+        } catch (e) {
+            didNotAcceptLessThanSix = true
+        }
+        assert(didNotAcceptLessThanSix)
+    }
+
+    private test_LineBet_getPayout() {
+        console.log('test_LineBet_getPayout');
 
         const betSum = 10
         const betNumber1 = 1

@@ -18,9 +18,9 @@ export class Game extends Component {
     update(deltaTime: number) {
     }
 
-    /*
-     * Обработчики кнопок внешних ставок.
-     */
+    // 
+    // Обработчики кнопок внешних ставок.
+    // 
     onRedBetButtonClick(event: Event, customEventData: string) {
         console.log('onRedBetButtonClick')
     }
@@ -69,15 +69,13 @@ export class Game extends Component {
         console.log('onColumn3rdBetButtonClick')
     }
 
-    /*
-     * Обработчики кнопок внутренних ставок.
-     */
+    // 
+    // Обработчики кнопок внутренних ставок.
+    // 
     onStraightBetButtonClick(event: Event, customEventData: string) {
         console.log('onStraightBetButtonClick')
 
-        // Извлечение номеров и ассерты.
         const number = parseInt(customEventData)
-        this.assert(number <= 36 && number >= 0)
         console.log('number: ' + number)
 
         // Создание ставки.
@@ -129,11 +127,5 @@ export class Game extends Component {
         console.log('numbers: ' + numbers)
 
         // Создание ставки.
-    }
-
-    private assert(condition: boolean) {
-        if (!condition) {
-            throw new Error('Assertion Failed');
-        }
     }
 }
