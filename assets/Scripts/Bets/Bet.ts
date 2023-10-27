@@ -44,7 +44,9 @@ export default abstract class Bet {
         }
 
         this.sum += actualIncrease
-        this.betSumHistory.push(actualIncrease)
+
+        if (actualIncrease > 0)
+            this.betSumHistory.push(actualIncrease)
 
         return actualIncrease
     }
@@ -75,7 +77,9 @@ export default abstract class Bet {
         }
 
         this.sum += actualIncrease
-        this.betSumHistory.push(actualIncrease)
+
+        if (actualIncrease > 0)
+            this.betSumHistory.push(actualIncrease)
 
         return actualIncrease
     }
