@@ -21,16 +21,22 @@ import SplitBet from "./InsideBets/SplitBet"
 import StreetBet from "./InsideBets/StreetBet"
 import CornerBet from "./InsideBets/CornerBet"
 import LineBet from "./InsideBets/LineBet"
+import { log } from "cc"
 
 export default class BetTable {
     private bets: Map<string, Bet> = new Map()
+    private undoStack: Bet[][] = [] // Каждый элемент - массив ставок. Такой формат позволяет отменять удвоенные ставки за один раз.
+
+    private chipValue = 5
+
+    public balance = 100
 
     /**
      * 
      * @param betType 
      * @param payload номера ставки через запятую, если ставка является внутренней.
      */
-    onBetButtonClick(betType: BetType, payload: string) {
+    public onBetButtonClick(betType: BetType, payload: string | undefined) {
         console.log('onBetButtonClick: ' + betType + ', ' + payload)
 
         // Пробуем получить экземпляр ставки.
@@ -45,13 +51,60 @@ export default class BetTable {
             bet = this.instantiateBet(betType, payload)
             this.bets.set(uniqueBetKey, bet)
         }
+
+        const increaseValue = bet.increase(this.chipValue, this.balance)
+        if (increaseValue > 0) {
+            this.balance -= increaseValue
+            this.undoStack.push([bet])
+        }
     }
 
-    private formUniqueKey(betType: BetType, payload: string): string {
-        return betType + ':' + payload
+    public setChipValue(value: number) {
+        this.chipValue = value
     }
 
-    private instantiateBet(betType: BetType, payload: string): Bet {
+    public getTotalPayout(winNumber: number): number {
+        let totalPayout = 0
+        this.bets.forEach(bet => {
+            totalPayout += bet.getPayout(winNumber)
+        })
+
+        this.balance += totalPayout
+
+        this.undoStack = []
+
+        return totalPayout
+    }
+
+    public doubleAll() {
+        const doubledBets: Bet[] = []
+        this.bets.forEach(bet => {
+            const increaseValue = bet.double(this.balance)
+            if (increaseValue > 0) {
+                this.balance -= increaseValue
+                doubledBets.push(bet)
+            }
+        })
+        this.undoStack.push(doubledBets)
+    }
+
+    public undoLastBet() {
+        const lastBets = this.undoStack.pop()
+        if (lastBets) {
+            lastBets.forEach(bet => {
+                this.balance += bet.revertLastIncrease()
+            })
+        }
+    }
+
+    private formUniqueKey(betType: BetType, payload: string | undefined): string {
+        // Поскольку внешние ставки в отличие от внутренних существуют только в одном экземпляре,
+        // нет необходимости различать экземпляры между собой,
+        // поэтому payload с уникальными номерами для внешних ставок не определён.
+        return betType + ':' + (payload || '_')
+    }
+
+    private instantiateBet(betType: BetType, payload: string | undefined): Bet {
         switch (betType) {
             // Внешние ставки.
             case BetType.Column1st: return new Column1stBet(5, 100)

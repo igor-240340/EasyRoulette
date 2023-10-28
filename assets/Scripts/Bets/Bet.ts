@@ -1,3 +1,4 @@
+import { log } from 'cc'
 import assert from '../Helper'
 
 export default abstract class Bet {
@@ -86,12 +87,16 @@ export default abstract class Bet {
     public getPayout(winNumber: number): number {
         assert(winNumber >= Bet.MIN_NUMBER && winNumber <= Bet.MAX_NUMBER)
 
+        let payout = 0
         if (this.numbers.includes(winNumber)) {
-            return this.CalcPayout()
+            payout = this.CalcPayout()
         }
-        else {
-            return 0
-        }
+
+        // Ставка отыграла - возвращаем в нулевое состояние.
+        this.sum = 0
+        this.betSumHistory = []
+
+        return payout
     }
 
     protected abstract CalcPayout(): number

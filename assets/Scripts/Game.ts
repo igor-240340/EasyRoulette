@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, log, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 import BetType from './Bets/BetType';

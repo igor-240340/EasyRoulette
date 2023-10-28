@@ -2,6 +2,7 @@ import { _decorator, Component, log, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 import assert from '../Helper'
+import { assertStrictEqual } from '../Helper'
 
 import Bet from '../Bets/Bet';
 
@@ -26,12 +27,16 @@ import Dozen1stBet from '../Bets/OutsideBets/Dozen1stBet';
 import Dozen2ndBet from '../Bets/OutsideBets/Dozen2ndBet';
 import Dozen3rdBet from '../Bets/OutsideBets/Dozen3rdBet';
 
+import BetTableTest from './BetTableTest';
+
 const BALANCE = 100
 const MIN_BET = 5
 const MAX_BET = 100
 
 @ccclass('BetTest')
 export class BetTest extends Component {
+    private betTableTest = new BetTableTest()
+
     start() {
         this.test_Bet();
 
@@ -39,7 +44,8 @@ export class BetTest extends Component {
         this.testOutsideBets();
         // this.testInvalidBetNumber();
 
-        // this.testBetManager()
+
+        this.betTableTest.runAll()
     }
 
     /**
@@ -50,6 +56,8 @@ export class BetTest extends Component {
         this.test_Bet_increase()
         this.test_Bet_double()
         this.test_Bet_revertLastIncrease()
+
+        this.test_Bet_getPayout()
     }
 
     private test_Bet_constructor() {
@@ -437,6 +445,30 @@ export class BetTest extends Component {
         assert(redBet.sum === 0)
     }
 
+    //
+    // Сбросить ставку после того, как она сыграла - после запроса выигрыша getPayout.
+    // 
+    // Пояснение:
+    // Нулевые ставки остаются нулевыми.
+    // Выигравшие ставки уже вернули нам поставленные суммы и выигрыш через getPayout.
+    // Проигравшие ставки вычитаются из баланса еще на этапе создания при вызове increase - поставленные деньги сразу вычитаются из баланса.
+    // 
+    // Поэтому ставка сбрасывается как в случае выигрыша так и в случае проигрыша.
+    //
+    private test_Bet_getPayout() {
+        console.log('test_Bet_getPayout')
+
+        const winNumber_notRed = 2
+        const redBet = new RedBet(5, 100)
+        redBet.increase(5, BALANCE)                     // Сейчас мы еще можем сделать reverLastIncrease и вернуть деньги.
+
+        redBet.getPayout(winNumber_notRed)
+        assertStrictEqual(redBet.sum, 0)
+
+        const revertedSum = redBet.revertLastIncrease() // Теперь ставка не существует, никаких возвратов по ней - тоже.
+        assertStrictEqual(revertedSum, 0)
+    }
+
     ///
     /// Тесты ставок
     ///
@@ -524,14 +556,16 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const splitBet = new SplitBet(MIN_BET, MAX_BET, [betNumber1, betNumber2])
-        splitBet.increase(betSum, BALANCE)
 
+        splitBet.increase(betSum, BALANCE)
         let payout = splitBet.getPayout(betNumber1)
         assert(payout === winPayout)
 
+        splitBet.increase(betSum, BALANCE) // После каждого getPayout ставка сбрасывается.
         payout = splitBet.getPayout(betNumber2)
         assert(payout === winPayout)
 
+        splitBet.increase(betSum, BALANCE)
         payout = splitBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -573,17 +607,20 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const streetBet = new StreetBet(MIN_BET, MAX_BET, [betNumber1, betNumber2, betNumber3])
-        streetBet.increase(betSum, BALANCE)
 
+        streetBet.increase(betSum, BALANCE)
         let payout = streetBet.getPayout(betNumber1)
         assert(payout === winPayout)
 
+        streetBet.increase(betSum, BALANCE)
         payout = streetBet.getPayout(betNumber2)
         assert(payout === winPayout)
 
+        streetBet.increase(betSum, BALANCE)
         payout = streetBet.getPayout(betNumber3)
         assert(payout === winPayout)
 
+        streetBet.increase(betSum, BALANCE)
         payout = streetBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -626,20 +663,24 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const cornerBet = new CornerBet(MIN_BET, MAX_BET, [betNumber1, betNumber2, betNumber3, betNumber4])
-        cornerBet.increase(betSum, BALANCE)
 
+        cornerBet.increase(betSum, BALANCE)
         let payout = cornerBet.getPayout(betNumber1)
         assert(payout === winPayout)
 
+        cornerBet.increase(betSum, BALANCE)
         payout = cornerBet.getPayout(betNumber2)
         assert(payout === winPayout)
 
+        cornerBet.increase(betSum, BALANCE)
         payout = cornerBet.getPayout(betNumber3)
         assert(payout === winPayout)
 
+        cornerBet.increase(betSum, BALANCE)
         payout = cornerBet.getPayout(betNumber4)
         assert(payout === winPayout)
 
+        cornerBet.increase(betSum, BALANCE)
         payout = cornerBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -684,26 +725,32 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const lineBet = new LineBet(MIN_BET, MAX_BET, [betNumber1, betNumber2, betNumber3, betNumber4, betNumber5, betNumber6])
-        lineBet.increase(betSum, BALANCE)
 
+        lineBet.increase(betSum, BALANCE)
         let payout = lineBet.getPayout(betNumber1)
         assert(payout === winPayout)
 
+        lineBet.increase(betSum, BALANCE)
         payout = lineBet.getPayout(betNumber2)
         assert(payout === winPayout)
 
+        lineBet.increase(betSum, BALANCE)
         payout = lineBet.getPayout(betNumber3)
         assert(payout === winPayout)
 
+        lineBet.increase(betSum, BALANCE)
         payout = lineBet.getPayout(betNumber4)
         assert(payout === winPayout)
 
+        lineBet.increase(betSum, BALANCE)
         payout = lineBet.getPayout(betNumber5)
         assert(payout === winPayout)
 
+        lineBet.increase(betSum, BALANCE)
         payout = lineBet.getPayout(betNumber6)
         assert(payout === winPayout)
 
+        lineBet.increase(betSum, BALANCE)
         payout = lineBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -740,14 +787,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const redBet = new RedBet(MIN_BET, MAX_BET)
-        redBet.increase(betSum, BALANCE)
 
         let payout
         for (let redNumber of redNumbers) {
+            redBet.increase(betSum, BALANCE)
             payout = redBet.getPayout(redNumber)
             assert(payout === winPayout)
         }
 
+        redBet.increase(betSum, BALANCE)
         payout = redBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -762,14 +810,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const blackBet = new BlackBet(MIN_BET, MAX_BET)
-        blackBet.increase(betSum, BALANCE)
 
         let payout
         for (let blackNumber of blackNumbers) {
+            blackBet.increase(betSum, BALANCE)
             payout = blackBet.getPayout(blackNumber)
             assert(payout === winPayout)
         }
 
+        blackBet.increase(betSum, BALANCE)
         payout = blackBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -790,14 +839,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const evenBet = new EvenBet(MIN_BET, MAX_BET)
-        evenBet.increase(betSum, BALANCE)
 
         let payout
         for (let evenNumber of evenNumbers) {
+            evenBet.increase(betSum, BALANCE)
             payout = evenBet.getPayout(evenNumber)
             assert(payout === winPayout)
         }
 
+        evenBet.increase(betSum, BALANCE)
         payout = evenBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -818,14 +868,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const oddBet = new OddBet(MIN_BET, MAX_BET)
-        oddBet.increase(betSum, BALANCE)
 
         let payout
         for (let oddNumber of oddNumbers) {
+            oddBet.increase(betSum, BALANCE)
             payout = oddBet.getPayout(oddNumber)
             assert(payout === winPayout)
         }
 
+        oddBet.increase(betSum, BALANCE)
         payout = oddBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -844,14 +895,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const lowBet = new LowBet(MIN_BET, MAX_BET)
-        lowBet.increase(betSum, BALANCE)
 
         let payout
         for (let lowNumber of lowNumbers) {
+            lowBet.increase(betSum, BALANCE)
             payout = lowBet.getPayout(lowNumber)
             assert(payout === winPayout)
         }
 
+        lowBet.increase(betSum, BALANCE)
         payout = lowBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -870,14 +922,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const highBet = new HighBet(MIN_BET, MAX_BET)
-        highBet.increase(betSum, BALANCE)
 
         let payout
         for (let highNumber of highNumbers) {
+            highBet.increase(betSum, BALANCE)
             payout = highBet.getPayout(highNumber)
             assert(payout === winPayout)
         }
 
+        highBet.increase(betSum, BALANCE)
         payout = highBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -892,14 +945,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const column1stBet = new Column1stBet(MIN_BET, MAX_BET)
-        column1stBet.increase(betSum, BALANCE)
 
         let payout
         for (let number of column1stNumbers) {
+            column1stBet.increase(betSum, BALANCE)
             payout = column1stBet.getPayout(number)
             assert(payout === winPayout)
         }
 
+        column1stBet.increase(betSum, BALANCE)
         payout = column1stBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -914,14 +968,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const column2ndBet = new Column2ndBet(MIN_BET, MAX_BET)
-        column2ndBet.increase(betSum, BALANCE)
 
         let payout
         for (let number of column2ndNumbers) {
+            column2ndBet.increase(betSum, BALANCE)
             payout = column2ndBet.getPayout(number)
             assert(payout === winPayout)
         }
 
+        column2ndBet.increase(betSum, BALANCE)
         payout = column2ndBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -936,14 +991,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const column3rdBet = new Column3rdBet(MIN_BET, MAX_BET)
-        column3rdBet.increase(betSum, BALANCE)
 
         let payout
         for (let number of column3rdNumbers) {
+            column3rdBet.increase(betSum, BALANCE)
             payout = column3rdBet.getPayout(number)
             assert(payout === winPayout)
         }
 
+        column3rdBet.increase(betSum, BALANCE)
         payout = column3rdBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -962,14 +1018,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const dozen1stBet = new Dozen1stBet(MIN_BET, MAX_BET)
-        dozen1stBet.increase(betSum, BALANCE)
 
         let payout
         for (let number of dozen1stNumbers) {
+            dozen1stBet.increase(betSum, BALANCE)
             payout = dozen1stBet.getPayout(number)
             assert(payout === winPayout)
         }
 
+        dozen1stBet.increase(betSum, BALANCE)
         payout = dozen1stBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -988,14 +1045,15 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const dozen2ndBet = new Dozen2ndBet(MIN_BET, MAX_BET)
-        dozen2ndBet.increase(betSum, BALANCE)
 
         let payout
         for (let number of dozen2ndNumbers) {
+            dozen2ndBet.increase(betSum, BALANCE)
             payout = dozen2ndBet.getPayout(number)
             assert(payout === winPayout)
         }
 
+        dozen2ndBet.increase(betSum, BALANCE)
         payout = dozen2ndBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
     }
@@ -1014,63 +1072,17 @@ export class BetTest extends Component {
         const zeroPayout = 0
 
         const dozen3rdBet = new Dozen3rdBet(MIN_BET, MAX_BET)
-        dozen3rdBet.increase(betSum, BALANCE)
 
         let payout
         for (let number of dozen3rdNumbers) {
+            dozen3rdBet.increase(betSum, BALANCE)
             payout = dozen3rdBet.getPayout(number)
             assert(payout === winPayout)
         }
 
+        dozen3rdBet.increase(betSum, BALANCE)
         payout = dozen3rdBet.getPayout(loseNumber)
         assert(payout === zeroPayout)
-    }
-
-    /*
-     * Тесты менеджера ставок.
-     */
-    private testBetManager() {
-        this.testBetManager_NoBets()
-        this.testBetManager_MultipleBets()
-        this.testBetManager_ClearBets()
-    }
-
-    private testBetManager_NoBets() {
-        console.log('testBetManager_NoBets');
-
-        const betManager = new BetManager()
-
-        const totalPayout = betManager.getTotalPayout(1)
-        assert(totalPayout === 0)
-    }
-
-    private testBetManager_MultipleBets() {
-        console.log('testBetManager_MultipleBets');
-
-        const redBetSum = 4
-        const evenBetSum = 5
-        const winNumberRedEven = 12
-        const totalWinPayout = (redBetSum * 2) + (evenBetSum * 2)
-
-        const betManager = new BetManager()
-        betManager.makeBet(new RedBet(redBetSum))
-        betManager.makeBet(new EvenBet(evenBetSum))
-
-        const payout = betManager.getTotalPayout(winNumberRedEven)
-        assert(payout === totalWinPayout)
-    }
-
-    private testBetManager_ClearBets() {
-        console.log('testBetManager_ClearBets');
-
-        const winNumberRed = 1
-        const betManager = new BetManager()
-        betManager.makeBet(new RedBet(10))
-
-        betManager.clear()
-
-        const payout = betManager.getTotalPayout(winNumberRed)
-        assert(payout === 0)
     }
 
     update(deltaTime: number) {
