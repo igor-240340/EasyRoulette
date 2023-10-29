@@ -27,9 +27,9 @@ export default class BetTable {
     private bets: Map<string, Bet> = new Map()
     private undoStack: Bet[][] = [] // Каждый элемент - массив ставок. Такой формат позволяет отменять удвоенные ставки за один раз.
 
-    private chipValue = 5
+    private chipValue = 1
 
-    public balance = 100
+    public balance = 0
 
     /**
      * 
@@ -60,10 +60,14 @@ export default class BetTable {
     }
 
     public setChipValue(value: number) {
+        assert(value > 0)
+
         this.chipValue = value
     }
 
     public getTotalPayout(winNumber: number): number {
+        assert(winNumber >= 0 && winNumber <= 36)
+
         let totalPayout = 0
         this.bets.forEach(bet => {
             totalPayout += bet.getPayout(winNumber)
@@ -85,7 +89,9 @@ export default class BetTable {
                 doubledBets.push(bet)
             }
         })
-        this.undoStack.push(doubledBets)
+
+        if (doubledBets.length > 0)
+            this.undoStack.push(doubledBets)
     }
 
     public undoLastBet() {

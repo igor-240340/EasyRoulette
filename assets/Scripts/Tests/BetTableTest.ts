@@ -17,6 +17,7 @@ export default class BetTableTest {
 
         this.undoLastBet_single()
         this.undoLastBet_double()
+        this.undoLastBet_nothingDoubled()
     }
 
     private onBetButtonClick() {
@@ -145,5 +146,33 @@ export default class BetTableTest {
         const winNumberRedEven = 12
         const totalPayout = betTable.getTotalPayout(winNumberRedEven)
         assertStrictEqual(totalPayout, betSum1 * 2 + betSum2 * 2)
+    }
+
+    private undoLastBet_nothingDoubled() {
+        log('undoLastBet_nothingDoubled')
+
+        const betSum = 25
+
+        const betTable = new BetTable()
+        betTable.balance = 30
+
+        betTable.setChipValue(betSum)
+        betTable.onBetButtonClick(BetType.Red, undefined)
+
+        // Текущая ставка равна 25.
+        // На ней есть пространство для удвоения, но баланс равен 5 и меньше ставки,
+        // поэтому удвоения не происходит.
+        betTable.doubleAll()
+
+        const balanceBeforeUndo = betTable.balance
+
+        // Поскольку ни одна ставка не удвоилась,
+        // то последний возврат должен произойти сразу по первой ставке.
+        betTable.undoLastBet()
+        assertStrictEqual(betTable.balance, balanceBeforeUndo + betSum)
+
+        const winNumberRed = 12
+        const totalPayout = betTable.getTotalPayout(winNumberRed)
+        assertStrictEqual(totalPayout, 0)
     }
 }
