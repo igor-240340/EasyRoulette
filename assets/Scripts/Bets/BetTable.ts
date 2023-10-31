@@ -29,14 +29,16 @@ export default class BetTable {
 
     private chipValue = 1
 
+    // TODO: Запретить изменять публичные свойства снаружи (включая объекты, на которые они ссылаются).
     public balance = 0
+    public totalBet = 0 // Сумма всех ставок. Сюда суммируется всё, что вычитается из баланса.
 
     /**
      * 
      * @param betType 
      * @param payload номера ставки через запятую, если ставка является внутренней.
      */
-    public onBetButtonClick(betType: BetType, payload: string | undefined) {
+    public onBetButtonClick(betType: BetType, payload: string | undefined): Bet {
         console.log('onBetButtonClick: ' + betType + ', ' + payload)
 
         // Пробуем получить экземпляр ставки.
@@ -55,8 +57,30 @@ export default class BetTable {
         const increaseValue = bet.increase(this.chipValue, this.balance)
         if (increaseValue > 0) {
             this.balance -= increaseValue
+            this.totalBet += increaseValue
+
             this.undoStack.push([bet])
         }
+
+        return bet
+    }
+
+    public doubleAll(): Bet[] {
+        const doubledBets: Bet[] = [];
+        this.bets.forEach(bet => {
+            const increaseValue = bet.double(this.balance);
+            if (increaseValue > 0) {
+                this.balance -= increaseValue;
+                this.totalBet += increaseValue;
+
+                doubledBets.push(bet);
+            }
+        })
+
+        if (doubledBets.length > 0)
+            this.undoStack.push(doubledBets);
+
+        return doubledBets;
     }
 
     public setChipValue(value: number) {
@@ -76,31 +100,20 @@ export default class BetTable {
         this.balance += totalPayout
 
         this.undoStack = []
+        this.totalBet = 0
 
         return totalPayout
     }
 
-    public doubleAll() {
-        const doubledBets: Bet[] = []
-        this.bets.forEach(bet => {
-            const increaseValue = bet.double(this.balance)
-            if (increaseValue > 0) {
-                this.balance -= increaseValue
-                doubledBets.push(bet)
-            }
-        })
+    public undoLastBet(): Bet[] {
+        const lastBets = this.undoStack.pop() || [];
+        lastBets.forEach(bet => {
+            const revertedSum = bet.revertLastIncrease();
+            this.balance += revertedSum;
+            this.totalBet -= revertedSum;
+        });
 
-        if (doubledBets.length > 0)
-            this.undoStack.push(doubledBets)
-    }
-
-    public undoLastBet() {
-        const lastBets = this.undoStack.pop()
-        if (lastBets) {
-            lastBets.forEach(bet => {
-                this.balance += bet.revertLastIncrease()
-            })
-        }
+        return lastBets;
     }
 
     private formUniqueKey(betType: BetType, payload: string | undefined): string {
