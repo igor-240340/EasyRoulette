@@ -18,6 +18,9 @@ export class Game extends Component {
     @property(Label)
     private betLabel: Label = null!;
 
+    @property(Label)
+    private winNumberLabel: Label = null!;
+
     @property(Prefab)
     private betSpriteNodePrefab: Prefab = null!;
 
@@ -215,7 +218,7 @@ export class Game extends Component {
         const winNumber = Math.floor(Math.random() * 37);
         const winPayout = this.betTable.getTotalPayout(winNumber);
 
-        log(winNumber);
+        this.winNumberLabel.string = winNumber.toString();
 
         this.winLabel.string = winPayout.toString();
         this.showNewBalanceValue();
