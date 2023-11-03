@@ -2,7 +2,8 @@ import { log } from 'cc';
 import assert from '../Helper';
 import BetType from '../Bets/BetType';
 
-export default class Challenge1 {
+// Выиграй определенную сумму в следующей игре.
+export default class SinglePlayChallenge1 {
     public allowedBetTypes: BetType[] = [BetType.Dozen1st, BetType.Dozen2nd, BetType.Dozen3rd];
 
     private expectedMinWinPayout: number = 0;

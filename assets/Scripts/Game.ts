@@ -6,7 +6,8 @@ import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
 import { extractNumbersFromString } from './Helper';
-import Challenge1 from './Challenges/Challenge1';
+import SinglePlayChallenge1 from './Challenges/SinglePlayChallenge1';
+import SinglePlayChallenge2 from './Challenges/SinglePlayChallenge2';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -43,16 +44,22 @@ export class Game extends Component {
     @property([Node])
     private dozenBetButtonsNodes: Node[] = [];
 
+    @property([Node])
+    private restBetButtonsNodes: Node[] = [];   // Red/Black, Odd/Even, Low/High.
+
     private betButtonsByTypes: Map<BetType, Button[]> = new Map();
 
     @property(Button)
     private straightZeroBetButton: Button = null!;
 
+    @property(Button)
+    private challengeButton: Button = null!;
+
     @property(Label)
     private challengePassedLabel: Label = null!;
 
-    private currentChallenge: Challenge1 | null = null!;
-    private challengeButton: Button = null!;
+    private singlePlayChallenge1: SinglePlayChallenge1 | null = null!;
+    private singlePlayChallenge2: SinglePlayChallenge2 | null = null!;
     // End Challenge
 
     start() {
@@ -267,12 +274,30 @@ export class Game extends Component {
         //
         // Challenge
         //
-        if (this.currentChallenge) {
-            const isPassed = this.currentChallenge.isPassed(winPayout);
-            this.challengeButton.interactable = true;
-            log('isPassed: ' + isPassed);
-            this.challengePassedLabel.string = isPassed ? '1' : '0';
-            this.currentChallenge = null;
+        {
+            // SinglePlayChallenge1
+            // if (this.challenge1) {
+            //     const isPassed = this.challenge1.isPassed(winPayout);
+            //     log('isPassed: ' + isPassed);
+
+            //     this.challenge1 = null;
+
+            //     this.challengeButton.interactable = true;
+            //     this.challengePassedLabel.string = isPassed ? '1' : '0';
+
+            //     this.reactivateAllBetButtonsAfterChallenge();
+            // }
+
+            // SinglePlayChallenge2
+            // if (this.singlePlayChallenge2) {
+            //     const isPassed = this.singlePlayChallenge2.isPassed(this.betTable.balance);
+            //     log('isPassed: ' + isPassed);
+
+            //     this.singlePlayChallenge2 = null;
+
+            //     this.challengeButton.interactable = true;
+            //     this.challengePassedLabel.string = isPassed ? '1' : '0';
+            // }
         }
         // End Challenge
     }
@@ -333,26 +358,39 @@ export class Game extends Component {
     onAcceptChallengeButtonClick(event: Event) {
         log('onAcceptChallengeButtonClick');
 
-        // Деактивируем кнопку до завершения челленджа.
         assert(event.target instanceof Node);
-        const button = (event.target as Node).getComponent(Button);
-        assert(button)
-        button.interactable = false;
-        this.challengeButton = button;
+        // Деактивируем кнопку до завершения челленджа.
+        this.challengeButton.interactable = false;
 
-        this.currentChallenge = new Challenge1(1000);
-        this.deactivateBetButtonsForChallenge();
+        // Пишем сначала, что челлендж не пройден.
+        this.challengePassedLabel.string = '0';
+
+        // SinglePlayChallenge1
+        {
+            // this.challenge1 = new SinglePlayChallenge1(1000);
+            // this.deactivateBetButtonsForChallenge();
+        }
+
+        // SinglePlayChallenge2
+        {
+            // this.singlePlayChallenge2 = new SinglePlayChallenge2(this.betTable.balance);
+        }
     }
 
     // Деактивирует некоторые кнопки ставок в UI на время челленджа.
     private deactivateBetButtonsForChallenge() {
-        assert(this.currentChallenge);
-        const allowedBetTypes = this.currentChallenge.allowedBetTypes;
+        assert(this.singlePlayChallenge1);
+        const allowedBetTypes = this.singlePlayChallenge1.allowedBetTypes;
         this.betButtonsByTypes.forEach((buttons, betType) => {
             if (!allowedBetTypes.find(allowedType => allowedType === betType)) {
                 buttons.forEach(button => button.interactable = false);
             }
         });
+    }
+
+    // Активирует все кнопки.
+    private reactivateAllBetButtonsAfterChallenge() {
+        this.betButtonsByTypes.forEach(buttons => buttons.forEach(button => button.interactable = true));
     }
 
     // Собирает кнопки по контейнерам.
@@ -420,6 +458,37 @@ export class Game extends Component {
         this.betButtonsByTypes.set(BetType.Column1st, [column1stBetButton]);
 
         // Собрать Dozens.
+        const dozen1stBetButton = this.dozenBetButtonsNodes[0].getComponent(Button);
+        const dozen2ndBetButton = this.dozenBetButtonsNodes[1].getComponent(Button);
+        const dozen3rdBetButton = this.dozenBetButtonsNodes[2].getComponent(Button);
+
+        assert(dozen1stBetButton);
+        assert(dozen2ndBetButton);
+        assert(dozen3rdBetButton);
+        this.betButtonsByTypes.set(BetType.Dozen1st, [dozen1stBetButton]);
+        this.betButtonsByTypes.set(BetType.Dozen2nd, [dozen2ndBetButton]);
+        this.betButtonsByTypes.set(BetType.Dozen3rd, [dozen3rdBetButton]);
+
+        // Собрать Low/High, Red/Black, Odd/Even.
+        const lowBetButton = this.restBetButtonsNodes[0].getComponent(Button);
+        const evenBetButton = this.restBetButtonsNodes[1].getComponent(Button);
+        const redBetButton = this.restBetButtonsNodes[2].getComponent(Button);
+        const blackBetButton = this.restBetButtonsNodes[3].getComponent(Button);
+        const oddBetButton = this.restBetButtonsNodes[4].getComponent(Button);
+        const highBetButton = this.restBetButtonsNodes[5].getComponent(Button);
+
+        assert(lowBetButton);
+        assert(evenBetButton);
+        assert(redBetButton);
+        assert(blackBetButton);
+        assert(oddBetButton);
+        assert(highBetButton);
+        this.betButtonsByTypes.set(BetType.Low, [lowBetButton]);
+        this.betButtonsByTypes.set(BetType.Even, [evenBetButton]);
+        this.betButtonsByTypes.set(BetType.Red, [redBetButton]);
+        this.betButtonsByTypes.set(BetType.Black, [blackBetButton]);
+        this.betButtonsByTypes.set(BetType.Odd, [oddBetButton]);
+        this.betButtonsByTypes.set(BetType.High, [highBetButton]);
     }
     // End Challenge
 }
