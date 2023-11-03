@@ -8,6 +8,7 @@ import BetTable from './Bets/BetTable';
 import { extractNumbersFromString } from './Helper';
 import SinglePlayChallenge1 from './Challenges/SinglePlayChallenge1';
 import SinglePlayChallenge2 from './Challenges/SinglePlayChallenge2';
+import MultiPlayChallenge1 from './Challenges/MultiPlayChallenge1';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -60,6 +61,7 @@ export class Game extends Component {
 
     private singlePlayChallenge1: SinglePlayChallenge1 | null = null!;
     private singlePlayChallenge2: SinglePlayChallenge2 | null = null!;
+    private multiPlayChallenge1: MultiPlayChallenge1 | null = null!;
     // End Challenge
 
     start() {
@@ -298,6 +300,24 @@ export class Game extends Component {
             //     this.challengeButton.interactable = true;
             //     this.challengePassedLabel.string = isPassed ? '1' : '0';
             // }
+
+            // MultiPlayChallenge1
+            if (this.multiPlayChallenge1) {
+                const playsLeft = this.multiPlayChallenge1.increaseTotalWinPayout(winPayout);
+                log('plays lef: ' + playsLeft);
+
+                if (playsLeft === 0) {
+                    const isPassed = this.multiPlayChallenge1.isPassed();
+                    log('challenge status');
+                    log('expected payout: ' + this.multiPlayChallenge1.expectedTotalWinPayout);
+                    log('total win payout: ' + this.multiPlayChallenge1.actualTotalWinPayout);
+
+                    this.multiPlayChallenge1 = null;
+
+                    this.challengeButton.interactable = true;
+                    this.challengePassedLabel.string = isPassed ? '1' : '0';
+                }
+            }
         }
         // End Challenge
     }
@@ -374,6 +394,11 @@ export class Game extends Component {
         // SinglePlayChallenge2
         {
             // this.singlePlayChallenge2 = new SinglePlayChallenge2(this.betTable.balance);
+        }
+
+        // MultiPlayChallenge1
+        {
+            this.multiPlayChallenge1 = new MultiPlayChallenge1(5, 2000);
         }
     }
 
