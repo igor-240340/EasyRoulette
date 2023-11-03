@@ -1,4 +1,4 @@
-import { _decorator, assert, Component, debug, instantiate, Label, log, Node, Prefab, Sprite, Toggle, UITransform } from 'cc';
+import { _decorator, assert, Button, Component, debug, instantiate, Label, log, Node, Prefab, Sprite, Toggle, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
@@ -6,6 +6,7 @@ import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
 import { extractNumbersFromString } from './Helper';
+import Challenge1 from './Challenges/Challenge1';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -27,11 +28,46 @@ export class Game extends Component {
     private betTable: BetTable = new BetTable();
     private betSpriteNodes: Map<Bet, Node> = new Map();
 
+    //
+    // Challenge
+    //
+    @property(Node)
+    private straightBetButtonsNode: Node = null!;
+
+    @property(Node)
+    private aroundStraightBetButtonsNode: Node = null!;
+
+    @property([Node])
+    private columnBetButtonsNodes: Node[] = [];
+
+    @property([Node])
+    private dozenBetButtonsNodes: Node[] = [];
+
+    private betButtonsByTypes: Map<BetType, Button[]> = new Map();
+
+    @property(Button)
+    private straightZeroBetButton: Button = null!;
+
+    @property(Label)
+    private challengePassedLabel: Label = null!;
+
+    private currentChallenge: Challenge1 | null = null!;
+    private challengeButton: Button = null!;
+    // End Challenge
+
     start() {
         this.betTable.balance = 1000;
         this.betTable.setChipValue(1);
+        this.betTable.minBet = 5;
+        this.betTable.maxBet = 1000;
 
         this.showNewBalanceValue();
+
+        // 
+        // Challenge
+        // 
+        this.collectBetButtons();
+        // End Challenge
     }
 
     update(deltaTime: number) {
@@ -227,6 +263,18 @@ export class Game extends Component {
 
         // Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
         // как информацию о предедущей ставке и текущем выигрыше.
+
+        //
+        // Challenge
+        //
+        if (this.currentChallenge) {
+            const isPassed = this.currentChallenge.isPassed(winPayout);
+            this.challengeButton.interactable = true;
+            log('isPassed: ' + isPassed);
+            this.challengePassedLabel.string = isPassed ? '1' : '0';
+            this.currentChallenge = null;
+        }
+        // End Challenge
     }
 
     //
@@ -276,4 +324,102 @@ export class Game extends Component {
 
         return betSpriteNode;
     }
+
+    // 
+    // Challenge
+    // 
+
+    // Принять челлендж.
+    onAcceptChallengeButtonClick(event: Event) {
+        log('onAcceptChallengeButtonClick');
+
+        // Деактивируем кнопку до завершения челленджа.
+        assert(event.target instanceof Node);
+        const button = (event.target as Node).getComponent(Button);
+        assert(button)
+        button.interactable = false;
+        this.challengeButton = button;
+
+        this.currentChallenge = new Challenge1(1000);
+        this.deactivateBetButtonsForChallenge();
+    }
+
+    // Деактивирует некоторые кнопки ставок в UI на время челленджа.
+    private deactivateBetButtonsForChallenge() {
+        assert(this.currentChallenge);
+        const allowedBetTypes = this.currentChallenge.allowedBetTypes;
+        this.betButtonsByTypes.forEach((buttons, betType) => {
+            if (!allowedBetTypes.find(allowedType => allowedType === betType)) {
+                buttons.forEach(button => button.interactable = false);
+            }
+        });
+    }
+
+    // Собирает кнопки по контейнерам.
+    private collectBetButtons() {
+        log('collectBetButtons');
+
+        // Собрать кнопки стрейтов.
+        const straightBetButtons: Button[] = [];
+        straightBetButtons.push(this.straightZeroBetButton);
+        for (const child of this.straightBetButtonsNode.children) {
+            const button = child.getComponent(Button);
+            assert(button);
+            straightBetButtons.push(button);
+        }
+        this.betButtonsByTypes.set(BetType.Straight, straightBetButtons);
+
+        // Собрать кнопки ставок вокруг стрейтов: сплиты, корнеры, стриты и лайны.
+        const splitButtons: Button[] = [];
+        const streetButtons: Button[] = [];
+        const cornerButtons: Button[] = [];
+        const lineButtons: Button[] = [];
+        for (const child of this.aroundStraightBetButtonsNode.children) {
+            child.children.forEach(subChild => {
+                subChild.children.forEach(buttonNode => {
+                    let button: Button | null;
+                    switch (buttonNode.name) {
+                        case 'SplitBet Button':
+                            button = buttonNode.getComponent(Button);
+                            assert(button);
+                            splitButtons.push(button);
+                            break;
+                        case 'StreetBet Button':
+                            button = buttonNode.getComponent(Button);
+                            assert(button);
+                            streetButtons.push(button);
+                            break;
+                        case 'CornerBet Button':
+                            button = buttonNode.getComponent(Button);
+                            assert(button);
+                            cornerButtons.push(button);
+                            break;
+                        case 'LineBet Button':
+                            button = buttonNode.getComponent(Button);
+                            assert(button);
+                            lineButtons.push(button);
+                    }
+                });
+            });
+        }
+        this.betButtonsByTypes.set(BetType.Split, splitButtons);
+        this.betButtonsByTypes.set(BetType.Street, streetButtons);
+        this.betButtonsByTypes.set(BetType.Corner, cornerButtons);
+        this.betButtonsByTypes.set(BetType.Line, lineButtons);
+
+        // Собрать Columns.
+        const column3rdBetButton = this.columnBetButtonsNodes[0].getComponent(Button);
+        const column2ndBetButton = this.columnBetButtonsNodes[1].getComponent(Button);
+        const column1stBetButton = this.columnBetButtonsNodes[2].getComponent(Button);
+
+        assert(column3rdBetButton);
+        assert(column2ndBetButton);
+        assert(column1stBetButton);
+        this.betButtonsByTypes.set(BetType.Column3rd, [column3rdBetButton]);
+        this.betButtonsByTypes.set(BetType.Column2nd, [column2ndBetButton]);
+        this.betButtonsByTypes.set(BetType.Column1st, [column1stBetButton]);
+
+        // Собрать Dozens.
+    }
+    // End Challenge
 }

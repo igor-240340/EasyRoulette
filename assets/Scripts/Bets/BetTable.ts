@@ -33,6 +33,10 @@ export default class BetTable {
     public balance = 0
     public totalBet = 0 // Сумма всех ставок. Сюда суммируется всё, что вычитается из баланса.
 
+    //
+    public minBet = 5;
+    public maxBet = 100;
+
     /**
      * 
      * @param betType 
@@ -126,25 +130,25 @@ export default class BetTable {
     private instantiateBet(betType: BetType, payload: string | undefined): Bet {
         switch (betType) {
             // Внешние ставки.
-            case BetType.Column1st: return new Column1stBet(5, 100)
-            case BetType.Column2nd: return new Column2ndBet(5, 100)
-            case BetType.Column3rd: return new Column3rdBet(5, 100)
-            case BetType.Dozen1st: return new Dozen1stBet(5, 100)
-            case BetType.Dozen2nd: return new Dozen2ndBet(5, 100)
-            case BetType.Dozen3rd: return new Dozen3rdBet(5, 100)
-            case BetType.Red: return new RedBet(5, 100)
-            case BetType.Black: return new BlackBet(5, 100)
-            case BetType.Low: return new LowBet(5, 100)
-            case BetType.High: return new HighBet(5, 100)
-            case BetType.Even: return new EvenBet(5, 100)
-            case BetType.Odd: return new OddBet(5, 100)
+            case BetType.Column1st: return new Column1stBet(this.minBet, this.maxBet)
+            case BetType.Column2nd: return new Column2ndBet(this.minBet, this.maxBet)
+            case BetType.Column3rd: return new Column3rdBet(this.minBet, this.maxBet)
+            case BetType.Dozen1st: return new Dozen1stBet(this.minBet, this.maxBet)
+            case BetType.Dozen2nd: return new Dozen2ndBet(this.minBet, this.maxBet)
+            case BetType.Dozen3rd: return new Dozen3rdBet(this.minBet, this.maxBet)
+            case BetType.Red: return new RedBet(this.minBet, this.maxBet)
+            case BetType.Black: return new BlackBet(this.minBet, this.maxBet)
+            case BetType.Low: return new LowBet(this.minBet, this.maxBet)
+            case BetType.High: return new HighBet(this.minBet, this.maxBet)
+            case BetType.Even: return new EvenBet(this.minBet, this.maxBet)
+            case BetType.Odd: return new OddBet(this.minBet, this.maxBet)
 
             // Внутренние ставки.
-            case BetType.Straight: return new StraightBet(5, 100, [parseInt(payload.trim())])
-            case BetType.Split: return new SplitBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
-            case BetType.Street: return new StreetBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
-            case BetType.Corner: return new CornerBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
-            case BetType.Line: return new LineBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
+            case BetType.Straight: return new StraightBet(this.minBet, this.maxBet, [parseInt(payload.trim())])
+            case BetType.Split: return new SplitBet(this.minBet, this.maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }))
+            case BetType.Street: return new StreetBet(this.minBet, this.maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }))
+            case BetType.Corner: return new CornerBet(this.minBet, this.maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }))
+            case BetType.Line: return new LineBet(this.minBet, this.maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }))
 
             default:
                 throw new Error('Invalid BetType')
