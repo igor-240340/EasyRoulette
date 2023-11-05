@@ -5,7 +5,7 @@
   /* Add your custom configuration here. */
   "compilerOptions": {
     "strict": true,
-    "target": "ES2016",
-    "module": "ES2016"
+    "target": "ES2015",
+    "module": "ES2015"
   }
 }

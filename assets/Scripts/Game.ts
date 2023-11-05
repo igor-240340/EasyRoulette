@@ -9,6 +9,11 @@ import { extractNumbersFromString } from './Helper';
 import SinglePlayChallenge1 from './Challenges/SinglePlayChallenge1';
 import SinglePlayChallenge2 from './Challenges/SinglePlayChallenge2';
 import MultiPlayChallenge1 from './Challenges/MultiPlayChallenge1';
+import MultiPlayChallenge2 from './Challenges/MultiPlayChallenge2';
+import MultiPlayChallenge3 from './Challenges/MultiPlayChallenge3';
+import MultiPlayChallenge4 from './Challenges/MultiPlayChallenge4';
+import MultiPlayChallenge5 from './Challenges/MultiPlayChallenge5';
+import MultiPlayChallenge6 from './Challenges/MultiPlayChallenge6';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -62,6 +67,11 @@ export class Game extends Component {
     private singlePlayChallenge1: SinglePlayChallenge1 | null = null!;
     private singlePlayChallenge2: SinglePlayChallenge2 | null = null!;
     private multiPlayChallenge1: MultiPlayChallenge1 | null = null!;
+    private multiPlayChallenge2: MultiPlayChallenge2 | null = null!;
+    private multiPlayChallenge3: MultiPlayChallenge3 | null = null!;
+    private multiPlayChallenge4: MultiPlayChallenge4 | null = null!;
+    private multiPlayChallenge5: MultiPlayChallenge5 | null = null!;
+    private multiPlayChallenge6: MultiPlayChallenge6 | null = null!;
     // End Challenge
 
     start() {
@@ -259,6 +269,8 @@ export class Game extends Component {
     onSpinButtonClick(event: Event) {
         log('onSpinButtonClick');
 
+        const totalBet = this.betTable.totalBet;
+
         // [0, 36]
         const winNumber = Math.floor(Math.random() * 37);
         const winPayout = this.betTable.getTotalPayout(winNumber);
@@ -302,17 +314,114 @@ export class Game extends Component {
             // }
 
             // MultiPlayChallenge1
-            if (this.multiPlayChallenge1) {
-                const playsLeft = this.multiPlayChallenge1.increaseTotalWinPayout(winPayout);
+            // if (this.multiPlayChallenge1) {
+            //     const playsLeft = this.multiPlayChallenge1.increaseTotalWinPayout(winPayout);
+            //     log('plays lef: ' + playsLeft);
+
+            //     if (playsLeft === 0) {
+            //         const isPassed = this.multiPlayChallenge1.isPassed();
+            //         log('challenge status');
+            //         log('expected payout: ' + this.multiPlayChallenge1.expectedTotalWinPayout);
+            //         log('total win payout: ' + this.multiPlayChallenge1.actualTotalWinPayout);
+
+            //         this.multiPlayChallenge1 = null;
+
+            //         this.challengeButton.interactable = true;
+            //         this.challengePassedLabel.string = isPassed ? '1' : '0';
+            //     }
+            // }
+
+            // MultiPlayChallenge2
+            // if (this.multiPlayChallenge2) {
+            //     const playsLeft = this.multiPlayChallenge2.playsLeft();
+            //     log('plays lef: ' + playsLeft);
+
+            //     if (playsLeft === 0) {
+            //         const isPassed = this.multiPlayChallenge2.isPassed(this.betTable.balance);
+            //         log('challenge status');
+            //         log('initial balance: ' + this.multiPlayChallenge2.inititalBalance);
+            //         log('new balance: ' + this.betTable.balance);
+
+            //         this.multiPlayChallenge2 = null;
+
+            //         this.challengeButton.interactable = true;
+            //         this.challengePassedLabel.string = isPassed ? '1' : '0';
+            //     }
+            // }
+
+            // MultiPlayChallenge3
+            // if (this.multiPlayChallenge3) {
+            //     const playsLeft = this.multiPlayChallenge3.playsLeft();
+            //     log('plays lef: ' + playsLeft);
+
+            //     if (playsLeft === 0) {
+            //         const isPassed = this.multiPlayChallenge3.isPassed(this.betTable.balance);
+            //         log('challenge status');
+            //         log('initial balance: ' + this.multiPlayChallenge3.inititalBalance);
+            //         log('new balance: ' + this.betTable.balance);
+
+            //         this.multiPlayChallenge3 = null;
+
+            //         this.challengeButton.interactable = true;
+            //         this.challengePassedLabel.string = isPassed ? '1' : '0';
+            //     }
+            // }
+
+            // MultiPlayChallenge4
+            // if (this.multiPlayChallenge4) {
+            //     const playsLeft = this.multiPlayChallenge4.playsLeft(totalBet, winPayout);
+            //     log('plays lef: ' + playsLeft);
+
+            //     if (playsLeft === 0) {
+            //         const isPassed = this.multiPlayChallenge4.isPassed(this.betTable.balance);
+            //         log('challenge status');
+            //         log('initial balance: ' + this.multiPlayChallenge4.inititalBalance);
+            //         log('new balance: ' + this.betTable.balance);
+
+            //         this.multiPlayChallenge4 = null;
+
+            //         this.challengeButton.interactable = true;
+            //         this.challengePassedLabel.string = isPassed ? '1' : '0';
+            //     }
+            // }
+
+            // MultiPlayChallenge5
+            // if (this.multiPlayChallenge5) {
+            //     const playsLeft = this.multiPlayChallenge5.playsLeft();
+            //     log('plays lef: ' + playsLeft);
+
+            //     this.reactivateAllBetButtonsAfterChallenge();
+
+            //     if (playsLeft === 0) {
+            //         const isPassed = this.multiPlayChallenge5.isPassed(this.betTable.balance);
+            //         log('challenge status');
+            //         log('initial balance: ' + this.multiPlayChallenge5.inititalBalance);
+            //         log('new balance: ' + this.betTable.balance);
+
+            //         this.multiPlayChallenge5 = null;
+
+            //         this.challengeButton.interactable = true;
+            //         this.challengePassedLabel.string = isPassed ? '1' : '0';
+            //     } else {
+            //         const allowedBetTypes = this.multiPlayChallenge5.allowedBetTypesStack.pop();
+            //         assert(allowedBetTypes);
+            //         this.deactivateBetButtonsForChallenge_2(allowedBetTypes);
+            //     }
+            // }
+
+            // MultiPlayChallenge6
+            if (this.multiPlayChallenge6) {
+                const playsLeft = this.multiPlayChallenge6.playsLeft(totalBet);
                 log('plays lef: ' + playsLeft);
 
                 if (playsLeft === 0) {
-                    const isPassed = this.multiPlayChallenge1.isPassed();
+                    const isPassed = this.multiPlayChallenge6.isPassed(this.betTable.balance);
                     log('challenge status');
-                    log('expected payout: ' + this.multiPlayChallenge1.expectedTotalWinPayout);
-                    log('total win payout: ' + this.multiPlayChallenge1.actualTotalWinPayout);
+                    log('initial balance: ' + this.multiPlayChallenge6.inititalBalance);
+                    log('new balance: ' + this.betTable.balance);
+                    log('totalBet: ' + this.multiPlayChallenge6.actualTotalBetSum);
 
-                    this.multiPlayChallenge1 = null;
+                    this.multiPlayChallenge6 = null;
 
                     this.challengeButton.interactable = true;
                     this.challengePassedLabel.string = isPassed ? '1' : '0';
@@ -398,7 +507,35 @@ export class Game extends Component {
 
         // MultiPlayChallenge1
         {
-            this.multiPlayChallenge1 = new MultiPlayChallenge1(5, 2000);
+            // this.multiPlayChallenge1 = new MultiPlayChallenge1(5, 2000);
+        }
+
+        // MultiPlayChallenge2
+        {
+            // this.multiPlayChallenge2 = new MultiPlayChallenge2(5, this.betTable.balance);
+        }
+
+        // MultiPlayChallenge3
+        {
+            // this.multiPlayChallenge3 = new MultiPlayChallenge3(5, this.betTable.balance, 500);
+        }
+
+        // MultiPlayChallenge4
+        {
+            // this.multiPlayChallenge4 = new MultiPlayChallenge4(5, this.betTable.balance, 100);
+        }
+
+        // MultiPlayChallenge5
+        {
+            // this.multiPlayChallenge5 = new MultiPlayChallenge5(this.betTable.balance, 100);
+            // const allowedBetTypes = this.multiPlayChallenge5.allowedBetTypesStack.pop();
+            // assert(allowedBetTypes);
+            // this.deactivateBetButtonsForChallenge_2(allowedBetTypes);
+        }
+
+        // MultiPlayChallenge6
+        {
+            this.multiPlayChallenge6 = new MultiPlayChallenge6(5, this.betTable.balance, 100, 400);
         }
     }
 
@@ -408,6 +545,15 @@ export class Game extends Component {
         const allowedBetTypes = this.singlePlayChallenge1.allowedBetTypes;
         this.betButtonsByTypes.forEach((buttons, betType) => {
             if (!allowedBetTypes.find(allowedType => allowedType === betType)) {
+                buttons.forEach(button => button.interactable = false);
+            }
+        });
+    }
+
+    // Деактивирует некоторые кнопки ставок в UI на время челленджа.
+    private deactivateBetButtonsForChallenge_2(allowedBetTypes: BetType[]) {
+        this.betButtonsByTypes.forEach((buttons, betType) => {
+            if (!allowedBetTypes.includes(betType)) {
                 buttons.forEach(button => button.interactable = false);
             }
         });

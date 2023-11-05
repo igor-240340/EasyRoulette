@@ -2,7 +2,7 @@ import { log } from 'cc';
 import assert from '../Helper';
 import BetType from '../Bets/BetType';
 
-// Выиграй не меньше 2000.
+// Выиграй не меньше M за N игр.
 export default class MultiPlayChallenge1 {
     public expectedTotalWinPayout: number = 0;
     public actualTotalWinPayout: number = 0;
