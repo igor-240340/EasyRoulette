@@ -1,4 +1,4 @@
-import { _decorator, assert, Component, debug, instantiate, Label, log, Node, Prefab, Sprite, Toggle, UITransform } from 'cc';
+import { _decorator, assert, Button, Component, debug, instantiate, Label, log, Node, Prefab, ScrollView, Sprite, Toggle, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
@@ -6,9 +6,15 @@ import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
 import { extractNumbersFromString } from './Helper';
+import Quest from './Quests/Quest';
+import FirstBetQuest from './Quests/FirstBetQuest';
 
 @ccclass('Game')
 export class Game extends Component {
+    // 
+    // Базовая игра - рулетка.
+    // 
+
     @property(Label)
     private balanceLabel: Label = null!;
 
@@ -27,15 +33,70 @@ export class Game extends Component {
     private betTable: BetTable = new BetTable();
     private betSpriteNodes: Map<Bet, Node> = new Map();
 
+    //
+    // Квесты.
+    //
+
+    @property(Prefab)
+    private questCardPrefab: Prefab = null!;
+
+    @property(ScrollView)
+    private questScrollView: ScrollView = null!;
+
+    private activeQuest: Quest = null!;
+    private questNames: string[] = [
+        'Первый',
+        'Второй',
+        'Третий',
+        'Четвертый',
+        'Пятый'
+    ];
+
     start() {
+        //
+        // Базовая игра.
+        // 
+
         this.betTable.balance = 1000;
         this.betTable.setChipValue(1);
-
         this.showNewBalanceValue();
+
+        // 
+        // Квесты.
+        //
+        this.instantiateQuestCards();
     }
 
     update(deltaTime: number) {
     }
+
+    // 
+    // Квесты.
+    // 
+
+    instantiateQuestCards() {
+        for (let name of this.questNames) {
+            const card = instantiate(this.questCardPrefab);
+
+            const nameLabel = card.getChildByName('Name')?.getComponent(Label);
+            assert(nameLabel);
+            nameLabel.string = name;
+
+            const acceptButton = card.getChildByName('Accept Button')?.getComponent(Button);
+            assert(acceptButton);
+            acceptButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                log('card clicked');
+            });
+
+            this.questScrollView.content?.addChild(card);
+        }
+    }
+
+    // End Квесты.
+
+    // 
+    // Базовая игра.
+    // 
 
     //
     // Универсальный обработчик для любой кнопки ставки.
@@ -276,4 +337,6 @@ export class Game extends Component {
 
         return betSpriteNode;
     }
+
+    // End Базовая игра.
 }

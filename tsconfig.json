@@ -4,6 +4,8 @@
 
   /* Add your custom configuration here. */
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "target": "ES2017",
+    "module": "ES2017"
   }
 }
