@@ -8,6 +8,7 @@ import BetTable from './Bets/BetTable';
 import { extractNumbersFromString } from './Helper';
 import Quest from './Quests/Quest';
 import FirstBetQuest from './Quests/FirstBetQuest';
+import QuestPlayContext from './Quests/QuestPlayContext';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -43,14 +44,28 @@ export class Game extends Component {
     @property(ScrollView)
     private questScrollView: ScrollView = null!;
 
-    private activeQuest: Quest = null!;
-    private questNames: string[] = [
-        'Первый',
-        'Второй',
-        'Третий',
-        'Четвертый',
-        'Пятый'
-    ];
+    @property(Node)
+    private activeQuestCard: Node = null!;
+
+    @property(Label)
+    private playsFinishedLabel: Label = null!;
+
+    @property(Label)
+    private playsTotalLabel: Label = null!;
+
+    @property(Label)
+    private passedLabel: Label = null!;
+
+    @property(Button)
+    private closeButton: Button = null!;
+
+    @property(Button)
+    private cancelButton: Button = null!;
+
+    private questConstructors: (new () => Quest)[] = [FirstBetQuest];
+    private quests: Quest[] = [];
+    private activeQuest: Quest | null = null;
+    private questPlayContext = new QuestPlayContext();
 
     start() {
         //
@@ -75,21 +90,95 @@ export class Game extends Component {
     // 
 
     instantiateQuestCards() {
-        for (let name of this.questNames) {
-            const card = instantiate(this.questCardPrefab);
+        for (let questConstructor of this.questConstructors) {
+            const questCard = instantiate(this.questCardPrefab);
 
-            const nameLabel = card.getChildByName('Name')?.getComponent(Label);
+            const quest = new questConstructor();
+            this.quests.push(quest);
+
+            const nameLabel = questCard.getChildByName('Name')?.getComponent(Label);
             assert(nameLabel);
-            nameLabel.string = name;
+            nameLabel.string = quest.questName;
 
-            const acceptButton = card.getChildByName('Accept Button')?.getComponent(Button);
+            const acceptButton = questCard.getChildByName('Accept Button')?.getComponent(Button);
             assert(acceptButton);
             acceptButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                log('card clicked');
+                log('quest accepted: ' + quest.questName);
+
+                this.activeQuest = quest;
+                this.activeQuest.reset();
+
+                const nameLabel = this.activeQuestCard.getChildByName('Name')?.getComponent(Label);
+                assert(nameLabel);
+                nameLabel.string = this.activeQuest.questName;
+
+                let label = this.playsTotalLabel.getComponent(Label);
+                assert(label);
+                label.string = this.activeQuest.numberOfPlays.toString();
+
+                label = this.playsFinishedLabel.getComponent(Label);
+                assert(label);
+                label.string = '0';
+
+                label = this.passedLabel.getComponent(Label);
+                assert(label);
+                label.string = '';
+
+                this.cancelButton.node.active = true;
+
+                this.questPlayContext.balanceBeforeQuest = this.betTable.balance;
             });
 
-            this.questScrollView.content?.addChild(card);
+            this.questScrollView.content?.addChild(questCard);
         }
+    }
+
+    // Прерывает текущий квест без учета прогресса.
+    onCancelActiveQuest(event: Event, customEventData: string) {
+        log('onCancelActiveQuest: ' + this.activeQuest?.questName);
+
+        let label = this.activeQuestCard.getChildByName('Name')?.getComponent(Label);
+        assert(label);
+        label.string = 'Нет активного квеста';
+
+        label = this.playsTotalLabel.getComponent(Label);
+        assert(label);
+        label.string = '0';
+
+        label = this.playsFinishedLabel.getComponent(Label);
+        assert(label);
+        label.string = '0';
+
+        label = this.passedLabel.getComponent(Label);
+        assert(label);
+        label.string = '';
+
+        this.cancelButton.node.active = false;
+
+        this.activeQuest = null;
+    }
+
+    // Очищает детали текущего квеста
+    onCloseButtonClick(event: Event, customEventData: string) {
+        log('onCloseButtonClick');
+
+        let label = this.activeQuestCard.getChildByName('Name')?.getComponent(Label);
+        assert(label);
+        label.string = 'Нет активного квеста';
+
+        label = this.playsTotalLabel.getComponent(Label);
+        assert(label);
+        label.string = '0';
+
+        label = this.playsFinishedLabel.getComponent(Label);
+        assert(label);
+        label.string = '0';
+
+        label = this.passedLabel.getComponent(Label);
+        assert(label);
+        label.string = '';
+
+        this.closeButton.node.active = false;
     }
 
     // End Квесты.
@@ -275,6 +364,12 @@ export class Game extends Component {
     onSpinButtonClick(event: Event) {
         log('onSpinButtonClick');
 
+        //
+        // Квест. 
+        // 
+        this.questPlayContext.totalBet = this.betTable.totalBet;
+        // End Квест.
+
         // [0, 36]
         const winNumber = Math.floor(Math.random() * 37);
         const winPayout = this.betTable.getTotalPayout(winNumber);
@@ -288,6 +383,31 @@ export class Game extends Component {
 
         // Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
         // как информацию о предедущей ставке и текущем выигрыше.
+
+        // 
+        // Квест
+        // 
+        if (this.activeQuest) {
+            this.questPlayContext.totalPayout = winPayout;
+            const playsLeft = this.activeQuest.handlePlay(this.questPlayContext);
+
+            const label = this.playsFinishedLabel.getComponent(Label);
+            assert(label);
+            label.string = (this.activeQuest.numberOfPlays - playsLeft).toString();
+
+            if (this.activeQuest.isPassed) {
+                log('quest passed');
+
+                const label = this.passedLabel.getComponent(Label);
+                assert(label);
+                label.string = 'Пройден';
+
+                this.activeQuest = null;
+
+                this.cancelButton.node.active = false;
+                this.closeButton.node.active = true;
+            }
+        }
     }
 
     //
