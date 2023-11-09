@@ -8,4 +8,5 @@ export default class QuestPlayContext {
     public balanceBeforeQuest: number = 0;
     public totalBet: number = 0;
     public totalPayout: number = 0;
+    public newBalance: number = 0;
 }

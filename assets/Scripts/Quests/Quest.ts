@@ -19,11 +19,19 @@ export default abstract class Quest {
         log('handlePlay');
 
         log('playContext.balanceBeforeQuest ' + playContext.balanceBeforeQuest);
+        log('playContext.newBalance ' + playContext.newBalance);
         log('playContext.totalBet ' + playContext.totalBet);
         log('playContext.totalPayout ' + playContext.totalPayout);
 
         if (--this.playsLeft === 0) {
-            this.isPassed = true;
+            let allConditionsMet = this.payoutConditionMetForOnePlay(playContext);
+            allConditionsMet &&= this.balanceConditionMetForOnePlay(playContext);
+            allConditionsMet &&= this.balanceConditionMetForWholeQuest(playContext);
+            allConditionsMet &&= this.payoutConditionMetForWholeQuest(playContext);
+
+            if (allConditionsMet) {
+                this.isPassed = true;
+            }
         }
 
         return this.playsLeft;
@@ -33,4 +41,12 @@ export default abstract class Quest {
         this.playsLeft = this.numberOfPlays;
         this.isPassed = false;
     }
+
+    protected abstract payoutConditionMetForOnePlay(playContext: QuestPlayContext): boolean;
+
+    protected abstract balanceConditionMetForOnePlay(playContext: QuestPlayContext): boolean;
+
+    protected abstract balanceConditionMetForWholeQuest(playContext: QuestPlayContext): boolean;
+
+    protected abstract payoutConditionMetForWholeQuest(playContext: QuestPlayContext): boolean;
 }

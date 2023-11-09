@@ -9,6 +9,11 @@ import { extractNumbersFromString } from './Helper';
 import Quest from './Quests/Quest';
 import FirstBetQuest from './Quests/FirstBetQuest';
 import QuestPlayContext from './Quests/QuestPlayContext';
+import Bet2Quest from './Quests/Bet2Quest';
+import Bet3Quest from './Quests/Bet3Quest';
+import Bet4Quest from './Quests/Bet4Quest';
+import Bet5Quest from './Quests/Bet5Quest';
+import Bet6Quest from './Quests/Bet6Quest';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -62,7 +67,10 @@ export class Game extends Component {
     @property(Button)
     private cancelButton: Button = null!;
 
-    private questConstructors: (new () => Quest)[] = [FirstBetQuest];
+    private questConstructors: (new () => Quest)[] = [
+        FirstBetQuest, Bet2Quest, Bet3Quest,
+        Bet4Quest, Bet5Quest, Bet6Quest
+    ];
     private quests: Quest[] = [];
     private activeQuest: Quest | null = null;
     private questPlayContext = new QuestPlayContext();
@@ -124,6 +132,7 @@ export class Game extends Component {
                 assert(label);
                 label.string = '';
 
+                this.closeButton.node.active = false;
                 this.cancelButton.node.active = true;
 
                 this.questPlayContext.balanceBeforeQuest = this.betTable.balance;
@@ -389,18 +398,30 @@ export class Game extends Component {
         // 
         if (this.activeQuest) {
             this.questPlayContext.totalPayout = winPayout;
+            this.questPlayContext.newBalance = this.betTable.balance;
             const playsLeft = this.activeQuest.handlePlay(this.questPlayContext);
 
             const label = this.playsFinishedLabel.getComponent(Label);
             assert(label);
             label.string = (this.activeQuest.numberOfPlays - playsLeft).toString();
 
-            if (this.activeQuest.isPassed) {
+            if (playsLeft === 0 && this.activeQuest.isPassed) {
                 log('quest passed');
 
                 const label = this.passedLabel.getComponent(Label);
                 assert(label);
                 label.string = 'Пройден';
+
+                this.activeQuest = null;
+
+                this.cancelButton.node.active = false;
+                this.closeButton.node.active = true;
+            } else if (playsLeft === 0 && !this.activeQuest.isPassed) {
+                log('quest is not passed');
+
+                const label = this.passedLabel.getComponent(Label);
+                assert(label);
+                label.string = 'Не пройден';
 
                 this.activeQuest = null;
 
