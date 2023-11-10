@@ -3,50 +3,49 @@ import QuestPlayContext from "./QuestPlayContext";
 
 export default abstract class Quest {
     public questName: string = '';
-    public isPassed: boolean = false;
-
     public numberOfPlays: number = 0;
+    public isPassed: boolean = false;
 
     private playsLeft: number = 0;
 
-    constructor(numberOfPlays: number, questName: string) {
-        this.numberOfPlays = numberOfPlays;
-        this.playsLeft = numberOfPlays;
+    protected totalPayout: number = 0;
+    protected inititalBalance: number = 0;
+    protected newBalance: number = 0;
+
+    constructor(questName: string, numberOfPlays: number, inititalBalance: number) {
         this.questName = questName;
+        this.numberOfPlays = numberOfPlays;
+        this.inititalBalance = inititalBalance;
+
+        this.playsLeft = numberOfPlays;
     }
 
-    public handlePlay(playContext: QuestPlayContext): number {
-        log('handlePlay');
+    public handleLastPlay(lastPlayContext: QuestPlayContext): number {
+        log('handleLastPlay');
 
-        log('playContext.balanceBeforeQuest ' + playContext.balanceBeforeQuest);
-        log('playContext.newBalance ' + playContext.newBalance);
-        log('playContext.totalBet ' + playContext.totalBet);
-        log('playContext.totalPayout ' + playContext.totalPayout);
+        log('inititalBalance ' + this.inititalBalance);
+        log('playContext.newBalance ' + lastPlayContext.balanceAfterPlay);
+        log('playContext.totalBet ' + lastPlayContext.totalBetBeforePlay);
+        log('playContext.totalPayout ' + lastPlayContext.totalPayoutAfterPlay);
 
-        if (--this.playsLeft === 0) {
-            let allConditionsMet = this.payoutConditionMetForOnePlay(playContext);
-            allConditionsMet &&= this.balanceConditionMetForOnePlay(playContext);
-            allConditionsMet &&= this.balanceConditionMetForWholeQuest(playContext);
-            allConditionsMet &&= this.payoutConditionMetForWholeQuest(playContext);
+        this.totalPayout += lastPlayContext.totalPayoutAfterPlay;
+        this.newBalance = lastPlayContext.balanceAfterPlay;
 
-            if (allConditionsMet) {
-                this.isPassed = true;
-            }
+        if (!this.checkConditionAfterLastPlay()) {
+            this.playsLeft = 0;
+        }
+        else if (--this.playsLeft === 0) {
+            this.isPassed = this.checkConditionAfterAllPlays();
         }
 
         return this.playsLeft;
     }
 
-    public reset() {
-        this.playsLeft = this.numberOfPlays;
-        this.isPassed = false;
-    }
+    // Для одиночной игры условия наложенные на одну игру
+    // будут эквивалентны условиям наложенным на весь квест
+    // поэтому для единообразия в одиночных играх
+    // в этом методе не выполняем никаких проверок.
+    protected abstract checkConditionAfterLastPlay(): boolean;
 
-    protected abstract payoutConditionMetForOnePlay(playContext: QuestPlayContext): boolean;
-
-    protected abstract balanceConditionMetForOnePlay(playContext: QuestPlayContext): boolean;
-
-    protected abstract balanceConditionMetForWholeQuest(playContext: QuestPlayContext): boolean;
-
-    protected abstract payoutConditionMetForWholeQuest(playContext: QuestPlayContext): boolean;
+    protected abstract checkConditionAfterAllPlays(): boolean;
 }

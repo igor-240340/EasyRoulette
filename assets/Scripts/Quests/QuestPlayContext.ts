@@ -5,8 +5,8 @@ import { log } from "cc";
  * Используется Quest для проверки выполнения квеста.
  */
 export default class QuestPlayContext {
-    public balanceBeforeQuest: number = 0;
-    public totalBet: number = 0;
-    public totalPayout: number = 0;
-    public newBalance: number = 0;
+    public balanceBeforePlay: number = 0;
+    public totalBetBeforePlay: number = 0;
+    public totalPayoutAfterPlay: number = 0;
+    public balanceAfterPlay: number = 0;
 }

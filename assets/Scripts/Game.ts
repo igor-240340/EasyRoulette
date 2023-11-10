@@ -5,15 +5,16 @@ import Bet from './Bets/Bet';
 import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
-import { extractNumbersFromString } from './Helper';
-import Quest from './Quests/Quest';
-import FirstBetQuest from './Quests/FirstBetQuest';
 import QuestPlayContext from './Quests/QuestPlayContext';
-import Bet2Quest from './Quests/Bet2Quest';
-import Bet3Quest from './Quests/Bet3Quest';
-import Bet4Quest from './Quests/Bet4Quest';
-import Bet5Quest from './Quests/Bet5Quest';
-import Bet6Quest from './Quests/Bet6Quest';
+import Quest from './Quests/Quest';
+import Quest1 from './Quests/Quest1';
+import Quest2 from './Quests/Quest2';
+import Quest3 from './Quests/Quest3';
+import Quest4 from './Quests/Quest4';
+import Quest5 from './Quests/Quest5';
+import Quest6 from './Quests/Quest6';
+import Quest7 from './Quests/Quest7';
+import Quest8 from './Quests/Quest8';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -67,11 +68,16 @@ export class Game extends Component {
     @property(Button)
     private cancelButton: Button = null!;
 
-    private questConstructors: (new () => Quest)[] = [
-        FirstBetQuest, Bet2Quest, Bet3Quest,
-        Bet4Quest, Bet5Quest, Bet6Quest
+    private questTuples: [(new (questName: string, inititalBalance: number) => Quest), string][] = [
+        [Quest1, 'Первая ставка'],
+        [Quest2, 'Выиграй 100'],
+        [Quest3, '+100 к балансу'],
+        [Quest4, 'Сыграй 3 игры'],
+        [Quest5, 'Не уйди в минус'],
+        [Quest6, 'Выиграй 300'],
+        [Quest7, 'Не уйди в минус'],
+        [Quest8, '+100 к балансу']
     ];
-    private quests: Quest[] = [];
     private activeQuest: Quest | null = null;
     private questPlayContext = new QuestPlayContext();
 
@@ -98,23 +104,24 @@ export class Game extends Component {
     // 
 
     instantiateQuestCards() {
-        for (let questConstructor of this.questConstructors) {
-            const questCard = instantiate(this.questCardPrefab);
+        for (let questTuple of this.questTuples) {
+            const questConstructor = questTuple[0];
+            const questName = questTuple[1];
 
-            const quest = new questConstructor();
-            this.quests.push(quest);
+            const questCard = instantiate(this.questCardPrefab);
 
             const nameLabel = questCard.getChildByName('Name')?.getComponent(Label);
             assert(nameLabel);
-            nameLabel.string = quest.questName;
+            nameLabel.string = questName;
 
             const acceptButton = questCard.getChildByName('Accept Button')?.getComponent(Button);
             assert(acceptButton);
             acceptButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                log('quest accepted: ' + quest.questName);
+                const quest = new questConstructor(questName, this.betTable.balance);
+
+                log('quest accepted: ' + questName);
 
                 this.activeQuest = quest;
-                this.activeQuest.reset();
 
                 const nameLabel = this.activeQuestCard.getChildByName('Name')?.getComponent(Label);
                 assert(nameLabel);
@@ -134,8 +141,6 @@ export class Game extends Component {
 
                 this.closeButton.node.active = false;
                 this.cancelButton.node.active = true;
-
-                this.questPlayContext.balanceBeforeQuest = this.betTable.balance;
             });
 
             this.questScrollView.content?.addChild(questCard);
@@ -376,7 +381,7 @@ export class Game extends Component {
         //
         // Квест. 
         // 
-        this.questPlayContext.totalBet = this.betTable.totalBet;
+        this.questPlayContext.totalBetBeforePlay = this.betTable.totalBet;
         // End Квест.
 
         // [0, 36]
@@ -397,9 +402,9 @@ export class Game extends Component {
         // Квест
         // 
         if (this.activeQuest) {
-            this.questPlayContext.totalPayout = winPayout;
-            this.questPlayContext.newBalance = this.betTable.balance;
-            const playsLeft = this.activeQuest.handlePlay(this.questPlayContext);
+            this.questPlayContext.totalPayoutAfterPlay = winPayout;
+            this.questPlayContext.balanceAfterPlay = this.betTable.balance;
+            const playsLeft = this.activeQuest.handleLastPlay(this.questPlayContext);
 
             const label = this.playsFinishedLabel.getComponent(Label);
             assert(label);
