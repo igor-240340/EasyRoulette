@@ -15,6 +15,7 @@ import Quest5 from './Quests/Quest5';
 import Quest6 from './Quests/Quest6';
 import Quest7 from './Quests/Quest7';
 import Quest8 from './Quests/Quest8';
+import Quest9 from './Quests/Quest9';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -76,7 +77,8 @@ export class Game extends Component {
         [Quest5, 'Не уйди в минус'],
         [Quest6, 'Выиграй 300'],
         [Quest7, 'Не уйди в минус'],
-        [Quest8, '+100 к балансу']
+        [Quest8, '+100 к балансу'],
+        [Quest9, 'Выиграй 300']
     ];
     private activeQuest: Quest | null = null;
     private questPlayContext = new QuestPlayContext();

@@ -1,17 +1,17 @@
 import Quest from './Quest';
 
-// Увеличить баланс не меньше чем на M за N игр.
-// Для каждой игры в серии: баланс не должен уменьшаться больше, чем на заданный лимит.
+// Для всех игр: суммарный выигрыш не меньше 200.
+// Для каждой игры: баланс не должен уменьшаться больше, чем на заданный лимит.
 export default class Quest9 extends Quest {
     constructor(questName: string, inititalBalance: number) {
         super(questName, 3, inititalBalance);
     }
 
     protected checkConditionAfterLastPlay(): boolean {
-        return true;
+        return (this.totalBetBeforePlay - this.totalPayoutAfterPlay) <= 50;
     }
 
     protected checkConditionAfterAllPlays(): boolean {
-        return this.newBalance >= this.inititalBalance + 200;
+        return this.totalPayout >= 200;
     }
 }

@@ -12,6 +12,9 @@ export default abstract class Quest {
     protected inititalBalance: number = 0;
     protected newBalance: number = 0;
 
+    protected totalBetBeforePlay: number = 0;
+    protected totalPayoutAfterPlay: number = 0;
+
     constructor(questName: string, numberOfPlays: number, inititalBalance: number) {
         this.questName = questName;
         this.numberOfPlays = numberOfPlays;
@@ -24,12 +27,14 @@ export default abstract class Quest {
         log('handleLastPlay');
 
         log('inititalBalance ' + this.inititalBalance);
-        log('playContext.newBalance ' + lastPlayContext.balanceAfterPlay);
-        log('playContext.totalBet ' + lastPlayContext.totalBetBeforePlay);
-        log('playContext.totalPayout ' + lastPlayContext.totalPayoutAfterPlay);
+        log('playContext.balanceAfterPlay ' + lastPlayContext.balanceAfterPlay);
+        log('playContext.totalBetBeforePlay ' + lastPlayContext.totalBetBeforePlay);
+        log('playContext.totalPayoutAfterPlay ' + lastPlayContext.totalPayoutAfterPlay);
 
         this.totalPayout += lastPlayContext.totalPayoutAfterPlay;
         this.newBalance = lastPlayContext.balanceAfterPlay;
+        this.totalBetBeforePlay = lastPlayContext.totalBetBeforePlay;
+        this.totalPayoutAfterPlay = lastPlayContext.totalPayoutAfterPlay;
 
         if (!this.checkConditionAfterLastPlay()) {
             this.playsLeft = 0;
