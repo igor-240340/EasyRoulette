@@ -122,6 +122,25 @@ export default class BetTable {
         return lastBets;
     }
 
+    /**
+     * Переключает стол на новые лимиты.
+     * 
+     * Важно, чтобы все ставки перед удалением были нулевыми,
+     * т.е. чтобы переключение на новый конфиг происходило при пустом столе.
+     * 
+     * @param betLimitConfig 
+     */
+    public setNewBetLimitConfig(betLimitConfig: BetLimitConfig) {
+        this.betLimitConfig = betLimitConfig;
+
+        this.bets.forEach(bet => assert(bet.sum === 0));
+
+        // Мы поменяли конфиг на новый, но если ранее уже делались ставки,
+        // то в памяти всё еще есть экземпляры ставок с прежними лимитами.
+        // Поэтому удаляем все ставки, чтобы они были созданы заново уже с новыми лимитами.
+        this.bets.clear();
+    }
+
     private formUniqueKey(betType: BetType, payload: string | undefined): string {
         // Поскольку внешние ставки в отличие от внутренних существуют только в одном экземпляре,
         // нет необходимости различать экземпляры между собой,

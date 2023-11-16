@@ -5,6 +5,7 @@ import { assertStrictEqual } from "../Helper";
 import BetTable from "../Bets/BetTable";
 import BetType from "../Bets/BetType";
 import TestBetLimitConfig from "../Bets/BetLimits/TestBetLimitConfig";
+import DefaultBetLimitConfig from "../Bets/BetLimits/DefaultBetLimitConfig";
 
 export default class BetTableTest {
     private testBetLimitConfig = new TestBetLimitConfig();
@@ -23,6 +24,7 @@ export default class BetTableTest {
         this.undoLastBet_nothingDoubled();
 
         this.createTableWithDefaultLimitConfig();
+        this.setNewBetLimitConfigOnTable();
     }
 
     private onBetButtonClick() {
@@ -191,6 +193,25 @@ export default class BetTableTest {
         const betTable = new BetTable(this.testBetLimitConfig);
 
         // TODO: проверить, что все ставки внутри стола получают правильные лимиты.
+        assert(false);
+    }
+
+    private setNewBetLimitConfigOnTable() {
+        log('setNewBetLimitConfigOnTable');
+
+        const betTable = new BetTable(this.testBetLimitConfig);
+        const inititalBalance = betTable.balance = 100; // Меньше минимальной ставки.
+        // betTable.setChipValue(5);
+        // betTable.onBetButtonClick(BetType.Red, undefined);
+
+        const defaultBetLimitConfig = new DefaultBetLimitConfig();
+        betTable.setNewBetLimitConfig(defaultBetLimitConfig);
+        betTable.setChipValue(5); // Меньше минимальной ставки.
+        betTable.onBetButtonClick(BetType.Red, undefined);
+        assertStrictEqual(betTable.balance, inititalBalance);
+
+        // TODO: проверить, что лимиты по всем ставкам обновились.
+        // TODO: проверить, что если при переключении на столе уже были ставки, то предварительно произошел их возврат.
         assert(false);
     }
 }
