@@ -21,17 +21,23 @@ import SplitBet from "./InsideBets/SplitBet"
 import StreetBet from "./InsideBets/StreetBet"
 import CornerBet from "./InsideBets/CornerBet"
 import LineBet from "./InsideBets/LineBet"
-import { log } from "cc"
+import BetLimitConfig from "./BetLimits/BetLimitConfig"
 
 export default class BetTable {
     private bets: Map<string, Bet> = new Map()
     private undoStack: Bet[][] = [] // Каждый элемент - массив ставок. Такой формат позволяет отменять удвоенные ставки за один раз.
+    private betLimitConfig: BetLimitConfig;
 
     private chipValue = 1
 
     // TODO: Запретить изменять публичные свойства снаружи (включая объекты, на которые они ссылаются).
     public balance = 0
     public totalBet = 0 // Сумма всех ставок. Сюда суммируется всё, что вычитается из баланса.
+
+    constructor(betLimitConfig: BetLimitConfig) {
+        assert(betLimitConfig !== undefined);
+        this.betLimitConfig = betLimitConfig;
+    }
 
     /**
      * 
@@ -124,30 +130,31 @@ export default class BetTable {
     }
 
     private instantiateBet(betType: BetType, payload: string | undefined): Bet {
+        const [minBet, maxBet] = this.betLimitConfig.getMinMaxBetTupleFor(betType);
         switch (betType) {
             // Внешние ставки.
-            case BetType.Column1st: return new Column1stBet(5, 100)
-            case BetType.Column2nd: return new Column2ndBet(5, 100)
-            case BetType.Column3rd: return new Column3rdBet(5, 100)
-            case BetType.Dozen1st: return new Dozen1stBet(5, 100)
-            case BetType.Dozen2nd: return new Dozen2ndBet(5, 100)
-            case BetType.Dozen3rd: return new Dozen3rdBet(5, 100)
-            case BetType.Red: return new RedBet(5, 100)
-            case BetType.Black: return new BlackBet(5, 100)
-            case BetType.Low: return new LowBet(5, 100)
-            case BetType.High: return new HighBet(5, 100)
-            case BetType.Even: return new EvenBet(5, 100)
-            case BetType.Odd: return new OddBet(5, 100)
+            case BetType.Column1st: return new Column1stBet(minBet, maxBet);
+            case BetType.Column2nd: return new Column2ndBet(minBet, maxBet);
+            case BetType.Column3rd: return new Column3rdBet(minBet, maxBet);
+            case BetType.Dozen1st: return new Dozen1stBet(minBet, maxBet);
+            case BetType.Dozen2nd: return new Dozen2ndBet(minBet, maxBet);
+            case BetType.Dozen3rd: return new Dozen3rdBet(minBet, maxBet);
+            case BetType.Red: return new RedBet(minBet, maxBet);
+            case BetType.Black: return new BlackBet(minBet, maxBet);
+            case BetType.Low: return new LowBet(minBet, maxBet);
+            case BetType.High: return new HighBet(minBet, maxBet);
+            case BetType.Even: return new EvenBet(minBet, maxBet);
+            case BetType.Odd: return new OddBet(minBet, maxBet);
 
             // Внутренние ставки.
-            case BetType.Straight: return new StraightBet(5, 100, [parseInt(payload.trim())])
-            case BetType.Split: return new SplitBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
-            case BetType.Street: return new StreetBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
-            case BetType.Corner: return new CornerBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
-            case BetType.Line: return new LineBet(5, 100, payload.split(',').map(item => { return parseInt(item.trim()) }))
+            case BetType.Straight: return new StraightBet(minBet, maxBet, [parseInt(payload.trim())]);
+            case BetType.Split: return new SplitBet(minBet, maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }));
+            case BetType.Street: return new StreetBet(minBet, maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }));
+            case BetType.Corner: return new CornerBet(minBet, maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }));
+            case BetType.Line: return new LineBet(minBet, maxBet, payload.split(',').map(item => { return parseInt(item.trim()) }));
 
             default:
-                throw new Error('Invalid BetType')
+                throw new Error('Invalid BetType');
         }
     }
 }

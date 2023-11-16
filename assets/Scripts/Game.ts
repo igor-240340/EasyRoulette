@@ -6,6 +6,7 @@ import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
 import { extractNumbersFromString } from './Helper';
+import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -24,11 +25,11 @@ export class Game extends Component {
     @property(Prefab)
     private betSpriteNodePrefab: Prefab = null!;
 
-    private betTable: BetTable = new BetTable();
+    private betTable: BetTable = new BetTable(new DefaultBetLimitConfig);
     private betSpriteNodes: Map<Bet, Node> = new Map();
 
     start() {
-        this.betTable.balance = 1000;
+        this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
 
         this.showNewBalanceValue();

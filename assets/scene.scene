@@ -11,7 +11,7 @@
   },
   {
     "__type__": "cc.Scene",
-    "_name": "Scene",
+    "_name": "scene",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -53113,7 +53113,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -41.64999999999999,
+      "x": -36.64999999999999,
       "y": 0,
       "z": 0
     },
@@ -53416,7 +53416,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 25.900000000000006,
+      "x": 35.900000000000006,
       "y": 0,
       "z": 0
     },
@@ -53719,7 +53719,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 91.25,
+      "x": 106.25,
       "y": 0,
       "z": 0
     },
@@ -54022,7 +54022,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 186.50625,
+      "x": 206.50625,
       "y": 0,
       "z": 0
     },
@@ -54365,7 +54365,7 @@
     "_paddingRight": 0,
     "_paddingTop": 0,
     "_paddingBottom": 0,
-    "_spacingX": 0,
+    "_spacingX": 5,
     "_spacingY": 0,
     "_verticalDirection": 1,
     "_horizontalDirection": 0,
