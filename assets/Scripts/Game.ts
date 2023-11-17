@@ -1,12 +1,13 @@
-import { _decorator, assert, Component, debug, instantiate, Label, log, Node, Prefab, Sprite, Toggle, UITransform } from 'cc';
+import { _decorator, assert, Component, debug, instantiate, Label, log, Node, Prefab, ProgressBar, Sprite, Toggle, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
 import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
-import { extractNumbersFromString } from './Helper';
 import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
+import DailyTask from './DailyTasks/DailyTask';
+import DailyTask1 from './DailyTasks/DailyTask1';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -25,14 +26,24 @@ export class Game extends Component {
     @property(Prefab)
     private betSpriteNodePrefab: Prefab = null!;
 
-    private betTable: BetTable = new BetTable(new DefaultBetLimitConfig);
+    @property(Prefab)
+    private dailyTaskNodePrefab: Prefab = null!;
+
+    @property(Node)
+    private scrollViewContent: Node = null!;
+
+    private betTable = new BetTable(new DefaultBetLimitConfig());
     private betSpriteNodes: Map<Bet, Node> = new Map();
+
+    private dailyTasks: DailyTask[] = [];
+    private taskToNode: Map<DailyTask, Node> = new Map();
 
     start() {
         this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
 
         this.showNewBalanceValue();
+        this.instantiateDailyTasks();
     }
 
     update(deltaTime: number) {
@@ -276,5 +287,70 @@ export class Game extends Component {
         }
 
         return betSpriteNode;
+    }
+
+    //
+    // Ежедневные задачи.
+    //
+
+    /**
+     * Если игрок заходит впервые, то генерируются новые задачи.
+     * Если игрок заходит повторно и при этом время жизни прежних задач
+     * еще не истекло, создаются определенные экземпляры задач и восстанавливается их состояние из конфига с сервера.
+     * Если же время жизни прежних задач уже истекло, то генерируются новые задачи.
+     */
+    private instantiateDailyTasks() {
+        this.dailyTasks.push(new DailyTask1());
+
+        this.dailyTasks.forEach(task => {
+            const dailyTaskNode = instantiate(this.dailyTaskNodePrefab);
+
+            this.taskToNode.set(task, dailyTaskNode);
+
+            // Название задачи.
+            const nameLabel = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Name Node')?.getComponent(Label);
+            assert(nameLabel);
+            nameLabel.string = task.getName();
+
+            // Полоса прогресса.
+            const progressBar = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressBar')?.getComponent(ProgressBar);
+            assert(progressBar);
+            progressBar.progress = 0;
+
+            // Числовой прогресс.
+            const progressNumberLabel = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
+            assert(progressNumberLabel);
+            progressNumberLabel.string = '0/' + task.getTargetNumberAsString();
+
+            // Вознаграждение.
+            const rewardSumLabel = dailyTaskNode.getChildByPath('Horizontal Layout2/RewardSum Label')?.getComponent(Label);
+            assert(rewardSumLabel);
+            rewardSumLabel.string = task.getRewardSumAsString();
+
+            dailyTaskNode.setParent(this.scrollViewContent);
+        });
+    }
+
+    /**
+     * Сыграли игру и в игре выполнилось условие задачи.
+     */
+    public handleAffectedTask() {
+        const dailyTask = this.dailyTasks[0];
+        const dailyTaskNode = this.taskToNode.get(dailyTask);
+        assert(dailyTaskNode);
+
+        dailyTask.increaseCountByOne();
+
+        // Обновить UI.
+
+        // Полоса прогресса.
+        const progressBar = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressBar')?.getComponent(ProgressBar);
+        assert(progressBar);
+        progressBar.progress = dailyTask.getCurrentCountScaled();
+
+        // Числовой прогресс.
+        const progressNumberLabel = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
+        assert(progressNumberLabel);
+        progressNumberLabel.string = dailyTask.getCurrentCount() + '/' + this.dailyTasks[0].getTargetNumberAsString();
     }
 }
