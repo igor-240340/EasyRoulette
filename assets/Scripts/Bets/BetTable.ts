@@ -22,17 +22,19 @@ import StreetBet from "./InsideBets/StreetBet"
 import CornerBet from "./InsideBets/CornerBet"
 import LineBet from "./InsideBets/LineBet"
 import BetLimitConfig from "./BetLimits/BetLimitConfig"
+import LastPlayContext from "../DailyTasks/LastPlayContext"
 
 export default class BetTable {
+    // TODO: Запретить изменять публичные свойства снаружи (включая объекты, на которые они ссылаются).
+    public balance = 0
+    public totalBet = 0 // Сумма всех ставок. Сюда суммируется всё, что вычитается из баланса.
+    public lastPlayContext: LastPlayContext = new LastPlayContext();
+
     private bets: Map<string, Bet> = new Map()
     private undoStack: Bet[][] = [] // Каждый элемент - массив ставок. Такой формат позволяет отменять удвоенные ставки за один раз.
     private betLimitConfig: BetLimitConfig;
 
     private chipValue = 1
-
-    // TODO: Запретить изменять публичные свойства снаружи (включая объекты, на которые они ссылаются).
-    public balance = 0
-    public totalBet = 0 // Сумма всех ставок. Сюда суммируется всё, что вычитается из баланса.
 
     constructor(betLimitConfig: BetLimitConfig) {
         assert(betLimitConfig !== undefined);
@@ -98,9 +100,14 @@ export default class BetTable {
     public getTotalPayout(winNumber: number): number {
         assert(winNumber >= 0 && winNumber <= 36)
 
+        this.lastPlayContext.clear();
+
         let totalPayout = 0
-        this.bets.forEach(bet => {
-            totalPayout += bet.getPayout(winNumber)
+        this.bets.forEach((bet, uniqueKey) => {
+            const betPayout = bet.getPayout(winNumber);
+            totalPayout += betPayout;
+
+            this.lastPlayContext.linkPayoutWithBet(uniqueKey, betPayout);
         })
 
         this.balance += totalPayout
@@ -145,7 +152,7 @@ export default class BetTable {
         // Поскольку внешние ставки в отличие от внутренних существуют только в одном экземпляре,
         // нет необходимости различать экземпляры между собой,
         // поэтому payload с уникальными номерами для внешних ставок не определён.
-        return betType + ':' + (payload || '_')
+        return betType + ':' + (payload || '_');
     }
 
     private instantiateBet(betType: BetType, payload: string | undefined): Bet {

@@ -1,4 +1,4 @@
-import { _decorator, assert, Component, debug, instantiate, Label, log, Node, Prefab, ProgressBar, Sprite, Toggle, UITransform } from 'cc';
+import { _decorator, assert, Button, Component, debug, instantiate, Label, log, Node, Prefab, ProgressBar, Sprite, Toggle, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
@@ -8,6 +8,7 @@ import BetTable from './Bets/BetTable';
 import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
 import DailyTask from './DailyTasks/DailyTask';
 import DailyTask1 from './DailyTasks/DailyTask1';
+import LastPlayContext from './DailyTasks/LastPlayContext';
 
 @ccclass('Game')
 export class Game extends Component {
@@ -239,6 +240,10 @@ export class Game extends Component {
 
         // Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
         // как информацию о предедущей ставке и текущем выигрыше.
+
+        // Игра сыграна, её состояние сохранено в betTable.lastPlayContext.
+        // Проходим по всем задачам и обновляем прогресс.
+        this.updateProgressOfDailyTasks(this.betTable.lastPlayContext);
     }
 
     //
@@ -332,25 +337,52 @@ export class Game extends Component {
     }
 
     /**
-     * Сыграли игру и в игре выполнилось условие задачи.
+     * Обновляет прогресс по задачам.
      */
-    public handleAffectedTask() {
-        const dailyTask = this.dailyTasks[0];
-        const dailyTaskNode = this.taskToNode.get(dailyTask);
-        assert(dailyTaskNode);
+    private updateProgressOfDailyTasks(lastPlayContext: LastPlayContext) {
+        for (let task of this.dailyTasks) {
+            if (!task.isCompleted) {
+                task.updateProgress(lastPlayContext);
 
-        dailyTask.increaseCountByOne();
+                // Обновление UI задачи.
+                const taskNode = this.taskToNode.get(task);
+                assert(taskNode);
 
-        // Обновить UI.
+                // Полоса прогресса.
+                const progressBar = taskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressBar')?.getComponent(ProgressBar);
+                assert(progressBar);
+                progressBar.progress = task.getCurrentNumberScaled();
 
-        // Полоса прогресса.
-        const progressBar = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressBar')?.getComponent(ProgressBar);
-        assert(progressBar);
-        progressBar.progress = dailyTask.getCurrentCountScaled();
+                // Числовой прогресс.
+                const progressNumberLabel = taskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
+                assert(progressNumberLabel);
+                progressNumberLabel.string = task.getCurrentNumberAsString() + '/' + task.getTargetNumberAsString();
 
-        // Числовой прогресс.
-        const progressNumberLabel = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
-        assert(progressNumberLabel);
-        progressNumberLabel.string = dailyTask.getCurrentCount() + '/' + this.dailyTasks[0].getTargetNumberAsString();
+                // Показать кнопку "Забрать".
+                if (task.isCompleted) {
+                    const takeRewardButtonNode = taskNode.getChildByPath('Horizontal Layout/TakeRewardButton');
+                    assert(takeRewardButtonNode);
+                    takeRewardButtonNode.active = true;
+
+                    const takeRewardButton = takeRewardButtonNode.getComponent(Button);
+                    assert(takeRewardButton);
+                    const rewardSum = task.getRewardSum();
+
+                    // После нажатия кнопки задача остается в массиве, нода UI тоже остается, но скрывается.
+                    // Предполагается, что новых задач генерироваться не будет в течение суток, поэтому после выхода из игры
+                    // незавершенные задачи, завершенные, но с невостребованным вознаграждением сериализуются на сервер, а
+                    // задачи с востребованным вознаграждением просто игнорируются.
+                    // При повторном входе, если время для новых заданий не пришло, десериализуются только не выполненные задачи
+                    // и задачи с невостребованным вознаграждением.
+                    // Так что в худшем случае полностью выполненная и востребованная задача будет в памяти только до завершения текущей игры.
+                    // TODO: добавить в задачу флаг, который показывает, что вознаграждение получено, чтобы не сериализовать эту задачу при выгрузке на сервер.
+                    takeRewardButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                        this.betTable.balance += rewardSum;
+                        this.showNewBalanceValue();
+                        taskNode.active = false;
+                    });
+                }
+            }
+        }
     }
 }
