@@ -1,13 +1,17 @@
-import { _decorator, assert, Button, Component, debug, instantiate, Label, log, Node, Prefab, ProgressBar, Sprite, Toggle, UITransform } from 'cc';
+import { _decorator, assert, Button, Canvas, Component, debug, find, instantiate, Label, log, Node, Prefab, ProgressBar, Sprite, Toggle, UI, UITransform } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
 import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
-import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
 import DailyTask from './DailyTasks/DailyTask';
 import DailyTask1 from './DailyTasks/DailyTask1';
+
+import Achievement from './Achievements/Achievement';
+import Achievement1 from './Achievements/Achievement1';
+
+import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
 import LastPlayContext from './DailyTasks/LastPlayContext';
 
 @ccclass('Game')
@@ -33,18 +37,35 @@ export class Game extends Component {
     @property(Node)
     private scrollViewContent: Node = null!;
 
+    @property(Prefab)
+    private achievementNodePrefab: Prefab = null!;
+
+    @property(Node)
+    private achievementsGrid: Node = null!;
+
+    @property(Prefab)
+    private achievementModalPrefab: Prefab = null!;
+
+    @property(Node)
+    private canvasNode: Node = null!;
+
     private betTable = new BetTable(new DefaultBetLimitConfig());
     private betSpriteNodes: Map<Bet, Node> = new Map();
 
     private dailyTasks: DailyTask[] = [];
     private taskToNode: Map<DailyTask, Node> = new Map();
 
+    private achievements: Achievement[] = [];
+    private achievementToNode: Map<Achievement, Node> = new Map();
+
     start() {
         this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
 
         this.showNewBalanceValue();
+
         this.instantiateDailyTasks();
+        this.instantiateAchievements();
     }
 
     update(deltaTime: number) {
@@ -244,6 +265,9 @@ export class Game extends Component {
         // Игра сыграна, её состояние сохранено в betTable.lastPlayContext.
         // Проходим по всем задачам и обновляем прогресс.
         this.updateProgressOfDailyTasks(this.betTable.lastPlayContext);
+
+        // Проходим по всем ачивкам и обновляем прогресс.
+        this.updateProgressOnAchievements(this.betTable.lastPlayContext);
     }
 
     //
@@ -384,5 +408,69 @@ export class Game extends Component {
                 }
             }
         }
+    }
+
+    private instantiateAchievements() {
+        this.achievements.push(new Achievement1());
+
+        for (let achievement of this.achievements) {
+            const achievementNode = instantiate(this.achievementNodePrefab);
+            achievementNode.setParent(this.achievementsGrid);
+
+            this.achievementToNode.set(achievement, achievementNode);
+
+            const achivementButton = achievementNode.getComponent(Button);
+            assert(achivementButton);
+
+            // Показывает модальное окно с подробной информацией о текущем прогрессе по данному достижению.
+            achivementButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                const achievementModalNode = instantiate(this.achievementModalPrefab);
+                achievementModalNode.setParent(this.canvasNode);
+
+                // Название ачивки.
+                const nameLabel = achievementModalNode.getChildByName('NameLabel')?.getComponent(Label);
+                assert(nameLabel);
+                nameLabel.string = achievement.name;
+
+                // Вознаграждение.
+                const rewardLabel = achievementModalNode.getChildByPath('RewardNode/RewardValue')?.getComponent(Label);
+                assert(rewardLabel);
+                rewardLabel.string = achievement.rewardSum.toString();
+
+                // Описание ачивки.
+                const descriptionLabel = achievementModalNode.getChildByName('Description')?.getComponent(Label);
+                assert(descriptionLabel);
+                descriptionLabel.string = achievement.description;
+
+                // Прогресс.
+                const currentValueLabel = achievementModalNode.getChildByPath('/Progress/CurrentValue')?.getComponent(Label);
+                assert(currentValueLabel);
+                currentValueLabel.string = achievement.getCurrentNumberAsString();
+                const targetValueLabel = achievementModalNode.getChildByPath('/Progress/TargetValue')?.getComponent(Label);
+                assert(targetValueLabel);
+                targetValueLabel.string = achievement.getTargetNumberAsString();
+
+                const closeButton = achievementModalNode.getChildByName('CloseButton')?.getComponent(Button);
+                assert(closeButton);
+                closeButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                    achievementModalNode.destroy();
+                });
+            });
+        }
+    }
+
+    /**
+     * Обновляет прогресс по ачивкам.
+     */
+    private updateProgressOnAchievements(lastPlayContext: LastPlayContext) {
+        for (let achievement of this.achievements) {
+            achievement.updateProgress(lastPlayContext);
+        }
+    }
+
+    public onDebugButtonClick() {
+        const achievementsContainer = find('/Canvas/Achievements');
+        assert(achievementsContainer);
+        achievementsContainer.active = !achievementsContainer.active;
     }
 }
