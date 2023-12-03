@@ -19,34 +19,100 @@ export const enum TargetNumberType {
 export default abstract class Achievement {
     public name: string = '';
     public description: string = '';
-    public rewardSum: number = 0;
 
     protected currentRank: AchievementRank = AchievementRank.Zero;
     protected rankToTargetNumber: Map<AchievementRank, number> = new Map();
     protected targetNumberType: TargetNumberType = TargetNumberType.PLAY_COUNTER;
     protected currentNumber: number = 0;
+    protected rankToRewardSum: Map<AchievementRank, number> = new Map();
+    protected unclaimedRewards: Map<AchievementRank, number> = new Map();
 
     /**
      * Проверяет, было ли выполнено условие в последней игре.
      * 
      * @param lastPlayContext состояние последней игры
      */
-    public abstract updateProgress(lastPlayContext: LastPlayContext): void;
+    public abstract updateProgress(lastPlayContext: LastPlayContext): boolean;
 
     /**
      * Возвращает целевое значение, необходимое для получения следующего ранга.
      */
-    protected get targetNumberForNextRank() {
+    protected get targetNumberForNextRank(): number {
         const targetNumber = this.rankToTargetNumber.get(this.currentRank + 1);
         assert(targetNumber);
         return targetNumber;
     }
 
-    public getCurrentNumberAsString() {
+    /**
+     * Возвращает вознаграждение за достижение следующего ранга.
+     */
+    protected get rewardSum(): number {
+        const rewardSum = this.rankToRewardSum.get(this.currentRank + 1);
+        assert(rewardSum);
+        return rewardSum;
+    }
+
+    public getRewardSumAsString(): string {
+        return this.rewardSum.toString();
+    }
+
+    public getPrevRewardSumAsString(): string {
+        const rewardSum = this.rankToRewardSum.get(this.currentRank);
+        assert(rewardSum);
+        return rewardSum.toString();
+    }
+
+    public getCurrentNumberAsString(): string {
         return this.currentNumber.toString();
     }
 
-    public getTargetNumberAsString() {
+    public getTargetNumberAsString(): string {
         return this.targetNumberForNextRank.toString();
+    }
+
+    public getPrevTargetNumberAsString(): string {
+        const prevTargetNumber = this.rankToTargetNumber.get(this.currentRank);
+        assert(prevTargetNumber);
+        return prevTargetNumber.toString();
+    }
+
+    public getRewardSumForCurrentRank(): number {
+        const rewardSum = this.rankToRewardSum.get(this.currentRank);
+        assert(rewardSum);
+        return rewardSum;
+    }
+
+    public getCurrentRank(): AchievementRank {
+        return this.currentRank;
+    }
+
+    public getRewardForRank(rank: AchievementRank): number {
+        const reward = this.unclaimedRewards.get(rank);
+        assert(reward);
+
+        this.unclaimedRewards.delete(rank);
+
+        return reward;
+    }
+
+    public hasUnclaimedRewards(): boolean {
+        return this.unclaimedRewards.size > 0;
+    }
+
+    /**
+     * Возвращает наименьший из достигнутых рангов, для которых еще не получено вознаграждение.
+     */
+    public getTheLeastAchievedRank(): AchievementRank {
+        const ranks = Array.from(this.unclaimedRewards.keys());
+        assert(ranks.length > 0);
+
+        let minRank = ranks[0];
+        for (let i = 0; i < ranks.length; i++) {
+            if (ranks[i] < minRank) {
+                minRank = ranks[i];
+            }
+        }
+
+        return minRank;
     }
 }

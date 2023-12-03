@@ -1,4 +1,4 @@
-import { _decorator, assert, Button, Canvas, Component, debug, find, instantiate, Label, log, Node, Prefab, ProgressBar, Sprite, Toggle, UI, UITransform } from 'cc';
+import { _decorator, assert, Button, Component, find, instantiate, Label, log, Node, Prefab, ProgressBar, Toggle } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
@@ -8,7 +8,7 @@ import BetTable from './Bets/BetTable';
 import DailyTask from './DailyTasks/DailyTask';
 import DailyTask1 from './DailyTasks/DailyTask1';
 
-import Achievement from './Achievements/Achievement';
+import Achievement, { AchievementRank } from './Achievements/Achievement';
 import Achievement1 from './Achievements/Achievement1';
 
 import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
@@ -49,6 +49,12 @@ export class Game extends Component {
     @property(Node)
     private canvasNode: Node = null!;
 
+    @property(Prefab)
+    private rewardNodePrefab: Prefab = null!;
+
+    @property(Node)
+    private rewardScrollViewContent: Node = null!;
+
     private betTable = new BetTable(new DefaultBetLimitConfig());
     private betSpriteNodes: Map<Bet, Node> = new Map();
 
@@ -56,7 +62,8 @@ export class Game extends Component {
     private taskToNode: Map<DailyTask, Node> = new Map();
 
     private achievements: Achievement[] = [];
-    private achievementToNode: Map<Achievement, Node> = new Map();
+    
+    private rankToRewardNode: Map<AchievementRank, Node> = new Map();
 
     start() {
         this.betTable.balance = 10000;
@@ -412,51 +419,6 @@ export class Game extends Component {
 
     private instantiateAchievements() {
         this.achievements.push(new Achievement1());
-
-        for (let achievement of this.achievements) {
-            const achievementNode = instantiate(this.achievementNodePrefab);
-            achievementNode.setParent(this.achievementsGrid);
-
-            this.achievementToNode.set(achievement, achievementNode);
-
-            const achivementButton = achievementNode.getComponent(Button);
-            assert(achivementButton);
-
-            // Показывает модальное окно с подробной информацией о текущем прогрессе по данному достижению.
-            achivementButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                const achievementModalNode = instantiate(this.achievementModalPrefab);
-                achievementModalNode.setParent(this.canvasNode);
-
-                // Название ачивки.
-                const nameLabel = achievementModalNode.getChildByName('NameLabel')?.getComponent(Label);
-                assert(nameLabel);
-                nameLabel.string = achievement.name;
-
-                // Вознаграждение.
-                const rewardLabel = achievementModalNode.getChildByPath('RewardNode/RewardValue')?.getComponent(Label);
-                assert(rewardLabel);
-                rewardLabel.string = achievement.rewardSum.toString();
-
-                // Описание ачивки.
-                const descriptionLabel = achievementModalNode.getChildByName('Description')?.getComponent(Label);
-                assert(descriptionLabel);
-                descriptionLabel.string = achievement.description;
-
-                // Прогресс.
-                const currentValueLabel = achievementModalNode.getChildByPath('/Progress/CurrentValue')?.getComponent(Label);
-                assert(currentValueLabel);
-                currentValueLabel.string = achievement.getCurrentNumberAsString();
-                const targetValueLabel = achievementModalNode.getChildByPath('/Progress/TargetValue')?.getComponent(Label);
-                assert(targetValueLabel);
-                targetValueLabel.string = achievement.getTargetNumberAsString();
-
-                const closeButton = achievementModalNode.getChildByName('CloseButton')?.getComponent(Button);
-                assert(closeButton);
-                closeButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                    achievementModalNode.destroy();
-                });
-            });
-        }
     }
 
     /**
@@ -464,13 +426,130 @@ export class Game extends Component {
      */
     private updateProgressOnAchievements(lastPlayContext: LastPlayContext) {
         for (let achievement of this.achievements) {
-            achievement.updateProgress(lastPlayContext);
+            const nextRankReached = achievement.updateProgress(lastPlayContext);
+
+            // Если стало доступно достижение следующего уровня, то создаем кнопку для получения награды.
+            if (nextRankReached) {
+                const rewardNode = instantiate(this.rewardNodePrefab);
+                rewardNode.setParent(this.rewardScrollViewContent);
+
+                // Название.
+                const nameLabel = rewardNode.getChildByPath('/Horizontal Layout/Vertical Layout/Name Node')?.getComponent(Label);
+                assert(nameLabel);
+                nameLabel.string = achievement.name;
+
+                // Числовое прогресс.
+                const progressNumber = rewardNode.getChildByPath('/Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
+                assert(progressNumber);
+                progressNumber.string = achievement.getCurrentNumberAsString() + '/' + achievement.getPrevTargetNumberAsString();
+
+                // Награда.
+                const rewardLabel = rewardNode.getChildByPath('/Horizontal Layout2/RewardSum Label')?.getComponent(Label);
+                assert(rewardLabel);
+                rewardLabel.string = achievement.getPrevRewardSumAsString();
+
+                // Обработка кнопки "Забрать".
+                const takeRewardButtonNode = rewardNode.getChildByPath('Horizontal Layout/TakeRewardButton');
+                assert(takeRewardButtonNode);
+
+                const takeRewardButton = takeRewardButtonNode.getComponent(Button);
+                assert(takeRewardButton);
+
+                const achievedRank = achievement.getCurrentRank();
+                this.rankToRewardNode.set(achievedRank, rewardNode);
+
+                takeRewardButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                    this.betTable.balance += achievement.getRewardForRank(achievedRank);
+                    this.showNewBalanceValue();
+                    rewardNode.destroy();
+                });
+            }
         }
     }
 
+    // Показывает окно с ачивками.
+    // Для тех ачивок, для которых есть невостребованные вознаграждения за новые ранги,
+    // показывается кнопка для получения вознаграждения с соответствующей рангу иконкой.
     public onDebugButtonClick() {
+        this.clearAchievementsGrid();
+        this.fillAchievementsGrid();
+
         const achievementsContainer = find('/Canvas/Achievements');
         assert(achievementsContainer);
         achievementsContainer.active = !achievementsContainer.active;
+    }
+
+    private fillAchievementsGrid() {
+        for (let achievement of this.achievements) {
+            // Создать кнопку, если есть невостребованное вознаграждение.
+            if (achievement.hasUnclaimedRewards()) {
+                const achievementNode = instantiate(this.achievementNodePrefab);
+                achievementNode.setParent(this.achievementsGrid);
+
+                const achivementButton = achievementNode.getComponent(Button);
+                assert(achivementButton);
+
+                // Добавляет вознаграждение в баланс и удаляет его из невостребованных.
+                const achievedRank = achievement.getTheLeastAchievedRank();
+                log('achieved rank: ' + achievedRank);
+                achivementButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                    this.betTable.balance += achievement.getRewardForRank(achievedRank);
+                    this.showNewBalanceValue();
+
+                    // Мы получили вознаграждение через основной интерфейс ачивок, поэтому удаляем rewardNode.
+                    const rewardNode = this.rankToRewardNode.get(achievedRank);
+                    rewardNode?.destroy();
+
+                    this.clearAchievementsGrid();
+                    this.fillAchievementsGrid();
+                });
+            }
+            else {
+                const achievementNode = instantiate(this.achievementNodePrefab);
+                achievementNode.setParent(this.achievementsGrid);
+
+                const achivementButton = achievementNode.getComponent(Button);
+                assert(achivementButton);
+
+                // Показывает модальное окно с подробной информацией о текущем прогрессе по данному достижению.
+                achivementButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                    const achievementModalNode = instantiate(this.achievementModalPrefab);
+                    achievementModalNode.setParent(this.canvasNode);
+
+                    // Название ачивки.
+                    const nameLabel = achievementModalNode.getChildByName('NameLabel')?.getComponent(Label);
+                    assert(nameLabel);
+                    nameLabel.string = achievement.name;
+
+                    // Вознаграждение.
+                    const rewardLabel = achievementModalNode.getChildByPath('RewardNode/RewardValue')?.getComponent(Label);
+                    assert(rewardLabel);
+                    rewardLabel.string = achievement.getRewardSumAsString();
+
+                    // Описание ачивки.
+                    const descriptionLabel = achievementModalNode.getChildByName('Description')?.getComponent(Label);
+                    assert(descriptionLabel);
+                    descriptionLabel.string = achievement.description;
+
+                    // Прогресс.
+                    const currentValueLabel = achievementModalNode.getChildByPath('/Progress/CurrentValue')?.getComponent(Label);
+                    assert(currentValueLabel);
+                    currentValueLabel.string = achievement.getCurrentNumberAsString();
+                    const targetValueLabel = achievementModalNode.getChildByPath('/Progress/TargetValue')?.getComponent(Label);
+                    assert(targetValueLabel);
+                    targetValueLabel.string = achievement.getTargetNumberAsString();
+
+                    const closeButton = achievementModalNode.getChildByName('CloseButton')?.getComponent(Button);
+                    assert(closeButton);
+                    closeButton.node.on(Button.EventType.CLICK, (button: Button) => {
+                        achievementModalNode.destroy();
+                    });
+                });
+            }
+        }
+    }
+
+    private clearAchievementsGrid() {
+        this.achievementsGrid.children.forEach(child => child.destroy());
     }
 }
