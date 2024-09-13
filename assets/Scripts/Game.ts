@@ -66,7 +66,7 @@ export class Game extends Component {
     private rankToRewardNode: Map<AchievementRank, Node> = new Map();
 
     start() {
-        this.betTable.balance = 10000;
+        this.betTable.balance = 100;
         this.betTable.setChipValue(1);
 
         this.showNewBalanceValue();
@@ -84,6 +84,11 @@ export class Game extends Component {
 
     onAnyBetButtonClick(event: Event, customEventData: string, betType: BetType) {
         console.log('onAnyBetButtonClick');
+
+        if (this.betTable.balance === 0) {
+            console.log('not enough money');
+            return;
+        }
 
         assert(event.target instanceof Node);
 
@@ -239,6 +244,11 @@ export class Game extends Component {
     // Удвоение ставок.
     onDoubleButtonClick(event: Event) {
         log('onDoubleButtonClick');
+
+        if (this.betTable.balance === 0) {
+            log('not enough money');
+            return;
+        }
 
         const doubledBets = this.betTable.doubleAll();
         for (let bet of doubledBets) {
