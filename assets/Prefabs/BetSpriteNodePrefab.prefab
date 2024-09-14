@@ -127,7 +127,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22.023605346679688,
+      "width": 22.932403564453125,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -168,7 +168,7 @@
     "_verticalAlign": 1,
     "_actualFontSize": 13.2,
     "_fontSize": 13.2,
-    "_fontFamily": "Arial",
+    "_fontFamily": "Roboto",
     "_lineHeight": 40,
     "_overflow": 0,
     "_enableWrapText": true,
