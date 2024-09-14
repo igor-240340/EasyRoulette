@@ -66,7 +66,7 @@ export class Game extends Component {
     private rankToRewardNode: Map<AchievementRank, Node> = new Map();
 
     start() {
-        this.betTable.balance = 100;
+        this.betTable.balance = 1000;
         this.betTable.setChipValue(1);
 
         this.showNewBalanceValue();
@@ -327,7 +327,11 @@ export class Game extends Component {
         let betSpriteNode = this.betSpriteNodes.get(bet);
         if (!betSpriteNode) {
             betSpriteNode = instantiate(this.betSpriteNodePrefab);
-            betSpriteNode.setParent(parent);    // Привязываем к кнопке, чтобы позиционировать спрайт относительно её СК.
+
+            // Note: кнопки вторичных ставок (split/corner/street/line) в финальной версии прозрачные,
+            // поэтому мы не можем сделать фишки дочерними элементами кнопок, т.к. они тоже станут прозрачными.
+            // betSpriteNode.setParent(parent);    // Привязываем к кнопке, чтобы позиционировать спрайт относительно её СК.
+            betSpriteNode.parent = parent.parent;   // Привязываем фишку к родителю кнопки, который является нодой-враппером.
 
             this.betSpriteNodes.set(bet, betSpriteNode);
         }
