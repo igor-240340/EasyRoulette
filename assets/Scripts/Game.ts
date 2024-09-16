@@ -73,6 +73,10 @@ export class Game extends Component {
 
         this.instantiateDailyTasks();
         this.instantiateAchievements();
+
+        // TODO: перебрать все конпки вторичных ставок (сплиты и пр.)
+        // и привязать обработчики ховера и зажатия.
+        
     }
 
     update(deltaTime: number) {
