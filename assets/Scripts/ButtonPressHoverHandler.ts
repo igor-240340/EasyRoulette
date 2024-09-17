@@ -3,9 +3,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('ButtonPressHoverHandler')
 export class ButtonPressHoverHandler extends Component {
-    @property(Button)
-    button: Button | null = null;
-
     @property([Button])
     relatedButtons: Button[] = [];
 
@@ -16,15 +13,17 @@ export class ButtonPressHoverHandler extends Component {
     hoverSprites: SpriteFrame[] = [];
 
     onLoad () {
-        this.button.node.on(Node.EventType.MOUSE_ENTER, this.onMouseEnter, this);
-        this.button.node.on(Node.EventType.MOUSE_LEAVE, this.onMouseLeave, this);
+        const button = this.node.getComponent(Button);
 
-        this.button.node.on(Input.EventType.TOUCH_START, this.onMouseEnter, this);
-        this.button.node.on(Input.EventType.TOUCH_END, this.onMouseLeave, this);
+        button.node.on(Node.EventType.MOUSE_ENTER, this.onMouseEnter, this);
+        button.node.on(Node.EventType.MOUSE_LEAVE, this.onMouseLeave, this);
+
+        button.node.on(Input.EventType.TOUCH_START, this.onMouseEnter, this);
+        button.node.on(Input.EventType.TOUCH_END, this.onMouseLeave, this);
     }
 
     onMouseEnter (button: Button) {
-        log("ENTER")
+        log("MOUSE ENTER")
 
         for (let i = 0; i < this.relatedButtons.length; i++) {
             this.relatedButtons[i].normalSprite = this.hoverSprites[i];
@@ -32,7 +31,7 @@ export class ButtonPressHoverHandler extends Component {
     }
 
     onMouseLeave (button: Button) {
-        log("LEAVE")
+        log("MOUSE LEAVE")
 
         for (let i = 0; i < this.relatedButtons.length; i++) {
             this.relatedButtons[i].normalSprite = this.normalSprites[i];
