@@ -55,6 +55,18 @@ export class Game extends Component {
     @property(Node)
     private rewardScrollViewContent: Node = null!;
 
+    @property(Prefab)
+    private lastWinNumberBlackPrefab: Prefab = null!;
+
+    @property(Prefab)
+    private lastWinNumberRedPrefab: Prefab = null!;
+
+    @property(Prefab)
+    private lastWinNumberZeroPrefab: Prefab = null!;
+
+    @property(Node)
+    private winNumberHistoryContainer: Node = null!;
+
     private betTable = new BetTable(new DefaultBetLimitConfig());
     private betSpriteNodes: Map<Bet, Node> = new Map();
 
@@ -280,6 +292,8 @@ export class Game extends Component {
 
         this.hideAllBetSpriteNodes(); // Поскольку ставки отыграли, ноды больше не актуальны. Новые ставки снова их покажут.
 
+        this.addLastWinNumberToHistory(winNumber);
+        
         // Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
         // как информацию о предедущей ставке и текущем выигрыше.
 
@@ -289,6 +303,14 @@ export class Game extends Component {
 
         // Проходим по всем ачивкам и обновляем прогресс.
         this.updateProgressOnAchievements(this.betTable.lastPlayContext);
+    }
+
+    private addLastWinNumberToHistory(winNumber: number) {
+        const lastWinNumberNode = instantiate(this.lastWinNumberBlackPrefab);
+        lastWinNumberNode.setParent(this.winNumberHistoryContainer);
+        const numberLabel = lastWinNumberNode.getChildByName('Label')?.getComponent(Label);
+        assert(numberLabel);
+        numberLabel.string = winNumber;
     }
 
     //
