@@ -56,16 +56,18 @@ export class Game extends Component {
     private rewardScrollViewContent: Node = null!;
 
     @property(Prefab)
-    private lastWinNumberBlackPrefab: Prefab = null!;
+    private lastWinNumBlackPrefab: Prefab = null!;
 
     @property(Prefab)
-    private lastWinNumberRedPrefab: Prefab = null!;
+    private lastWinNumRedPrefab: Prefab = null!;
 
     @property(Prefab)
-    private lastWinNumberZeroPrefab: Prefab = null!;
+    private lastWinNumGreenPrefab: Prefab = null!;
 
     @property(Node)
     private winNumberHistoryContainer: Node = null!;
+
+    private numToSpritePrefab: Map<number, Prefab> = new Map();
 
     private betTable = new BetTable(new DefaultBetLimitConfig());
     private betSpriteNodes: Map<Bet, Node> = new Map();
@@ -83,12 +85,46 @@ export class Game extends Component {
 
         this.showNewBalanceValue();
 
-        this.instantiateDailyTasks();
-        this.instantiateAchievements();
+        this.linkNumWithSpritePrefab();
 
-        // TODO: перебрать все конпки вторичных ставок (сплиты и пр.)
-        // и привязать обработчики ховера и зажатия.
-        
+        // this.instantiateDailyTasks();
+        // this.instantiateAchievements();
+
+        // NOTE: Тест маппинга числа в префаб с его цветом.
+        // for (let i = 0; i < 37; i++) {
+        //     this.addLastWinNumberToHistory(i);
+        // }
+    }
+
+    /**
+     * С каждым номером связывает префаб,
+     * содержащий спрайт, цвет которого соответствует номеру.
+     */
+    private linkNumWithSpritePrefab() {
+        this.numToSpritePrefab.set(0, this.lastWinNumGreenPrefab);
+
+        for (let i = 1; i < 37; i++) {
+            let spritePrefab;
+
+            // Первая или третья группа из девяти чисел.
+            if (i < 10 || ( i > 18 && i < 28)) {
+                spritePrefab = (i%2 === 0)
+                ? this.lastWinNumBlackPrefab
+                : this.lastWinNumRedPrefab;
+            }
+            // Вторая группа из девяти чисел за исключением 10 или
+            // Четвертая группа из девяти чисел за исключением 28.
+            else if (((i > 9 && i < 19) && i !== 10) || (i > 27 && i !== 28)) {
+                spritePrefab = (i%2 === 0)
+                ? this.lastWinNumRedPrefab
+                : this.lastWinNumBlackPrefab;
+            }
+            else if (i === 10 || i === 28) {
+                spritePrefab = this.lastWinNumBlackPrefab;
+            }
+
+            this.numToSpritePrefab.set(i, spritePrefab);
+        }
     }
 
     update(deltaTime: number) {
@@ -306,7 +342,8 @@ export class Game extends Component {
     }
 
     private addLastWinNumberToHistory(winNumber: number) {
-        const lastWinNumberNode = instantiate(this.lastWinNumberBlackPrefab);
+        const spritePrefab = this.numToSpritePrefab.get(winNumber);
+        const lastWinNumberNode = instantiate(spritePrefab);
         lastWinNumberNode.setParent(this.winNumberHistoryContainer);
         const numberLabel = lastWinNumberNode.getChildByName('Label')?.getComponent(Label);
         assert(numberLabel);

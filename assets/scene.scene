@@ -356,15 +356,15 @@
     "rewardScrollViewContent": {
       "__id__": 62
     },
-    "lastWinNumberBlackPrefab": {
+    "lastWinNumBlackPrefab": {
       "__uuid__": "06320bac-a960-45c2-bf8d-476973edb5ac",
       "__expectedType__": "cc.Prefab"
     },
-    "lastWinNumberRedPrefab": {
+    "lastWinNumRedPrefab": {
       "__uuid__": "dd2a174b-7ee1-4b4a-b556-fabe76e731ff",
       "__expectedType__": "cc.Prefab"
     },
-    "lastWinNumberZeroPrefab": {
+    "lastWinNumGreenPrefab": {
       "__uuid__": "b2a0b5e8-40df-405d-8946-3fc3e20b1b9c",
       "__expectedType__": "cc.Prefab"
     },
