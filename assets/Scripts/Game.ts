@@ -112,8 +112,8 @@ export class Game extends Component {
                 ? this.lastWinNumBlackPrefab
                 : this.lastWinNumRedPrefab;
             }
-            // Вторая группа из девяти чисел за исключением 10 или
-            // Четвертая группа из девяти чисел за исключением 28.
+            // Вторая группа из девяти чисел за исключением 10 или четвертая группа из девяти чисел за исключением 28.
+            // NOTE: В этих группах, кроме указанных чисел, красные - четные, черные - нечетные.
             else if (((i > 9 && i < 19) && i !== 10) || (i > 27 && i !== 28)) {
                 spritePrefab = (i%2 === 0)
                 ? this.lastWinNumRedPrefab
@@ -342,6 +342,14 @@ export class Game extends Component {
     }
 
     private addLastWinNumberToHistory(winNumber: number) {
+        // Максимальное количество чисел в истории.
+        const containerCapacityLimit = 14;
+        // Если контейнер уже заполнен, удаляем первый элемент слева.
+        const historyNodes = this.winNumberHistoryContainer.children;
+        if (historyNodes.length === containerCapacityLimit) {
+            this.winNumberHistoryContainer.removeChild(historyNodes[0]);
+        }
+
         const spritePrefab = this.numToSpritePrefab.get(winNumber);
         const lastWinNumberNode = instantiate(spritePrefab);
         lastWinNumberNode.setParent(this.winNumberHistoryContainer);
