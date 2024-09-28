@@ -67,6 +67,20 @@ export class Game extends Component {
     @property(Node)
     private winNumberHistoryContainer: Node = null!;
 
+    // BEGIN: Модальное окно с выигрышем.
+    @property(Node)
+    private winNumModal: Node = null!;
+
+    @property(Node)
+    private winNumSpriteContainer: Node = null!;
+
+    @property(Node)
+    private wonLabelNode: Node = null!;
+
+    @property(Label)
+    private amountLabel: Node = null!;
+    // END
+
     private numToSpritePrefab: Map<number, Prefab> = new Map();
 
     private betTable = new BetTable(new DefaultBetLimitConfig());
@@ -80,7 +94,7 @@ export class Game extends Component {
     private rankToRewardNode: Map<AchievementRank, Node> = new Map();
 
     start() {
-        this.betTable.balance = 1000;
+        this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
 
         this.showNewBalanceValue();
@@ -316,7 +330,7 @@ export class Game extends Component {
     // Разыграть случайное число.
     onSpinButtonClick(event: Event) {
         log('onSpinButtonClick');
-
+ 
         // [0, 36]
         const winNumber = Math.floor(Math.random() * 37);
         const winPayout = this.betTable.getTotalPayout(winNumber);
@@ -329,6 +343,15 @@ export class Game extends Component {
         this.hideAllBetSpriteNodes(); // Поскольку ставки отыграли, ноды больше не актуальны. Новые ставки снова их покажут.
 
         this.addLastWinNumberToHistory(winNumber);
+
+        // Показываем модальное окно.
+        this.wonLabelNode.active = (winPayout > 0);
+        this.amountLabel.node.active = (winPayout > 0);
+        this.amountLabel.string = winPayout.toString();
+        this.winNumSpriteContainer.removeAllChildren();
+        const numSpriteNode = this.getSpriteNodeForWinNumber(winNumber);
+        numSpriteNode.setParent(this.winNumSpriteContainer);
+        this.winNumModal.active = true;
         
         // Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
         // как информацию о предедущей ставке и текущем выигрыше.
@@ -350,12 +373,18 @@ export class Game extends Component {
             this.winNumberHistoryContainer.removeChild(historyNodes[0]);
         }
 
+        const numberSpriteNode = this.getSpriteNodeForWinNumber(winNumber);
+        numberSpriteNode.setParent(this.winNumberHistoryContainer);
+    }
+
+    private getSpriteNodeForWinNumber(winNumber: number) {
         const spritePrefab = this.numToSpritePrefab.get(winNumber);
-        const lastWinNumberNode = instantiate(spritePrefab);
-        lastWinNumberNode.setParent(this.winNumberHistoryContainer);
-        const numberLabel = lastWinNumberNode.getChildByName('Label')?.getComponent(Label);
+        const numberNode = instantiate(spritePrefab);
+        const numberLabel = numberNode.getChildByName('Label')?.getComponent(Label);
         assert(numberLabel);
         numberLabel.string = winNumber;
+
+        return numberNode;
     }
 
     //
@@ -399,7 +428,7 @@ export class Game extends Component {
         if (!betSpriteNode) {
             betSpriteNode = instantiate(this.betSpriteNodePrefab);
 
-            // Note: кнопки вторичных ставок (split/corner/street/line) в финальной версии прозрачные,
+            // NOTE: кнопки вторичных ставок (split/corner/street/line) в финальной версии прозрачные,
             // поэтому мы не можем сделать фишки дочерними элементами кнопок, т.к. они тоже станут прозрачными.
             // betSpriteNode.setParent(parent);    // Привязываем к кнопке, чтобы позиционировать спрайт относительно её СК.
             betSpriteNode.parent = parent.parent;   // Привязываем фишку к родителю кнопки, который является нодой-враппером.
