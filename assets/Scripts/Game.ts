@@ -383,11 +383,11 @@ export class Game extends Component {
     //
 
     private showNewBalanceValue() {
-        this.balanceLabel.string = this.betTable.balance.toString();
+        this.balanceLabel.string = `Balance: ${this.betTable.balance.toString()}`;
     }
 
     private showNewBetValue() {
-        this.betLabel.string = this.betTable.totalBet.toString();
+        this.betLabel.string = `Bet: ${this.betTable.totalBet.toString()}`;
     }
 
     private hideAllBetSpriteNodes() {
