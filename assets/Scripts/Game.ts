@@ -357,7 +357,7 @@ export class Game extends Component {
 
     private addLastWinNumberToHistory(winNumber: number) {
         // Максимальное количество чисел в истории.
-        const containerCapacityLimit = 14;
+        const containerCapacityLimit = 7;
         // Если контейнер уже заполнен, удаляем первый элемент слева.
         const historyNodes = this.winNumberHistoryContainer.children;
         if (historyNodes.length === containerCapacityLimit) {
