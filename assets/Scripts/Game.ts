@@ -378,6 +378,10 @@ export class Game extends Component {
         return numberNode;
     }
 
+    onMusicToggleCheck(toggle, customEventData) {
+        log("onMusicToggleCheck");
+    }
+
     //
     // Вспомогательные методы.
     //

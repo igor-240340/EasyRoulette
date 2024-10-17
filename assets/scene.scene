@@ -399,7 +399,7 @@
     "_string": "Balance: 1",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
-    "_actualFontSize": 25,
+    "_actualFontSize": 25.1229737036758,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -834,7 +834,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 367.45247148288973,
+    "_orthoHeight": 360,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -1338,7 +1338,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -1943,7 +1943,7 @@
     "_string": "3",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -2093,7 +2093,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -2337,7 +2337,7 @@
     "_string": "6",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -2731,7 +2731,7 @@
     "_string": "9",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -2881,7 +2881,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -3125,7 +3125,7 @@
     "_string": "12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -3275,7 +3275,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -3519,7 +3519,7 @@
     "_string": "15",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -3913,7 +3913,7 @@
     "_string": "18",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -4063,7 +4063,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -4307,7 +4307,7 @@
     "_string": "21",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -4457,7 +4457,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -4701,7 +4701,7 @@
     "_string": "24",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -5095,7 +5095,7 @@
     "_string": "27",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -5245,7 +5245,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -5489,7 +5489,7 @@
     "_string": "30",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -5639,7 +5639,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -5883,7 +5883,7 @@
     "_string": "33",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -6277,7 +6277,7 @@
     "_string": "36",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -6427,7 +6427,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -6671,7 +6671,7 @@
     "_string": "2",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -7065,7 +7065,7 @@
     "_string": "5",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -7215,7 +7215,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -7459,7 +7459,7 @@
     "_string": "8",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -7853,7 +7853,7 @@
     "_string": "11",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -8247,7 +8247,7 @@
     "_string": "14",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -8397,7 +8397,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -8641,7 +8641,7 @@
     "_string": "17",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -9035,7 +9035,7 @@
     "_string": "20",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -9429,7 +9429,7 @@
     "_string": "23",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -9579,7 +9579,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -9823,7 +9823,7 @@
     "_string": "26",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -10217,7 +10217,7 @@
     "_string": "29",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -10611,7 +10611,7 @@
     "_string": "32",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -10761,7 +10761,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -11005,7 +11005,7 @@
     "_string": "35",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -11399,7 +11399,7 @@
     "_string": "1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -11549,7 +11549,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -11793,7 +11793,7 @@
     "_string": "4",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -12187,7 +12187,7 @@
     "_string": "7",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -12337,7 +12337,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -12581,7 +12581,7 @@
     "_string": "10",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -12975,7 +12975,7 @@
     "_string": "13",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -13369,7 +13369,7 @@
     "_string": "16",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -13519,7 +13519,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -13763,7 +13763,7 @@
     "_string": "19",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -13913,7 +13913,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -14157,7 +14157,7 @@
     "_string": "22",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -14551,7 +14551,7 @@
     "_string": "25",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -14701,7 +14701,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -14945,7 +14945,7 @@
     "_string": "28",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -15339,7 +15339,7 @@
     "_string": "31",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -15733,7 +15733,7 @@
     "_string": "34",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -15883,7 +15883,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "_hoverSprite": {
-      "__uuid__": "35aeb385-bd69-45e8-ad38-a9efd23e3763@f9941",
+      "__uuid__": "4a6c8429-6811-4111-8c3b-482d0f99bd37@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_pressedSprite": null,
@@ -16242,7 +16242,7 @@
     "_string": "2:1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -16789,7 +16789,7 @@
     "_string": "2:1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -17336,7 +17336,7 @@
     "_string": "2:1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -18229,7 +18229,7 @@
     "_string": "1st-12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -18885,7 +18885,7 @@
     "_string": "1-18",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -19498,7 +19498,7 @@
     "_string": "EVEN",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -20326,7 +20326,7 @@
     "_string": "2nd-12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -22423,7 +22423,7 @@
     "_string": "3rd-12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -23079,7 +23079,7 @@
     "_string": "ODD",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -23692,7 +23692,7 @@
     "_string": "19-36",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20,
+    "_actualFontSize": 20.09837896294064,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -71215,7 +71215,7 @@
     "_string": "x2",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25,
+    "_actualFontSize": 25.1229737036758,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -72119,8 +72119,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.0595703125,
-      "height": 50.4
+      "width": 26.052998992630574,
+      "height": 50.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -72152,7 +72152,7 @@
     "_string": "100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15,
+    "_actualFontSize": 15.073784222205479,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -72553,8 +72553,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.0595703125,
-      "height": 50.4
+      "width": 26.052998992630574,
+      "height": 50.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -72586,7 +72586,7 @@
     "_string": "200",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15,
+    "_actualFontSize": 15.073784222205479,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -72984,8 +72984,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.0595703125,
-      "height": 50.4
+      "width": 26.052998992630574,
+      "height": 50.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73017,7 +73017,7 @@
     "_string": "400",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15,
+    "_actualFontSize": 15.073784222205479,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -73415,8 +73415,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.0595703125,
-      "height": 50.4
+      "width": 26.052998992630574,
+      "height": 50.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73448,7 +73448,7 @@
     "_string": "800",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15,
+    "_actualFontSize": 15.073784222205479,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -73846,8 +73846,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 18.251953125,
-      "height": 50.4
+      "width": 18.247354635485358,
+      "height": 50.39999999999999
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73879,7 +73879,7 @@
     "_string": "2K",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15,
+    "_actualFontSize": 15.073784222205479,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -75586,7 +75586,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80.4931640625,
+      "width": 80.48359147085235,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -75619,7 +75619,7 @@
     "_string": "Bet: 10",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
-    "_actualFontSize": 25,
+    "_actualFontSize": 25.1229737036758,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -75865,7 +75865,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 117.39501953125,
+      "width": 117.38105897484186,
       "height": 50.4
     },
     "_anchorPoint": {
