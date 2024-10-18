@@ -1,4 +1,4 @@
-import { _decorator, assert, Button, Component, find, instantiate, Label, log, Node, Prefab, ProgressBar, Toggle } from 'cc';
+import { _decorator, assert, Button, Component, find, instantiate, Label, log, Node, Prefab, ProgressBar, Toggle, AudioSource } from 'cc';
 const { ccclass, property } = _decorator;
 
 import Bet from './Bets/Bet';
@@ -75,6 +75,9 @@ export class Game extends Component {
     private amountLabel: Node = null!;
     // END
 
+    @property(AudioSource)
+    musicSource: AudioSource = null;
+
     private numToSpritePrefab: Map<number, Prefab> = new Map();
 
     private betTable = new BetTable(new DefaultBetLimitConfig());
@@ -86,6 +89,8 @@ export class Game extends Component {
     private achievements: Achievement[] = [];
     
     private rankToRewardNode: Map<AchievementRank, Node> = new Map();
+
+    private musicIsPlaying: bool = false;
 
     start() {
         this.betTable.balance = 10000;
@@ -378,8 +383,12 @@ export class Game extends Component {
         return numberNode;
     }
 
-    onMusicToggleCheck(toggle, customEventData) {
-        log("onMusicToggleCheck");
+    onMusicToggleCheck(toggle: Toggle, customEventData: string) {
+        if (toggle.isChecked) {
+            this.musicSource.play();
+        } else {
+            this.musicSource.stop();
+        }
     }
 
     //
