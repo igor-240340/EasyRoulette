@@ -377,6 +377,34 @@
     "musicSource": {
       "__id__": 1930
     },
+    "soundOnSpriteFrames": [
+      {
+        "__uuid__": "dbe4b9f4-e109-4849-9a47-6e7976c3c2fb@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "0065fccc-3a06-4d3d-996f-115eabc10285@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "3f091fee-5b04-464f-878a-31e1332581ef@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      }
+    ],
+    "soundOffSpriteFrames": [
+      {
+        "__uuid__": "db13fd5d-3c5f-494d-9e09-a218815ff481@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "fd5c01a0-6dbb-4b52-b17d-9774314b3cf2@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "3075c048-82af-48a2-8ec0-4158c3f5b8c4@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      }
+    ],
     "_id": "23bRvs5KRHtIsWqDsGsrc3"
   },
   {

@@ -78,6 +78,12 @@ export class Game extends Component {
     @property(AudioSource)
     musicSource: AudioSource = null;
 
+    @property([cc.SpriteFrame])
+    soundOnSpriteFrames: cc.SpriteFrame[] = [];
+
+    @property([cc.SpriteFrame])
+    soundOffSpriteFrames: cc.SpriteFrame[] = [];
+
     private numToSpritePrefab: Map<number, Prefab> = new Map();
 
     private betTable = new BetTable(new DefaultBetLimitConfig());
@@ -386,8 +392,18 @@ export class Game extends Component {
     onMusicToggleCheck(toggle: Toggle, customEventData: string) {
         if (toggle.isChecked) {
             this.musicSource.play();
+
+            // Меняем спрайты на изображение активного динамика.
+            toggle.normalSprite = this.soundOnSpriteFrames[0];
+            toggle.hoverSprite = this.soundOnSpriteFrames[1];
+            toggle.pressedSprite = this.soundOnSpriteFrames[2];
         } else {
             this.musicSource.stop();
+
+            // Меняем спрайты на изображение неактивного динамика.
+            toggle.normalSprite = this.soundOffSpriteFrames[0];
+            toggle.hoverSprite = this.soundOffSpriteFrames[1];
+            toggle.pressedSprite = this.soundOffSpriteFrames[2];
         }
     }
 
