@@ -1,0 +1,112 @@
+{
+  "package_version": 2,
+  "version": "1.0.4",
+  "name": "yandex-games-sdk",
+  "private": true,
+  "description": "i18n:yandex-games-sdk.description",
+  "main": "./dist/electron-main/src/main.js",
+  "author": "LisGames",
+  "editor": ">=3.6.0",
+  "license": "MIT",
+  "workspaces": [
+    "electron-main",
+    "static"
+  ],
+  "scripts": {
+    "webpack:electron-main:prod": "webpack --config scripts/webpack.prod.js",
+    "webpack:electron-main:dev": "webpack --config scripts/webpack.dev.js",
+    "bundle": "node scripts/bundle.js",
+    "build": "yarn run webpack:electron-main:prod && yarn run bundle",
+    "dev": "yarn run webpack:electron-main:dev"
+  },
+  "panels": {
+    "localization-editor": {
+      "title": "Localization Editor",
+      "type": "dockable",
+      "main": "dist/electron-main/src/panels/localization-editor",
+      "size": {
+        "min-width": 400,
+        "min-height": 300,
+        "width": 1024,
+        "height": 600
+      }
+    }
+  },
+  "contributions": {
+    "builder": "dist/electron-main/src/builder/index.js",
+    "server": "dist/electron-main/src/server.js",
+    "scene": {
+      "script": "dist/electron-main/src/scene/index.js"
+    },
+    "menu": [
+      {
+        "path": "i18n:menu.extension/Yandex.Games",
+        "label": "i18n:yandex-games-sdk.localization-editor",
+        "message": "open-localization-editor"
+      },
+      {
+        "path": "i18n:menu.extension/Yandex.Games",
+        "label": "i18n:yandex-games-sdk.generate-templates",
+        "message": "generate-templates"
+      },
+      {
+        "path": "i18n:menu.extension/Yandex.Games",
+        "label": "i18n:yandex-games-sdk.check-templates",
+        "message": "check-templates"
+      }
+    ],
+    "messages": {
+      "open-localization-editor": {
+        "methods": [
+          "openLocalizationEditor"
+        ]
+      },
+      "generate-templates": {
+        "methods": [
+          "generateTemplates"
+        ]
+      },
+      "check-templates": {
+        "methods": [
+          "checkTemplates"
+        ]
+      },
+      "get-l10n-bundle": {
+        "methods": [
+          "getL10NBundle"
+        ]
+      },
+      "yandex-games-sdk:localization-reload": {
+        "public": true,
+        "description": "Localizations reload message"
+      }
+    },
+    "asset-db": {
+      "mount": {
+        "path": "./static/assets",
+        "readonly": true,
+        "visible": true
+      }
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.4",
+    "@babel/plugin-transform-modules-commonjs": "^7.21.2",
+    "@babel/preset-typescript": "^7.21.4",
+    "@vue/babel-plugin-jsx": "^1.1.1",
+    "babel-loader": "^9.1.2",
+    "css-loader": "^6.7.3",
+    "raw-loader": "^4.0.2",
+    "sass-loader": "^13.2.2",
+    "typescript": "^5.0.4",
+    "fork-ts-checker-webpack-plugin": "^8.0.0",
+    "style-loader": "^3.3.2",
+    "node-loader": "^2.0.0",
+    "webpack": "^5.79.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-merge": "^5.8.0",
+    "webpack-node-externals": "^3.0.0",
+    "archiver": "^6.0.1"
+  },
+  "_storeId": "9441dac137c8c1270cc4d957a43f1b15"
+}

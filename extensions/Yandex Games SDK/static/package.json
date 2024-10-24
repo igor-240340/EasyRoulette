@@ -1,0 +1,8 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "i18next": "^22.4.15"
+  }
+}
