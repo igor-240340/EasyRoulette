@@ -1,21 +1,21 @@
 import { _decorator, assert, Button, Component, find, instantiate, Label, log, Node, Prefab, ProgressBar, Toggle, AudioSource } from 'cc';
 const { ccclass, property } = _decorator;
 
+import { ysdk } from 'db://yandex-games-sdk/ysdk';
+
 import Bet from './Bets/Bet';
 import BetType from './Bets/BetType';
 import BetTable from './Bets/BetTable';
 
-import DailyTask from './DailyTasks/DailyTask';
-import DailyTask1 from './DailyTasks/DailyTask1';
-
-import Achievement, { AchievementRank } from './Achievements/Achievement';
-import Achievement1 from './Achievements/Achievement1';
-
 import DefaultBetLimitConfig from './Bets/BetLimits/DefaultBetLimitConfig';
-import LastPlayContext from './DailyTasks/LastPlayContext';
 
 @ccclass('Game')
 export class Game extends Component {
+
+    //
+    // Свойства.
+    //
+
     @property(Label)
     private balanceLabel: Label = null!;
 
@@ -25,29 +25,8 @@ export class Game extends Component {
     @property(Prefab)
     private betSpriteNodePrefab: Prefab = null!;
 
-    @property(Prefab)
-    private dailyTaskNodePrefab: Prefab = null!;
-
-    @property(Node)
-    private scrollViewContent: Node = null!;
-
-    @property(Prefab)
-    private achievementNodePrefab: Prefab = null!;
-
-    @property(Node)
-    private achievementsGrid: Node = null!;
-
-    @property(Prefab)
-    private achievementModalPrefab: Prefab = null!;
-
     @property(Node)
     private canvasNode: Node = null!;
-
-    @property(Prefab)
-    private rewardNodePrefab: Prefab = null!;
-
-    @property(Node)
-    private rewardScrollViewContent: Node = null!;
 
     @property(Prefab)
     private lastWinNumBlackPrefab: Prefab = null!;
@@ -84,17 +63,14 @@ export class Game extends Component {
     @property([cc.SpriteFrame])
     soundOffSpriteFrames: cc.SpriteFrame[] = [];
 
+    //
+    // Переменные.
+    //
+
     private numToSpritePrefab: Map<number, Prefab> = new Map();
 
     private betTable = new BetTable(new DefaultBetLimitConfig());
     private betSpriteNodes: Map<Bet, Node> = new Map();
-
-    private dailyTasks: DailyTask[] = [];
-    private taskToNode: Map<DailyTask, Node> = new Map();
-
-    private achievements: Achievement[] = [];
-    
-    private rankToRewardNode: Map<AchievementRank, Node> = new Map();
 
     private musicIsPlaying: bool = false;
 
@@ -105,9 +81,6 @@ export class Game extends Component {
         this.showNewBalanceValue();
 
         this.linkNumWithSpritePrefab();
-
-        // this.instantiateDailyTasks();
-        // this.instantiateAchievements();
 
         // NOTE: Тест маппинга числа в префаб с его цветом.
         // for (let i = 0; i < 37; i++) {
@@ -355,15 +328,8 @@ export class Game extends Component {
         numSpriteNode.setParent(this.winNumSpriteContainer);
         this.winNumModal.active = true;
         
-        // Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
+        // NOTE: Значение this.betTable.totalBet сейчас равно нулю, но мы его не обновляем и оставляем на экране
         // как информацию о предедущей ставке и текущем выигрыше.
-
-        // Игра сыграна, её состояние сохранено в betTable.lastPlayContext.
-        // Проходим по всем задачам и обновляем прогресс.
-        this.updateProgressOfDailyTasks(this.betTable.lastPlayContext);
-
-        // Проходим по всем ачивкам и обновляем прогресс.
-        this.updateProgressOnAchievements(this.betTable.lastPlayContext);
     }
 
     private addLastWinNumberToHistory(winNumber: number) {
@@ -460,230 +426,16 @@ export class Game extends Component {
     }
 
     //
-    // Ежедневные задачи.
+    // Интеграция с YandexGames.
     //
 
-    /**
-     * Если игрок заходит впервые, то генерируются новые задачи.
-     * Если игрок заходит повторно и при этом время жизни прежних задач
-     * еще не истекло, создаются определенные экземпляры задач и восстанавливается их состояние из конфига с сервера.
-     * Если же время жизни прежних задач уже истекло, то генерируются новые задачи.
-     */
-    private instantiateDailyTasks() {
-        this.dailyTasks.push(new DailyTask1());
+    onRewardButtonClick(button: Button) {
+        console.log('onRewardButtonClick');
 
-        this.dailyTasks.forEach(task => {
-            const dailyTaskNode = instantiate(this.dailyTaskNodePrefab);
+        const callbacks = {
+            onRewarded: () => console.log('onRewarded')
+        };
 
-            this.taskToNode.set(task, dailyTaskNode);
-
-            // Название задачи.
-            const nameLabel = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Name Node')?.getComponent(Label);
-            assert(nameLabel);
-            nameLabel.string = task.getName();
-
-            // Полоса прогресса.
-            const progressBar = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressBar')?.getComponent(ProgressBar);
-            assert(progressBar);
-            progressBar.progress = 0;
-
-            // Числовой прогресс.
-            const progressNumberLabel = dailyTaskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
-            assert(progressNumberLabel);
-            progressNumberLabel.string = '0/' + task.getTargetNumberAsString();
-
-            // Вознаграждение.
-            const rewardSumLabel = dailyTaskNode.getChildByPath('Horizontal Layout2/RewardSum Label')?.getComponent(Label);
-            assert(rewardSumLabel);
-            rewardSumLabel.string = task.getRewardSumAsString();
-
-            dailyTaskNode.setParent(this.scrollViewContent);
-        });
-    }
-
-    /**
-     * Обновляет прогресс по задачам.
-     */
-    private updateProgressOfDailyTasks(lastPlayContext: LastPlayContext) {
-        for (let task of this.dailyTasks) {
-            if (!task.isCompleted) {
-                task.updateProgress(lastPlayContext);
-
-                // Обновление UI задачи.
-                const taskNode = this.taskToNode.get(task);
-                assert(taskNode);
-
-                // Полоса прогресса.
-                const progressBar = taskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressBar')?.getComponent(ProgressBar);
-                assert(progressBar);
-                progressBar.progress = task.getCurrentNumberScaled();
-
-                // Числовой прогресс.
-                const progressNumberLabel = taskNode.getChildByPath('Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
-                assert(progressNumberLabel);
-                progressNumberLabel.string = task.getCurrentNumberAsString() + '/' + task.getTargetNumberAsString();
-
-                // Показать кнопку "Забрать".
-                if (task.isCompleted) {
-                    const takeRewardButtonNode = taskNode.getChildByPath('Horizontal Layout/TakeRewardButton');
-                    assert(takeRewardButtonNode);
-                    takeRewardButtonNode.active = true;
-
-                    const takeRewardButton = takeRewardButtonNode.getComponent(Button);
-                    assert(takeRewardButton);
-                    const rewardSum = task.getRewardSum();
-
-                    // После нажатия кнопки задача остается в массиве, нода UI тоже остается, но скрывается.
-                    // Предполагается, что новых задач генерироваться не будет в течение суток, поэтому после выхода из игры
-                    // незавершенные задачи, завершенные, но с невостребованным вознаграждением сериализуются на сервер, а
-                    // задачи с востребованным вознаграждением просто игнорируются.
-                    // При повторном входе, если время для новых заданий не пришло, десериализуются только не выполненные задачи
-                    // и задачи с невостребованным вознаграждением.
-                    // Так что в худшем случае полностью выполненная и востребованная задача будет в памяти только до завершения текущей игры.
-                    // TODO: добавить в задачу флаг, который показывает, что вознаграждение получено, чтобы не сериализовать эту задачу при выгрузке на сервер.
-                    takeRewardButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                        this.betTable.balance += rewardSum;
-                        this.showNewBalanceValue();
-                        taskNode.active = false;
-                    });
-                }
-            }
-        }
-    }
-
-    private instantiateAchievements() {
-        this.achievements.push(new Achievement1());
-    }
-
-    /**
-     * Обновляет прогресс по ачивкам.
-     */
-    private updateProgressOnAchievements(lastPlayContext: LastPlayContext) {
-        for (let achievement of this.achievements) {
-            const nextRankReached = achievement.updateProgress(lastPlayContext);
-
-            // Если стало доступно достижение следующего уровня, то создаем кнопку для получения награды.
-            if (nextRankReached) {
-                const rewardNode = instantiate(this.rewardNodePrefab);
-                rewardNode.setParent(this.rewardScrollViewContent);
-
-                // Название.
-                const nameLabel = rewardNode.getChildByPath('/Horizontal Layout/Vertical Layout/Name Node')?.getComponent(Label);
-                assert(nameLabel);
-                nameLabel.string = achievement.name;
-
-                // Числовое прогресс.
-                const progressNumber = rewardNode.getChildByPath('/Horizontal Layout/Vertical Layout/Status Node/ProgressNumber')?.getComponent(Label);
-                assert(progressNumber);
-                progressNumber.string = achievement.getCurrentNumberAsString() + '/' + achievement.getPrevTargetNumberAsString();
-
-                // Награда.
-                const rewardLabel = rewardNode.getChildByPath('/Horizontal Layout2/RewardSum Label')?.getComponent(Label);
-                assert(rewardLabel);
-                rewardLabel.string = achievement.getPrevRewardSumAsString();
-
-                // Обработка кнопки "Забрать".
-                const takeRewardButtonNode = rewardNode.getChildByPath('Horizontal Layout/TakeRewardButton');
-                assert(takeRewardButtonNode);
-
-                const takeRewardButton = takeRewardButtonNode.getComponent(Button);
-                assert(takeRewardButton);
-
-                const achievedRank = achievement.getCurrentRank();
-                this.rankToRewardNode.set(achievedRank, rewardNode);
-
-                takeRewardButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                    this.betTable.balance += achievement.getRewardForRank(achievedRank);
-                    this.showNewBalanceValue();
-                    rewardNode.destroy();
-                });
-            }
-        }
-    }
-
-    // Показывает окно с ачивками.
-    // Для тех ачивок, для которых есть невостребованные вознаграждения за новые ранги,
-    // показывается кнопка для получения вознаграждения с соответствующей рангу иконкой.
-    public onDebugButtonClick() {
-        this.clearAchievementsGrid();
-        this.fillAchievementsGrid();
-
-        const achievementsContainer = find('/Canvas/Achievements');
-        assert(achievementsContainer);
-        achievementsContainer.active = !achievementsContainer.active;
-    }
-
-    private fillAchievementsGrid() {
-        for (let achievement of this.achievements) {
-            // Создать кнопку, если есть невостребованное вознаграждение.
-            if (achievement.hasUnclaimedRewards()) {
-                const achievementNode = instantiate(this.achievementNodePrefab);
-                achievementNode.setParent(this.achievementsGrid);
-
-                const achivementButton = achievementNode.getComponent(Button);
-                assert(achivementButton);
-
-                // Добавляет вознаграждение в баланс и удаляет его из невостребованных.
-                const achievedRank = achievement.getTheLeastAchievedRank();
-                log('achieved rank: ' + achievedRank);
-                achivementButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                    this.betTable.balance += achievement.getRewardForRank(achievedRank);
-                    this.showNewBalanceValue();
-
-                    // Мы получили вознаграждение через основной интерфейс ачивок, поэтому удаляем rewardNode.
-                    const rewardNode = this.rankToRewardNode.get(achievedRank);
-                    rewardNode?.destroy();
-
-                    this.clearAchievementsGrid();
-                    this.fillAchievementsGrid();
-                });
-            }
-            else {
-                const achievementNode = instantiate(this.achievementNodePrefab);
-                achievementNode.setParent(this.achievementsGrid);
-
-                const achivementButton = achievementNode.getComponent(Button);
-                assert(achivementButton);
-
-                // Показывает модальное окно с подробной информацией о текущем прогрессе по данному достижению.
-                achivementButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                    const achievementModalNode = instantiate(this.achievementModalPrefab);
-                    achievementModalNode.setParent(this.canvasNode);
-
-                    // Название ачивки.
-                    const nameLabel = achievementModalNode.getChildByName('NameLabel')?.getComponent(Label);
-                    assert(nameLabel);
-                    nameLabel.string = achievement.name;
-
-                    // Вознаграждение.
-                    const rewardLabel = achievementModalNode.getChildByPath('RewardNode/RewardValue')?.getComponent(Label);
-                    assert(rewardLabel);
-                    rewardLabel.string = achievement.getRewardSumAsString();
-
-                    // Описание ачивки.
-                    const descriptionLabel = achievementModalNode.getChildByName('Description')?.getComponent(Label);
-                    assert(descriptionLabel);
-                    descriptionLabel.string = achievement.description;
-
-                    // Прогресс.
-                    const currentValueLabel = achievementModalNode.getChildByPath('/Progress/CurrentValue')?.getComponent(Label);
-                    assert(currentValueLabel);
-                    currentValueLabel.string = achievement.getCurrentNumberAsString();
-                    const targetValueLabel = achievementModalNode.getChildByPath('/Progress/TargetValue')?.getComponent(Label);
-                    assert(targetValueLabel);
-                    targetValueLabel.string = achievement.getTargetNumberAsString();
-
-                    const closeButton = achievementModalNode.getChildByName('CloseButton')?.getComponent(Button);
-                    assert(closeButton);
-                    closeButton.node.on(Button.EventType.CLICK, (button: Button) => {
-                        achievementModalNode.destroy();
-                    });
-                });
-            }
-        }
-    }
-
-    private clearAchievementsGrid() {
-        this.achievementsGrid.children.forEach(child => child.destroy());
+        ysdk.adv.showRewardedVideo({ callbacks });
     }
 }
