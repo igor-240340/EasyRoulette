@@ -325,10 +325,6 @@
       "__uuid__": "27cf97ad-8c98-49b8-b6f9-65be6b2dbc5f",
       "__expectedType__": "cc.Prefab"
     },
-    "dailyTaskNodePrefab": {
-      "__uuid__": "0fd16def-70df-4673-ab72-25b3c06941d5",
-      "__expectedType__": "cc.Prefab"
-    },
     "canvasNode": {
       "__id__": 13
     },
@@ -76307,7 +76303,7 @@
       "b": 0,
       "a": 255
     },
-    "_string": "r",
+    "_string": "+",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 20.09837896294064,

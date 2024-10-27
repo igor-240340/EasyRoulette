@@ -432,8 +432,13 @@ export class Game extends Component {
     onRewardButtonClick(button: Button) {
         console.log('onRewardButtonClick');
 
+        const rewardSum = 1000;
+
         const callbacks = {
-            onRewarded: () => console.log('onRewarded')
+            onRewarded: () => {
+                this.betTable.balance += rewardSum;
+                this.showNewBalanceValue();
+            }
         };
 
         ysdk.adv.showRewardedVideo({ callbacks });
