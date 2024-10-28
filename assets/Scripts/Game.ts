@@ -74,7 +74,7 @@ export class Game extends Component {
 
     private musicIsPlaying: bool = false;
 
-    start() {
+    async start() {
         this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
 
@@ -86,6 +86,9 @@ export class Game extends Component {
         // for (let i = 0; i < 37; i++) {
         //     this.addLastWinNumberToHistory(i);
         // }
+
+        const flags = await ysdk.getFlags({ defaultFlags: { reward_sum: 'easy' } });
+        console.log(`flags: ${JSON.stringify(flags)}`);
     }
 
     /**
