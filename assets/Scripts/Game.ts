@@ -74,6 +74,8 @@ export class Game extends Component {
 
     private musicIsPlaying: bool = false;
 
+    private rewardSum: number = 1000;
+
     async start() {
         this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
@@ -87,8 +89,20 @@ export class Game extends Component {
         //     this.addLastWinNumberToHistory(i);
         // }
 
-        const flags = await ysdk.getFlags({ defaultFlags: { reward_sum: 'easy' } });
-        console.log(`flags: ${JSON.stringify(flags)}`);
+        this.yandexStuff();
+    }
+
+    private async yandexStuff() {
+        const flags = await ysdk.getFlags({ defaultFlags: {
+            init_balance: 1000,
+            reward_sum: 500
+        } });
+        rewardSum = parseInt(flags.reward_sum);
+        console.log(`rewardSum: ${rewardSum}`);
+        console.log(`initBalance: ${flags.init_balance}`);
+
+        const player = await ysdk.getPlayer();
+        console.log(`player: ${JSON.stringify(player)}`);
     }
 
     /**
@@ -434,8 +448,6 @@ export class Game extends Component {
 
     onRewardButtonClick(button: Button) {
         console.log('onRewardButtonClick');
-
-        const rewardSum = 1000;
 
         const callbacks = {
             onRewarded: () => {
