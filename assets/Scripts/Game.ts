@@ -74,13 +74,12 @@ export class Game extends Component {
 
     private musicIsPlaying: bool = false;
 
-    private rewardSum: number = 1000;
+    private rewardSum: number;
+
+    private player: Object;
 
     async start() {
-        this.betTable.balance = 10000;
         this.betTable.setChipValue(1);
-
-        this.showNewBalanceValue();
 
         this.linkNumWithSpritePrefab();
 
@@ -93,16 +92,32 @@ export class Game extends Component {
     }
 
     private async yandexStuff() {
+        // Инициализация начального баланса и суммы вознаграждения.
         const flags = await ysdk.getFlags({ defaultFlags: {
             init_balance: 1000,
             reward_sum: 500
         } });
         rewardSum = parseInt(flags.reward_sum);
+        this.betTable.balance = parseInt(flags.init_balance);
+        this.showNewBalanceValue();
         console.log(`rewardSum: ${rewardSum}`);
-        console.log(`initBalance: ${flags.init_balance}`);
+        console.log(`initBalance: ${this.betTable.balance}`);
 
-        const player = await ysdk.getPlayer();
-        console.log(`player: ${JSON.stringify(player)}`);
+        // Проверка авторизации игрока.
+        this.player = await ysdk.getPlayer();
+        console.log(`player: ${JSON.stringify(this.player)}`);
+
+        if (this.player.getMode() === 'lite') {
+            console.log('is not authorized');
+            await ysdk.auth.openAuthDialog();
+        } else {
+            const playerStats = await this.player.getStats(['balance']);
+            console.log(`playerStats: ${JSON.stringify(playerStats)}`);
+            if (playerStats.balance !== undefined) {
+                this.betTable.balance = parseInt(playerStats.balance);
+                this.showNewBalanceValue();
+            }
+        }
     }
 
     /**
@@ -323,7 +338,7 @@ export class Game extends Component {
     }
 
     // Разыграть случайное число.
-    onSpinButtonClick(event: Event) {
+    async onSpinButtonClick(event: Event) {
         log('onSpinButtonClick');
  
         // [0, 36]
@@ -331,6 +346,7 @@ export class Game extends Component {
         const winPayout = this.betTable.getTotalPayout(winNumber);
 
         this.showNewBalanceValue();
+        await this.player.setStats({balance: this.betTable.balance});
 
         this.hideAllBetSpriteNodes(); // Поскольку ставки отыграли, ноды больше не актуальны. Новые ставки снова их покажут.
 
@@ -446,13 +462,15 @@ export class Game extends Component {
     // Интеграция с YandexGames.
     //
 
-    onRewardButtonClick(button: Button) {
+    async onRewardButtonClick(button: Button) {
         console.log('onRewardButtonClick');
 
         const callbacks = {
-            onRewarded: () => {
+            onRewarded: async () => {
                 this.betTable.balance += rewardSum;
                 this.showNewBalanceValue();
+
+                await this.player.setStats({balance: this.betTable.balance});
             }
         };
 
