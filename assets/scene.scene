@@ -75943,7 +75943,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80.48359147085235,
+      "width": 66.00776969964,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -75973,7 +75973,7 @@
       "b": 255,
       "a": 255
     },
-    "_string": "Bet: 10",
+    "_string": "Bet: 0",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
     "_actualFontSize": 25.1229737036758,

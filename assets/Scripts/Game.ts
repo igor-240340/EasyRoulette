@@ -169,6 +169,7 @@ export class Game extends Component {
         assert(event.target instanceof Node);
 
         const bet = this.betTable.onBetButtonClick(betType, customEventData);
+        console.log(JSON.stringify(bet));
         const betSpriteNode = this.getOrCreateBetSpriteNode(bet, event.target as Node);
         this.displayBetSumOnSpriteNode(bet, betSpriteNode);
 
