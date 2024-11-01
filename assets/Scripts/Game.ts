@@ -54,6 +54,11 @@ export class Game extends Component {
     private amountLabel: Node = null!;
     // END
 
+    // Модальное окно с информацией о недостаточном балансе
+    // и предложением пополнить.
+    @property(Node)
+    private replenishModal: Node = null!;
+
     @property(AudioSource)
     musicSource: AudioSource = null;
 
@@ -170,6 +175,20 @@ export class Game extends Component {
 
         const bet = this.betTable.onBetButtonClick(betType, customEventData);
         console.log(JSON.stringify(bet));
+        // Баланс ненулевой, но денег недостаточно для текущей ставки - предлагаем пополнить баланс.
+        if (bet.sum === 0) {
+            console.log(`the minimal bet is ${bet.min} but balance is ${this.betTable.balance}.`);
+
+            // Показываем модальное окно.
+            // this.wonLabelNode.active = (winPayout > 0);
+            // this.amountLabel.node.active = (winPayout > 0);
+            // this.amountLabel.string = winPayout.toString();
+            // this.winNumSpriteContainer.removeAllChildren();
+            // const numSpriteNode = this.getSpriteNodeForWinNumber(winNumber);
+            // numSpriteNode.setParent(this.winNumSpriteContainer);
+            this.replenishModal.active = true;
+        }
+
         const betSpriteNode = this.getOrCreateBetSpriteNode(bet, event.target as Node);
         this.displayBetSumOnSpriteNode(bet, betSpriteNode);
 
