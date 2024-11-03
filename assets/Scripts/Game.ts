@@ -168,6 +168,8 @@ export class Game extends Component {
 
         if (this.betTable.balance === 0) {
             console.log('not enough money');
+            
+            this.replenishModal.active = true;
             return;
         }
 
@@ -491,6 +493,10 @@ export class Game extends Component {
                 this.showNewBalanceValue();
 
                 await this.player.setStats({balance: this.betTable.balance});
+
+                // Если кнопка вознаграждения была нажата из модального окна,
+                // то закрываем его.
+                this.replenishModal.active = false;
             }
         };
 
