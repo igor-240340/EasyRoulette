@@ -105,6 +105,7 @@ export class Game extends Component {
         rewardSum = parseInt(flags.reward_sum);
         this.betTable.balance = parseInt(flags.init_balance);
         this.showNewBalanceValue();
+        this.refreshRank();
         console.log(`rewardSum: ${rewardSum}`);
         console.log(`initBalance: ${this.betTable.balance}`);
 
@@ -121,6 +122,7 @@ export class Game extends Component {
             if (playerStats.balance !== undefined) {
                 this.betTable.balance = parseInt(playerStats.balance);
                 this.showNewBalanceValue();
+                this.refreshRank();
             }
         }
     }
@@ -368,6 +370,7 @@ export class Game extends Component {
         const winPayout = this.betTable.getTotalPayout(winNumber);
 
         this.showNewBalanceValue();
+        this.refreshRank();
         await this.player.setStats({balance: this.betTable.balance});
 
         this.hideAllBetSpriteNodes(); // Поскольку ставки отыграли, ноды больше не актуальны. Новые ставки снова их покажут.
@@ -431,6 +434,12 @@ export class Game extends Component {
     //
     // Вспомогательные методы.
     //
+
+    // Отображает текущий ранг в зависимости от баланса.
+    // Вызывается при каждом изменении баланса.
+    private refreshRank() {
+        console.log(`current balance: ${this.betTable.balance}`);
+    }
 
     private showNewBalanceValue() {
         this.balanceLabel.string = `Balance: ${this.betTable.balance.toString()}`;
@@ -497,6 +506,8 @@ export class Game extends Component {
                 // Если кнопка вознаграждения была нажата из модального окна,
                 // то закрываем его.
                 this.replenishModal.active = false;
+
+                this.refreshRank();
             }
         };
 
