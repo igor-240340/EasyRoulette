@@ -358,6 +358,30 @@
     "replenishModal": {
       "__id__": 1908
     },
+    "rankNodes": [
+      {
+        "__id__": 1951
+      },
+      {
+        "__id__": 1945
+      },
+      {
+        "__id__": 1939
+      },
+      {
+        "__id__": 1933
+      }
+    ],
+    "rankSpriteFrames": [
+      {
+        "__uuid__": "6a8b37a0-e932-4867-8958-d5e4432e5513@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "3a62a72d-ca27-4435-841c-eac257668665@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      }
+    ],
     "musicSource": {
       "__id__": 1991
     },
@@ -76712,7 +76736,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "6a8b37a0-e932-4867-8958-d5e4432e5513@f9941",
+      "__uuid__": "3a62a72d-ca27-4435-841c-eac257668665@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -76957,7 +76981,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "6a8b37a0-e932-4867-8958-d5e4432e5513@f9941",
+      "__uuid__": "3a62a72d-ca27-4435-841c-eac257668665@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -77202,7 +77226,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "6a8b37a0-e932-4867-8958-d5e4432e5513@f9941",
+      "__uuid__": "3a62a72d-ca27-4435-841c-eac257668665@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -77447,7 +77471,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "6a8b37a0-e932-4867-8958-d5e4432e5513@f9941",
+      "__uuid__": "3a62a72d-ca27-4435-841c-eac257668665@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,

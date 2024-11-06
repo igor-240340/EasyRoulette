@@ -59,6 +59,14 @@ export class Game extends Component {
     @property(Node)
     private replenishModal: Node = null!;
 
+    // Массив с нодами рангов.
+    @property([Node])
+    private rankNodes: Node[] = [];
+
+    // Массив со спрайтами рангов: активный/неактивный.
+    @property([cc.SpriteFrame])
+    rankSpriteFrames: cc.SpriteFrame[] = [];
+
     @property(AudioSource)
     musicSource: AudioSource = null;
 
@@ -439,6 +447,24 @@ export class Game extends Component {
     // Вызывается при каждом изменении баланса.
     private refreshRank() {
         console.log(`current balance: ${this.betTable.balance}`);
+
+        // Деактивируем все ранги.
+        for (const rankNode of this.rankNodes) {
+            rankNode.getComponent(cc.Sprite).spriteFrame = this.rankSpriteFrames[1];
+        }
+
+        if (this.betTable.balance < 1000) {
+            this.rankNodes[0].getComponent(cc.Sprite).spriteFrame = this.rankSpriteFrames[0];
+        }
+        else if (this.betTable.balance < 10000) {
+            this.rankNodes[1].getComponent(cc.Sprite).spriteFrame = this.rankSpriteFrames[0];
+        }
+        else if (this.betTable.balance < 100000) {
+            this.rankNodes[2].getComponent(cc.Sprite).spriteFrame = this.rankSpriteFrames[0];
+        }
+        else {
+            this.rankNodes[3].getComponent(cc.Sprite).spriteFrame = this.rankSpriteFrames[0];
+        }
     }
 
     private showNewBalanceValue() {
