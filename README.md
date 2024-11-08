@@ -14,3 +14,10 @@ This repository contains a prototype of a European Roulette game developed using
 
 - **Graphics**.
 - **Sound**.
+
+## TODO
+
+- Заглушать музыку при показе рекламы.
+- Показывать сообщение о повышении ранга.
+- Добавить звуковые эффекты.
+- Выровнять вторичные ставки.
