@@ -3,8 +3,6 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>Cocos Creator | <%= projectName %></title>
-
     <meta
       name="viewport"
       content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1,minimal-ui=true"
@@ -25,12 +23,10 @@
     <script src="https://yandex.ru/games/sdk/v2"></script>
   </head>
   <body>
-    <h1 class="header"><%= projectName %></h1>
-
     <div
       id="GameDiv"
       cc_exact_fit_screen="false"
-      style="width: <%= previewWidth %>px; height: <%= previewHeight %>px"
+      style="width: <%= previewWidth %>px; height: <%= previewHeight %>px; border-style: none;"
     >
       <div id="Cocos3dGameContainer">
         <canvas
@@ -41,12 +37,6 @@
         ></canvas>
       </div>
     </div>
-    <p class="footer">
-      Created with
-      <a href="https://www.cocos.com/products" title="Cocos Creator"
-        >Cocos Creator</a
-      >
-    </p>
     <%- include(cocosTemplate, {}) %>
   </body>
 </html>
