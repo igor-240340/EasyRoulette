@@ -7,8 +7,8 @@
     "designResolution": {
       "fitWidth": false,
       "fitHeight": true,
-      "width": 800,
-      "height": 600
+      "width": 1024,
+      "height": 768
     }
   },
   "custom_joint_texture_layouts": []

@@ -21,3 +21,4 @@ This repository contains a prototype of a European Roulette game developed using
 - Показывать сообщение о повышении ранга.
 - Добавить звуковые эффекты.
 - Выровнять вторичные ставки.
+- Адаптивность.

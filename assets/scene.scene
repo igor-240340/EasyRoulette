@@ -438,7 +438,7 @@
     "_string": "Balance: 1",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -556,7 +556,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -950,
+      "x": -502,
       "y": 0,
       "z": 0
     },
@@ -618,7 +618,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 325,
+      "y": 349,
       "z": 0
     },
     "_lrot": {
@@ -693,8 +693,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 960,
-      "y": 360,
+      "x": 512,
+      "y": 384,
       "z": 0
     },
     "_lrot": {
@@ -888,7 +888,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 360,
+    "_orthoHeight": 384,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -1392,7 +1392,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -1997,7 +1997,7 @@
     "_string": "3",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -2391,7 +2391,7 @@
     "_string": "6",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -2785,7 +2785,7 @@
     "_string": "9",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -3179,7 +3179,7 @@
     "_string": "12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -3573,7 +3573,7 @@
     "_string": "15",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -3967,7 +3967,7 @@
     "_string": "18",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -4361,7 +4361,7 @@
     "_string": "21",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -4755,7 +4755,7 @@
     "_string": "24",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -5149,7 +5149,7 @@
     "_string": "27",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -5543,7 +5543,7 @@
     "_string": "30",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -5937,7 +5937,7 @@
     "_string": "33",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -6331,7 +6331,7 @@
     "_string": "36",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -6725,7 +6725,7 @@
     "_string": "2",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -7119,7 +7119,7 @@
     "_string": "5",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -7513,7 +7513,7 @@
     "_string": "8",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -7907,7 +7907,7 @@
     "_string": "11",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -8301,7 +8301,7 @@
     "_string": "14",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -8695,7 +8695,7 @@
     "_string": "17",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -9089,7 +9089,7 @@
     "_string": "20",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -9483,7 +9483,7 @@
     "_string": "23",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -9877,7 +9877,7 @@
     "_string": "26",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -10271,7 +10271,7 @@
     "_string": "29",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -10665,7 +10665,7 @@
     "_string": "32",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -11059,7 +11059,7 @@
     "_string": "35",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -11453,7 +11453,7 @@
     "_string": "1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -11847,7 +11847,7 @@
     "_string": "4",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -12241,7 +12241,7 @@
     "_string": "7",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -12635,7 +12635,7 @@
     "_string": "10",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -13029,7 +13029,7 @@
     "_string": "13",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -13423,7 +13423,7 @@
     "_string": "16",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -13817,7 +13817,7 @@
     "_string": "19",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -14211,7 +14211,7 @@
     "_string": "22",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -14605,7 +14605,7 @@
     "_string": "25",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -14999,7 +14999,7 @@
     "_string": "28",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -15393,7 +15393,7 @@
     "_string": "31",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -15787,7 +15787,7 @@
     "_string": "34",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -16296,7 +16296,7 @@
     "_string": "2:1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -16843,7 +16843,7 @@
     "_string": "2:1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -17390,7 +17390,7 @@
     "_string": "2:1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -18283,7 +18283,7 @@
     "_string": "1st-12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -18939,7 +18939,7 @@
     "_string": "1-18",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -19552,7 +19552,7 @@
     "_string": "EVEN",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -20380,7 +20380,7 @@
     "_string": "2nd-12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -22477,7 +22477,7 @@
     "_string": "3rd-12",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -23133,7 +23133,7 @@
     "_string": "ODD",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -23746,7 +23746,7 @@
     "_string": "19-36",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -71269,7 +71269,7 @@
     "_string": "x2",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -72173,8 +72173,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.052998992630574,
-      "height": 50.39999999999999
+      "width": 26.0595703125,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -72206,7 +72206,7 @@
     "_string": "100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15.073784222205479,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -72607,8 +72607,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.052998992630574,
-      "height": 50.39999999999999
+      "width": 26.0595703125,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -72640,7 +72640,7 @@
     "_string": "200",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15.073784222205479,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -73038,8 +73038,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.052998992630574,
-      "height": 50.39999999999999
+      "width": 26.0595703125,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73071,7 +73071,7 @@
     "_string": "400",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15.073784222205479,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -73469,8 +73469,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 26.052998992630574,
-      "height": 50.39999999999999
+      "width": 26.0595703125,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73502,7 +73502,7 @@
     "_string": "800",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15.073784222205479,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -73900,8 +73900,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 18.247354635485358,
-      "height": 50.39999999999999
+      "width": 18.251953125,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -73933,7 +73933,7 @@
     "_string": "2K",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15.073784222205479,
+    "_actualFontSize": 15,
     "_fontSize": 15,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -74311,8 +74311,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 931,
-      "y": -331,
+      "x": 483,
+      "y": -355,
       "z": 0
     },
     "_lrot": {
@@ -76482,8 +76482,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -950,
-      "y": -350,
+      "x": -502,
+      "y": -374,
       "z": 0
     },
     "_lrot": {
@@ -76676,7 +76676,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 14.475821771212354,
+      "width": 14.4775390625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -76709,7 +76709,7 @@
     "_string": "3",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -76830,7 +76830,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 112.11672637913657,
+      "x": 112.12003018606842,
       "y": 0,
       "z": 0
     },
@@ -76869,8 +76869,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120.23345275827312,
-      "height": 50.39999999999999
+      "width": 120.263671875,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -76902,7 +76902,7 @@
     "_string": "100000+",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30.147568444410958,
+    "_actualFontSize": 30,
     "_fontSize": 30,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -76953,7 +76953,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 172.23345275827313,
+      "width": 172.24006037213684,
       "height": 50
     },
     "_anchorPoint": {
@@ -77162,7 +77162,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 14.475821771212354,
+      "width": 14.4775390625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -77195,7 +77195,7 @@
     "_string": "2",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -77316,7 +77316,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 103.4323857895434,
+      "x": 103.43521256269,
       "y": 0,
       "z": 0
     },
@@ -77355,8 +77355,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 102.8647715790868,
-      "height": 50.39999999999999
+      "width": 102.890625,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -77388,7 +77388,7 @@
     "_string": "10000+",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30.147568444410958,
+    "_actualFontSize": 30,
     "_fontSize": 30,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -77439,7 +77439,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 154.8647715790868,
+      "width": 154.87042512538,
       "height": 50
     },
     "_anchorPoint": {
@@ -77648,7 +77648,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 14.475821771212354,
+      "width": 14.4775390625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -77681,7 +77681,7 @@
     "_string": "1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -77802,7 +77802,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 94.74804519995024,
+      "x": 94.75039493931159,
       "y": 0,
       "z": 0
     },
@@ -77841,8 +77841,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 85.4960903999005,
-      "height": 50.39999999999999
+      "width": 85.517578125,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -77874,7 +77874,7 @@
     "_string": "1000+",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30.147568444410958,
+    "_actualFontSize": 30,
     "_fontSize": 30,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -77925,7 +77925,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.49609039990048,
+      "width": 137.50078987862318,
       "height": 50
     },
     "_anchorPoint": {
@@ -78134,7 +78134,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 14.475821771212354,
+      "width": 14.4775390625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -78167,7 +78167,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -78288,7 +78288,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 94.38192619845923,
+      "x": 94.38425569235488,
       "y": 0,
       "z": 0
     },
@@ -78327,8 +78327,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 84.76385239691845,
-      "height": 50.39999999999999
+      "width": 84.78515625,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -78360,7 +78360,7 @@
     "_string": "<1000",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 30.147568444410958,
+    "_actualFontSize": 30,
     "_fontSize": 30,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -78411,7 +78411,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 136.76385239691845,
+      "width": 136.76851138470977,
       "height": 50
     },
     "_anchorPoint": {
@@ -78549,8 +78549,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1920,
-      "height": 720
+      "width": 1024,
+      "height": 768
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -78871,7 +78871,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 940,
+      "x": 492,
       "y": 0,
       "z": 0
     },
@@ -78958,7 +78958,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 66.00776969964,
+      "width": 66.015625,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -78991,7 +78991,7 @@
     "_string": "Bet: 0",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1229737036758,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Roboto",
     "_lineHeight": 40,
@@ -79094,7 +79094,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1920,
+      "width": 1024,
       "height": 70
     },
     "_anchorPoint": {
@@ -79321,7 +79321,7 @@
     "_string": "+",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 20.09837896294064,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -79511,7 +79511,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 162.38105897484186,
+      "width": 162.39501953125,
       "height": 70
     },
     "_anchorPoint": {
@@ -79595,7 +79595,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 117.38105897484186,
+      "width": 117.39501953125,
       "height": 50.4
     },
     "_anchorPoint": {
