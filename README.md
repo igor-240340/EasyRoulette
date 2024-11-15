@@ -8,17 +8,19 @@ This repository contains a prototype of a European Roulette game developed using
 
 - **Betting Mechanics**: Fully implemented betting system that simulates the classic European Roulette experience.
 - **Unit Tests**: Unit tests are integrated as game objects.
-- **Reward System**: The reward system is in an early stage of development.
+- **Integration with YandexGames**: Reward for watching Ad, store configuration and balance on the server side. Local server for testing.
+- **Background music**: On/Off.
+- **Simple rank system**: It's just function of the current balance.
 
-## What's Missing
-
-- **Graphics**.
-- **Sound**.
+## How to run local server
+```
+npx @yandex-games/sdk-dev-proxy -p <path_to_build_dir> --app-id=<yandex_app_id>
+```
 
 ## TODO
 
-- Заглушать музыку при показе рекламы.
-- Показывать сообщение о повышении ранга.
-- Добавить звуковые эффекты.
-- Выровнять вторичные ставки.
-- Адаптивность.
+- **Mute the music when showing Ad**.
+- **Show message when rank is up.**
+- **Play sound effects when betting and winning.**
+- **Fix offset of the secondary bets.**
+- **Make UI responsive.**
