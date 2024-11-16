@@ -24529,7 +24529,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 37,
+      "y": 48.75,
       "z": 0
     },
     "_lrot": {
@@ -70553,7 +70553,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 815,
-      "height": 136
+      "height": 112.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -70613,7 +70613,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -80.5,
+      "y": -68.75,
       "z": 0
     },
     "_lrot": {
@@ -70652,7 +70652,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 835,
-      "height": 89
+      "height": 112.5
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -70693,7 +70693,7 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "_resizeMode": 1,
+    "_resizeMode": 2,
     "_layoutType": 2,
     "_cellSize": {
       "__type__": "cc.Size",
@@ -76830,7 +76830,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 112.12003018606842,
+      "x": 112.1318359375,
       "y": 0,
       "z": 0
     },
@@ -76953,7 +76953,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 172.24006037213684,
+      "width": 172.263671875,
       "height": 50
     },
     "_anchorPoint": {
@@ -77316,7 +77316,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 103.43521256269,
+      "x": 103.4453125,
       "y": 0,
       "z": 0
     },
@@ -77439,7 +77439,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 154.87042512538,
+      "width": 154.890625,
       "height": 50
     },
     "_anchorPoint": {
@@ -77802,7 +77802,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 94.75039493931159,
+      "x": 94.7587890625,
       "y": 0,
       "z": 0
     },
@@ -77925,7 +77925,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.50078987862318,
+      "width": 137.517578125,
       "height": 50
     },
     "_anchorPoint": {
@@ -78288,7 +78288,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 94.38425569235488,
+      "x": 94.392578125,
       "y": 0,
       "z": 0
     },
@@ -78411,7 +78411,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 136.76851138470977,
+      "width": 136.78515625,
       "height": 50
     },
     "_anchorPoint": {
