@@ -22,5 +22,4 @@ npx @yandex-games/sdk-dev-proxy -p <path_to_build_dir> --app-id=<yandex_app_id>
 - **Mute the music when showing Ad**.
 - **Show message when rank is up.**
 - **Play sound effects when betting and winning.**
-- **Fix offset of the secondary bets.**
 - **Make UI responsive.**
