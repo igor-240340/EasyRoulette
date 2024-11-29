@@ -17,7 +17,7 @@ This repository contains a prototype of a European Roulette game developed using
 npx @yandex-games/sdk-dev-proxy -p <path_to_build_dir> --app-id=<yandex_app_id>
 ```
 
-## TODO
+## TODO (just for reference, there is no plans to implement this)
 
 - **Mute the music when showing Ad**.
 - **Show message when rank is up.**
