@@ -2,7 +2,7 @@
 
 This repository contains a prototype of a European Roulette game developed using TypeScript and Cocos Creator.
 
-![](/docs/image.png)
+https://github.com/user-attachments/assets/efea0e4d-b7e7-41a5-b52d-a3b745257015
 
 ## Features
 
