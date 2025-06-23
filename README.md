@@ -16,6 +16,8 @@ https://github.com/user-attachments/assets/efea0e4d-b7e7-41a5-b52d-a3b745257015
 ```
 npx @yandex-games/sdk-dev-proxy -p <path_to_build_dir> --app-id=<yandex_app_id>
 ```
+Then open url:
+```https://yandex.ru/games/app/<yandex_app_id>?draft=true&game_url=https://localhost:8080```
 
 ## TODO (just for reference, there is no plans to implement this)
 
